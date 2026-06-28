@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 26 780 182" font-family="-apple-system, 'Segoe UI', 'Noto Sans KR', sans-serif">
+  <defs>
+    <style>
+      .card { fill: #FFFFFF; stroke: #2563EB; stroke-width: 1.8; }
+      .ttl { fill: #0F2C59; font-size: 14px; font-weight: 800; }
+      .desc { fill: #57534E; font-size: 11px; font-weight: 600; }
+      .band { fill: #FFF1F2; }
+      .act { fill: #E11D48; font-size: 10.5px; font-weight: 800; }
+    </style>
+  </defs>
+
+  <rect class="card" x="30" y="40" width="240" height="158" rx="12"/>
+  <text x="150" y="74" text-anchor="middle" class="ttl">① 숫자</text>
+  <text x="150" y="104" text-anchor="middle" class="desc">"연 10%대 성장" 같은 수치가</text>
+  <text x="150" y="124" text-anchor="middle" class="desc">원문에 그대로? 단위·연도까지?</text>
+  <rect class="band" x="42" y="150" width="216" height="36" rx="8"/>
+  <text x="150" y="172" text-anchor="middle" class="act">어긋나면 →</text>
+  <text x="150" y="186" text-anchor="middle" class="act">출처 재확인 또는 삭제</text>
+
+  <rect class="card" x="290" y="40" width="240" height="158" rx="12"/>
+  <text x="410" y="74" text-anchor="middle" class="ttl">② 출처 (고유명사)</text>
+  <text x="410" y="104" text-anchor="middle" class="desc">"CJ 쿡킷" 같은 기관·서비스</text>
+  <text x="410" y="124" text-anchor="middle" class="desc">이름이 실제 표기 그대로?</text>
+  <rect class="band" x="302" y="150" width="216" height="36" rx="8"/>
+  <text x="410" y="172" text-anchor="middle" class="act">어긋나면 →</text>
+  <text x="410" y="186" text-anchor="middle" class="act">정확한 이름으로 수정</text>
+
+  <rect class="card" x="550" y="40" width="240" height="158" rx="12"/>
+  <text x="670" y="74" text-anchor="middle" class="ttl">③ 단정 문장</text>
+  <text x="670" y="104" text-anchor="middle" class="desc">"시장이 성장한다" 같은 단정에</text>
+  <text x="670" y="124" text-anchor="middle" class="desc">뒷받침할 근거가 있나?</text>
+  <rect class="band" x="562" y="150" width="216" height="36" rx="8"/>
+  <text x="670" y="172" text-anchor="middle" class="act">어긋나면 →</text>
+  <text x="670" y="186" text-anchor="middle" class="act">'추정' 표시 또는 삭제</text>
+</svg>

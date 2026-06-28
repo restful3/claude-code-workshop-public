@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 50 922 120" font-family="-apple-system, 'Segoe UI', 'Noto Sans KR', sans-serif">
+  <defs>
+    <marker id="x0-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563EB"/>
+    </marker>
+    <style>
+      .mail { fill: #FEF3C7; stroke: #D97706; stroke-width: 2; }
+      .step { fill: #E9F2FB; stroke: #2563EB; stroke-width: 2; }
+      .goal { fill: #ECFDF5; stroke: #059669; stroke-width: 2.4; }
+      .title { fill: #0F2C59; font-size: 13.5px; font-weight: 800; }
+      .desc { fill: #57534E; font-size: 10.5px; font-weight: 600; }
+      .chip { font-size: 10px; font-weight: 800; }
+      .edge { stroke: #2563EB; stroke-width: 2.5; fill: none; marker-end: url(#x0-arrow); }
+    </style>
+  </defs>
+
+  <rect class="mail" x="30" y="64" width="150" height="92" rx="11"/>
+  <text x="105" y="94" text-anchor="middle" class="title">메일 읽기</text>
+  <text x="105" y="114" text-anchor="middle" class="desc">박팀장 요청 파악</text>
+  <text x="105" y="134" text-anchor="middle" class="chip" fill="#B45309">2장</text>
+
+  <rect class="step" x="214" y="64" width="150" height="92" rx="11"/>
+  <text x="289" y="94" text-anchor="middle" class="title">리서치</text>
+  <text x="289" y="114" text-anchor="middle" class="desc">경쟁사·시장 조사</text>
+  <text x="289" y="134" text-anchor="middle" class="chip" fill="#2563EB">3장</text>
+
+  <rect class="step" x="398" y="64" width="150" height="92" rx="11"/>
+  <text x="473" y="94" text-anchor="middle" class="title">근거표</text>
+  <text x="473" y="114" text-anchor="middle" class="desc">한 표로 정리</text>
+  <text x="473" y="134" text-anchor="middle" class="chip" fill="#2563EB">3장</text>
+
+  <rect class="goal" x="582" y="64" width="150" height="92" rx="11"/>
+  <text x="657" y="94" text-anchor="middle" class="title">제안서 초안</text>
+  <text x="657" y="114" text-anchor="middle" class="desc">회사 양식에 담기</text>
+  <text x="657" y="134" text-anchor="middle" class="chip" fill="#059669">4장 ★완주점</text>
+
+  <rect class="step" x="766" y="64" width="150" height="92" rx="11"/>
+  <text x="841" y="94" text-anchor="middle" class="title">피드백 반영</text>
+  <text x="841" y="114" text-anchor="middle" class="desc">v2로 수정</text>
+  <text x="841" y="134" text-anchor="middle" class="chip" fill="#2563EB">5장</text>
+
+  <line class="edge" x1="180" y1="110" x2="210" y2="110"/>
+  <line class="edge" x1="364" y1="110" x2="394" y2="110"/>
+  <line class="edge" x1="548" y1="110" x2="578" y2="110"/>
+  <line class="edge" x1="732" y1="110" x2="762" y2="110"/>
+</svg>

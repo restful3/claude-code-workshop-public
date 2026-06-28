@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 24 778 154" font-family="-apple-system, 'Segoe UI', 'Noto Sans KR', sans-serif">
+  <defs>
+    <style>
+      .head { fill: #E9F2FB; stroke: #2563EB; stroke-width: 2; }
+      .hand { fill: #FEF3C7; stroke: #D97706; stroke-width: 2; }
+      .res  { fill: #ECFDF5; stroke: #059669; stroke-width: 2.4; }
+      .title { fill: #0F2C59; font-size: 14px; font-weight: 800; }
+      .desc { fill: #57534E; font-size: 11px; font-weight: 600; }
+      .op { fill: #6B7280; font-size: 30px; font-weight: 800; }
+    </style>
+  </defs>
+
+  <rect class="head" x="40" y="44" width="206" height="112" rx="12"/>
+  <text x="143" y="78" text-anchor="middle" class="title">Claude = 똑똑한 머리</text>
+  <text x="143" y="104" text-anchor="middle" class="desc">읽기 · 쓰기 · 생각은 뛰어남</text>
+  <text x="143" y="124" text-anchor="middle" class="desc">하지만 내 컴퓨터를</text>
+  <text x="143" y="142" text-anchor="middle" class="desc">만질 손이 없다</text>
+
+  <text x="272" y="110" text-anchor="middle" class="op">+</text>
+
+  <rect class="hand" x="298" y="44" width="206" height="112" rx="12"/>
+  <text x="401" y="78" text-anchor="middle" class="title">Code 탭 = 손</text>
+  <text x="401" y="104" text-anchor="middle" class="desc">내 폴더를 열고</text>
+  <text x="401" y="124" text-anchor="middle" class="desc">그 안의 파일을</text>
+  <text x="401" y="142" text-anchor="middle" class="desc">직접 읽고 고친다</text>
+
+  <text x="530" y="110" text-anchor="middle" class="op">=</text>
+
+  <rect class="res" x="556" y="44" width="222" height="112" rx="12"/>
+  <text x="667" y="84" text-anchor="middle" class="title">내 일을 끝내는 신입</text>
+  <text x="667" y="112" text-anchor="middle" class="desc">머리에 손을 달아주면</text>
+  <text x="667" y="132" text-anchor="middle" class="desc">실무가 굴러간다</text>
+</svg>

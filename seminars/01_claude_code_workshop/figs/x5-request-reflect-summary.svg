@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 36 780 132" font-family="-apple-system, 'Segoe UI', 'Noto Sans KR', sans-serif">
+  <defs>
+    <marker id="x5rr-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563EB"/>
+    </marker>
+    <style>
+      .req { fill: #FEF3C7; stroke: #D97706; stroke-width: 2; }
+      .step { fill: #E9F2FB; stroke: #2563EB; stroke-width: 2; }
+      .out { fill: #ECFDF5; stroke: #059669; stroke-width: 2.4; }
+      .title { fill: #0F2C59; font-size: 14px; font-weight: 800; }
+      .desc { fill: #57534E; font-size: 10.5px; font-weight: 600; }
+      .edge { stroke: #2563EB; stroke-width: 2.5; fill: none; marker-end: url(#x5rr-arrow); }
+    </style>
+  </defs>
+
+  <rect class="req" x="30" y="50" width="220" height="98" rx="11"/>
+  <text x="140" y="84" text-anchor="middle" class="title">팀장 피드백</text>
+  <text x="140" y="108" text-anchor="middle" class="desc">"이 3가지만 봐주세요"식 요청</text>
+  <text x="140" y="128" text-anchor="middle" class="desc">분량 · 순서 · 근거 · 유지</text>
+
+  <rect class="step" x="290" y="50" width="220" height="98" rx="11"/>
+  <text x="400" y="84" text-anchor="middle" class="title">반영 — v1 → v2</text>
+  <text x="400" y="108" text-anchor="middle" class="desc">항목별로 칸을 나눠 수정</text>
+  <text x="400" y="128" text-anchor="middle" class="desc">(한 번에 뭉뚱그리지 않기)</text>
+
+  <rect class="out" x="550" y="50" width="220" height="98" rx="11"/>
+  <text x="660" y="84" text-anchor="middle" class="title">변경요약</text>
+  <text x="660" y="108" text-anchor="middle" class="desc">무엇을 바꿨는지 목록</text>
+  <text x="660" y="128" text-anchor="middle" class="desc">→ 나중에 되짚기 쉽다</text>
+
+  <line class="edge" x1="250" y1="99" x2="286" y2="99"/>
+  <line class="edge" x1="510" y1="99" x2="546" y2="99"/>
+</svg>

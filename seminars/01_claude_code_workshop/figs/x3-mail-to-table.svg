@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 50 850 122" font-family="-apple-system, 'Segoe UI', 'Noto Sans KR', sans-serif">
+  <defs>
+    <marker id="x3mt-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563EB"/>
+    </marker>
+    <style>
+      .mail { fill: #FEF3C7; stroke: #D97706; stroke-width: 2; }
+      .step { fill: #E9F2FB; stroke: #2563EB; stroke-width: 2; }
+      .out { fill: #ECFDF5; stroke: #059669; stroke-width: 2.4; }
+      .title { fill: #0F2C59; font-size: 13.5px; font-weight: 800; }
+      .desc { fill: #57534E; font-size: 10.5px; font-weight: 600; }
+      .edge { stroke: #2563EB; stroke-width: 2.5; fill: none; marker-end: url(#x3mt-arrow); }
+    </style>
+  </defs>
+
+  <rect class="mail" x="30" y="62" width="172" height="96" rx="11"/>
+  <text x="116" y="92" text-anchor="middle" class="title">박팀장 메일</text>
+  <text x="116" y="114" text-anchor="middle" class="desc">검토 요청 한 통</text>
+  <text x="116" y="132" text-anchor="middle" class="desc">(짧고 숨은 요구 多)</text>
+
+  <rect class="step" x="238" y="62" width="172" height="96" rx="11"/>
+  <text x="324" y="92" text-anchor="middle" class="title">요청 핵심 정리</text>
+  <text x="324" y="114" text-anchor="middle" class="desc">무엇 · 왜 · 언제까지</text>
+  <text x="324" y="132" text-anchor="middle" class="desc">적힌 것 / 숨은 기대</text>
+
+  <rect class="step" x="446" y="62" width="172" height="96" rx="11"/>
+  <text x="532" y="92" text-anchor="middle" class="title">리서치</text>
+  <text x="532" y="114" text-anchor="middle" class="desc">경쟁사 · 가격 · 타깃</text>
+  <text x="532" y="132" text-anchor="middle" class="desc">시장 흐름 (공개 자료)</text>
+
+  <rect class="out" x="654" y="62" width="172" height="96" rx="11"/>
+  <text x="740" y="92" text-anchor="middle" class="title">근거표</text>
+  <text x="740" y="114" text-anchor="middle" class="desc">항목 · 내용 · 시사점</text>
+  <text x="740" y="132" text-anchor="middle" class="desc">제안서의 뼈대</text>
+
+  <line class="edge" x1="202" y1="110" x2="234" y2="110"/>
+  <line class="edge" x1="410" y1="110" x2="442" y2="110"/>
+  <line class="edge" x1="618" y1="110" x2="650" y2="110"/>
+</svg>

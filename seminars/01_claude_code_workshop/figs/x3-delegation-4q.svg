@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 24 780 270" font-family="-apple-system, 'Segoe UI', 'Noto Sans KR', sans-serif">
+  <defs>
+    <style>
+      .card { fill: #FFFFFF; stroke: #2563EB; stroke-width: 1.8; }
+      .band { fill: #FFF1F2; stroke: #E11D48; stroke-width: 2; }
+      .num { fill: #2563EB; font-size: 21px; font-weight: 800; }
+      .q { fill: #0F2C59; font-size: 13.5px; font-weight: 800; }
+      .yn { fill: #059669; font-size: 11px; font-weight: 800; }
+      .stop { fill: #E11D48; font-size: 13.5px; font-weight: 800; }
+    </style>
+  </defs>
+
+  <rect class="card" x="40" y="40" width="350" height="84" rx="12"/>
+  <text x="68" y="90" class="num">1</text>
+  <text x="98" y="74" class="q">자주 반복되는가?</text>
+  <text x="98" y="100" class="yn">예 → 맡길 후보 (리서치·표 정리)</text>
+
+  <rect class="card" x="410" y="40" width="350" height="84" rx="12"/>
+  <text x="438" y="90" class="num">2</text>
+  <text x="468" y="74" class="q">결과를 내가 검증하는가?</text>
+  <text x="468" y="100" class="yn">예 → 믿을지 빠르게 확인 가능</text>
+
+  <rect class="card" x="40" y="136" width="350" height="84" rx="12"/>
+  <text x="68" y="186" class="num">3</text>
+  <text x="98" y="170" class="q">틀려도 폴더 안에서 고치나?</text>
+  <text x="98" y="196" class="yn">예 → 되돌릴 수 있어 안전</text>
+
+  <rect class="card" x="410" y="136" width="350" height="84" rx="12"/>
+  <text x="438" y="186" class="num">4</text>
+  <text x="468" y="170" class="q">방향만 내가 정하면 되는가?</text>
+  <text x="468" y="196" class="yn">예 → 세부는 맡기고 방향은 사람</text>
+
+  <rect class="band" x="40" y="234" width="720" height="48" rx="12"/>
+  <text x="400" y="263" text-anchor="middle" class="stop">🚫 단, 최종 의사결정과 대외 발송은 — 넷이 다 예여도 — 늘 사람 몫</text>
+</svg>

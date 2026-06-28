@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="180 28 440 266" font-family="-apple-system, 'Segoe UI', 'Noto Sans KR', sans-serif">
+  <defs>
+    <style>
+      .page { fill: #FFFFFF; stroke: #94A3B8; stroke-width: 1.6; }
+      .lock { fill: #EEF2F6; stroke: #94A3B8; stroke-width: 1.4; }
+      .lockt { fill: #6B7280; font-size: 10.5px; font-weight: 800; }
+      .body { fill: #ECFDF5; stroke: #059669; stroke-width: 2.2; }
+      .bodyt { fill: #059669; font-size: 11.5px; font-weight: 800; }
+      .row { fill: #FFFFFF; stroke: #A7F3D0; stroke-width: 1.2; }
+      .rowt { fill: #0F2C59; font-size: 10px; font-weight: 700; }
+    </style>
+  </defs>
+
+  <rect class="page" x="200" y="34" width="400" height="256" rx="10"/>
+
+  <!-- locked header -->
+  <rect class="lock" x="222" y="50" width="120" height="34" rx="6"/>
+  <text x="282" y="71" text-anchor="middle" class="lockt">🔒 로고</text>
+  <rect class="lock" x="470" y="50" width="108" height="16" rx="4"/>
+  <text x="524" y="62" text-anchor="middle" class="lockt">🔒 문서번호</text>
+  <rect class="lock" x="470" y="72" width="108" height="34" rx="4"/>
+  <line x1="506" y1="72" x2="506" y2="106" stroke="#94A3B8" stroke-width="1.1"/>
+  <line x1="542" y1="72" x2="542" y2="106" stroke="#94A3B8" stroke-width="1.1"/>
+  <text x="524" y="93" text-anchor="middle" class="lockt">🔒 결재란</text>
+
+  <text x="222" y="108" class="rowt" font-size="12" fill="#0F2C59">■ 밀키트 파일럿 제안서</text>
+
+  <!-- editable body -->
+  <rect class="body" x="222" y="118" width="356" height="138" rx="8"/>
+  <text x="240" y="138" class="bodyt">✏ 본문 입력칸 — 여기만 채운다</text>
+  <rect class="row" x="240" y="148" width="320" height="16" rx="3"/>
+  <text x="248" y="160" class="rowt">배경</text>
+  <rect class="row" x="240" y="170" width="320" height="16" rx="3"/>
+  <text x="248" y="182" class="rowt">시장·경쟁 분석  ← 3장 근거표</text>
+  <rect class="row" x="240" y="192" width="320" height="16" rx="3"/>
+  <text x="248" y="204" class="rowt">제안 내용</text>
+  <rect class="row" x="240" y="214" width="320" height="16" rx="3"/>
+  <text x="248" y="226" class="rowt">기대효과</text>
+  <rect class="row" x="240" y="236" width="320" height="16" rx="3"/>
+  <text x="248" y="248" class="rowt">리스크</text>
+
+  <!-- locked footer -->
+  <rect class="lock" x="222" y="264" width="356" height="18" rx="4"/>
+  <text x="400" y="277" text-anchor="middle" class="lockt">🔒 바닥글 · 결재란 위 문서번호 — 그대로 둔다</text>
+</svg>

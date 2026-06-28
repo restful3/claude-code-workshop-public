@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 26 760 232" font-family="-apple-system, 'Segoe UI', 'Noto Sans KR', sans-serif">
+  <defs>
+    <style>
+      .win { fill: #FFFFFF; stroke: #6B7280; stroke-width: 1.6; }
+      .bar { fill: #EEF2F6; stroke: #6B7280; stroke-width: 1.2; }
+      .files { fill: #F8FAFC; stroke: #94A3B8; stroke-width: 1.6; }
+      .filerow { fill: #E2E8F0; }
+      .chat { fill: #E9F2FB; stroke: #2563EB; stroke-width: 1.8; }
+      .input { fill: #FFFFFF; stroke: #2563EB; stroke-width: 1.6; }
+      .popup { fill: #FEF3C7; stroke: #D97706; stroke-width: 2.4; }
+      .num { font-size: 13px; font-weight: 800; }
+      .lbl { fill: #0F2C59; font-size: 12.5px; font-weight: 800; }
+      .desc { fill: #57534E; font-size: 10.5px; font-weight: 600; }
+      .warn { fill: #B45309; font-size: 10.5px; font-weight: 800; }
+    </style>
+  </defs>
+
+  <rect class="win" x="40" y="40" width="700" height="206" rx="12"/>
+  <rect class="bar" x="40" y="40" width="700" height="26" rx="12"/>
+  <rect class="bar" x="40" y="54" width="700" height="12"/>
+  <circle cx="62" cy="53" r="4" fill="#CBD5E1"/>
+  <circle cx="78" cy="53" r="4" fill="#CBD5E1"/>
+  <circle cx="94" cy="53" r="4" fill="#CBD5E1"/>
+  <text x="120" y="57" class="desc" font-weight="700">Code 탭</text>
+
+  <!-- 2 파일 목록 -->
+  <rect class="files" x="54" y="80" width="158" height="150" rx="8"/>
+  <text x="68" y="100" class="num" fill="#0F766E">②</text>
+  <text x="90" y="100" class="lbl" font-size="12">폴더·파일 목록</text>
+  <rect class="filerow" x="68" y="116" width="130" height="14" rx="3"/>
+  <rect class="filerow" x="68" y="136" width="110" height="14" rx="3"/>
+  <rect class="filerow" x="68" y="156" width="124" height="14" rx="3"/>
+  <rect class="filerow" x="68" y="176" width="96" height="14" rx="3"/>
+  <text x="133" y="214" text-anchor="middle" class="desc">작업할 파일들 (왼쪽)</text>
+
+  <!-- 1 채팅창 -->
+  <rect class="chat" x="228" y="80" width="496" height="110" rx="8"/>
+  <text x="244" y="102" class="num" fill="#2563EB">①</text>
+  <text x="266" y="102" class="lbl">채팅창</text>
+  <text x="244" y="128" class="desc">평범한 한국어로 지시를 입력하는 곳</text>
+  <text x="244" y="150" class="desc">"이 폴더에 어떤 파일이 있는지 알려줘"</text>
+  <rect class="input" x="244" y="162" width="464" height="22" rx="6"/>
+  <text x="256" y="177" class="desc" fill="#94A3B8">여기에 입력…</text>
+
+  <!-- 3 승인 팝업 -->
+  <rect class="popup" x="396" y="196" width="328" height="44" rx="9"/>
+  <text x="412" y="216" class="num" fill="#B45309">③</text>
+  <text x="434" y="216" class="lbl" fill="#B45309">승인 팝업</text>
+  <text x="412" y="233" class="warn">⚠ 파일을 바꿀 때 뜸 — 바로 허용 말고 내용 확인</text>
+</svg>

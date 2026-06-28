@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 26 776 150" font-family="-apple-system, 'Segoe UI', 'Noto Sans KR', sans-serif">
+  <defs>
+    <marker id="x2tl-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6B7280"/>
+    </marker>
+    <style>
+      .home { fill: #FEF3C7; stroke: #D97706; stroke-width: 2; }
+      .early { fill: #E9F2FB; stroke: #2563EB; stroke-width: 2; }
+      .day { fill: #ECFDF5; stroke: #059669; stroke-width: 2.4; }
+      .when { font-size: 11px; font-weight: 800; }
+      .title { fill: #0F2C59; font-size: 14px; font-weight: 800; }
+      .desc { fill: #57534E; font-size: 10.5px; font-weight: 600; }
+      .edge { stroke: #6B7280; stroke-width: 2.2; fill: none; marker-end: url(#x2tl-arrow); }
+    </style>
+  </defs>
+
+  <rect class="home" x="30" y="44" width="222" height="116" rx="12"/>
+  <text x="141" y="74" text-anchor="middle" class="when" fill="#B45309">세미나 2~3일 전 · 집에서</text>
+  <text x="141" y="102" text-anchor="middle" class="title">사전과제</text>
+  <text x="141" y="126" text-anchor="middle" class="desc">설치 · 로그인 · 폴더</text>
+  <text x="141" y="144" text-anchor="middle" class="desc">+ 인증 과제(필수)</text>
+
+  <rect class="early" x="297" y="44" width="222" height="116" rx="12"/>
+  <text x="408" y="74" text-anchor="middle" class="when" fill="#2563EB">당일 30~45분 전</text>
+  <text x="408" y="102" text-anchor="middle" class="title">무료 조기 트러블슈팅</text>
+  <text x="408" y="126" text-anchor="middle" class="desc">막힌 분만 일찍 · 추가금 X</text>
+  <text x="408" y="144" text-anchor="middle" class="desc">강사가 1:1로 점검</text>
+
+  <rect class="day" x="564" y="44" width="222" height="116" rx="12"/>
+  <text x="675" y="74" text-anchor="middle" class="when" fill="#059669">본 세미나 시작 직후</text>
+  <text x="675" y="102" text-anchor="middle" class="title">확인만 + 플랜B</text>
+  <text x="675" y="126" text-anchor="middle" class="desc">로그인·폴더 열림만 점검</text>
+  <text x="675" y="144" text-anchor="middle" class="desc">안 되면 샘플로 그대로 완주</text>
+
+  <line class="edge" x1="252" y1="102" x2="293" y2="102"/>
+  <line class="edge" x1="519" y1="102" x2="560" y2="102"/>
+</svg>
