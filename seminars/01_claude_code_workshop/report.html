@@ -1,0 +1,4743 @@
+<!DOCTYPE html>
+<html lang="ko" class="theme-light">
+<head><link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij4KICA8dGl0bGU+Q2xhdWRlIENvZGUgV29ya3Nob3A8L3RpdGxlPgogIDxyZWN0IHg9IjIiIHk9IjIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcng9IjE0IiBmaWxsPSIjMjQzNDQ3Ii8+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRDk3NzA2IiBzdHJva2Utd2lkdGg9IjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgICA8cG9seWxpbmUgcG9pbnRzPSIyNCwyMiAxNCwzMiAyNCw0MiIvPgogICAgPHBvbHlsaW5lIHBvaW50cz0iNDAsMjIgNTAsMzIgNDAsNDIiLz4KICA8L2c+Cjwvc3ZnPgo=">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code 업무자동화 워크숍</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script>Chart.defaults.animation = false;</script>
+  <style data-source="theme_report.css">
+/* =========================================================================
+ * AI Odyssey Publisher — Report Theme (A4 portrait, long-form research report)
+ *
+ * 디자인 토큰·시각 컴포넌트는 `theme_slides.css` 와 동기화. 캔버스만
+ * 1280×720 고정 슬라이드 → A4 세로 흐름형 문서로 교체했으며, 리포트 전용
+ * 요소(커버 · TOC · 각주 · 사이드노트 · 풀 인용구 · 참고문헌)를 추가했다.
+ * ========================================================================= */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root { interpolate-size: allow-keywords; }
+
+/* ===== THEMES (class-based, 슬라이드와 완전 동일) ===== */
+html.theme-dark {
+  --bg: #0A0A0A; --surface: #141414; --surface-hover: #1C1C1C;
+  --border: rgba(255,255,255,0.08);
+  --text: #EDEDED; --text-secondary: #9A9AA1;
+  --accent: #2563EB; --accent-secondary: #0F2C59;
+  --positive: #059669; --negative: #f43f5e; --warning: #f59e0b;
+  --brand-primary: #2563EB; --brand-deep: #0F2C59; --brand-soft: rgba(37,99,235,0.10);
+  --grid-line: rgba(255,255,255,0.04);
+  --gradient-hero: radial-gradient(1200px 700px at 85% 15%, rgba(37,99,235,0.12) 0%, rgba(37,99,235,0) 55%), linear-gradient(135deg, #0A0A0A 0%, #141414 100%);
+  --gradient-section: linear-gradient(135deg, #1a0509 0%, #0A0A0A 50%, #0A0A0A 100%);
+}
+html.theme-light {
+  --bg: #FAFAF9; --surface: #FFFFFF; --surface-hover: #F5F5F4;
+  --border: rgba(0,0,0,0.08);
+  --text: #0F0F10; --text-secondary: #6B6B72;
+  --accent: #0F2C59; --accent-secondary: #2563EB;
+  --positive: #059669; --negative: #e11d48; --warning: #d97706;
+  --brand-primary: #0F2C59; --brand-deep: #091F40; --brand-soft: rgba(15,44,89,0.08);
+  --grid-line: rgba(10,10,10,0.05);
+  --gradient-hero: radial-gradient(1400px 800px at 82% 18%, rgba(37,99,235,0.08) 0%, rgba(37,99,235,0) 60%), radial-gradient(900px 600px at 12% 85%, rgba(15,44,89,0.06) 0%, rgba(15,44,89,0) 60%), linear-gradient(180deg, #FFFFFF 0%, #FAFAF9 100%);
+  --gradient-section: linear-gradient(135deg, #1a0509 0%, #0A0A0A 50%, #0A0A0A 100%);
+}
+
+/* ===== BASE (흐름형 문서) ===== */
+html, body { min-height: 100%; }
+html { background: var(--bg); }
+body {
+  font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  padding: 36px 0;
+}
+:lang(ko), body { font-feature-settings: 'ss01'; }
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text);
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  letter-spacing: -0.024em;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+/* ===== A4 @page (인쇄 시 페이지 규격 + 러닝 헤더/푸터) =====
+ * Chrome 인쇄 엔진은 @page 마진박스에 `content: "..."` 및 `counter(page)` 같은 정적/카운터 함수만
+ * 안정적으로 지원하고, `string()` / `string-set` 동적 캡처는 빈 문자열로 렌더되는 한계가 있다.
+ * 그래서 섹션 표기는 **정적 page-name** 패턴을 쓴다 — build_structured.py 가 각 섹션에
+ * `s0`·`s1`·...·`s7`·`s-refs` 클래스를 부여하고, 아래에서 page-name 별로 푸터 좌측 텍스트를 따로
+ * 정의한다. 헤더는 모든 페이지 공통(좌: 리포트 식별자, 우: 브랜드).
+ * 푸터: 좌측 = "§N · 섹션 제목" (page-name 별), 우측 = "n / 전체" (디폴트 @page 에서 cascade). */
+@page {
+  size: A4;
+  margin: 18mm 16mm 22mm 16mm;
+  @top-left {
+    content: var(--running-header-left, "AI Odyssey · Independent Research");
+    font: 500 9pt 'Inter', 'Noto Sans KR', sans-serif;
+    color: #6B6B72;
+    padding-bottom: 6mm;
+  }
+  @top-right {
+    content: var(--running-header-right, "AI Odyssey");
+    font: 700 9pt 'Inter', 'Noto Sans KR', sans-serif;
+    letter-spacing: 0.12em;
+    color: #0F2C59;
+    padding-bottom: 6mm;
+    text-transform: uppercase;
+  }
+  @bottom-left {
+    content: "";  /* 디폴트는 빈값, 섹션별 @page 룰에서 override */
+    font: 500 9pt 'Inter', 'Noto Sans KR', sans-serif;
+    color: #6B6B72;
+    padding-top: 6mm;
+    max-width: 75%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @bottom-right {
+    content: counter(page) " / " counter(pages);
+    font: 700 9pt 'Inter', 'Noto Sans KR', sans-serif;
+    color: #6B6B72;
+    padding-top: 6mm;
+    font-variant-numeric: tabular-nums;
+  }
+}
+@page :first {
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-left { content: none; }
+  @bottom-right { content: none; }
+  margin: 0;
+}
+
+/* 섹션 디바이더 전용 — 검은 배경을 A4 풀블리드로 확장
+ * (헤더/푸터를 모두 숨겨 파트 경계를 시각적으로 분리) */
+@page section-divider {
+  size: A4;
+  margin: 0;
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-left { content: none; }
+  @bottom-right { content: none; }
+}
+
+/* 목차 페이지 */
+.report-toc { page: toc; }
+@page toc { @bottom-left { content: "목차"; } }
+
+/* 본문 섹션별 page-name — build_structured.py 가 부여하는 s0~s7 클래스와 매핑 */
+.report-section.s0 { page: sec0; }
+.report-section.s1 { page: sec1; }
+.report-section.s2 { page: sec2; }
+.report-section.s3 { page: sec3; }
+.report-section.s4 { page: sec4; }
+.report-section.s5 { page: sec5; }
+.report-section.s6 { page: sec6; }
+.report-section.s7 { page: sec7; }
+.report-appendix.s-refs {
+  page: sec-refs;
+  /* References 는 항상 새 페이지에서 시작 — 부록 직후에 끌려오지 않도록.
+     .page-break 클래스(.report-appendix s-refs page-break)보다 더 구체적이어서 continuous-mode override 도 견딘다. */
+  break-before: page !important;
+  page-break-before: always !important;
+}
+
+@page sec0 { @bottom-left { content: "§0 · 핵심 요약"; } }
+@page sec1 { @bottom-left { content: "§1 · Computer Use"; } }
+@page sec2 { @bottom-left { content: "§2 · 빅3 벤더"; } }
+@page sec3 { @bottom-left { content: "§3 · 오픈소스 & 자율형 에이전트"; } }
+@page sec4 { @bottom-left { content: "§4 · 실사용 사례 서베이"; } }
+@page sec5 { @bottom-left { content: "§5 · 이슈와 시사점"; } }
+@page sec6 { @bottom-left { content: "§6 · 기술 딥다이브 & 결론"; } }
+@page sec7 { @bottom-left { content: "부록"; } }
+@page sec-refs { @bottom-left { content: "참고 문헌"; } }
+
+/* ===== CONTINUOUS MODE — `--continuous` 빌드 옵션 (build_local.py 의 hack 정식화)
+ *  · 섹션 디바이더는 숨김 — wrap_section 의 kicker(SECTION NN · …) 가 이미 섹션 경계
+ *    를 표시하므로 디바이더 hero 는 redundant. 검은 풀블리드 cover 도, 컴팩트 in-flow
+ *    hero 도 wrap_section kicker 와 시각적으로 겹침.
+ *  · named @page secN 을 default @page 로 풀어 한 종류 헤더/푸터 흐름
+ *  · 강제 page-break 풀기. 자연 흐름 유지.
+ *  · References 는 새 페이지 시작 강제 유지 (.report-appendix.s-refs 의 !important 가 우위).
+ * ============================================================================ */
+.continuous-mode .section-divider { display: none !important; }
+/* `.show-divider` (단일 섹션 모드 등) — continuous-mode 의 display:none 을 무효화하고
+ * 디바이더를 풀-페이지 hero 로 다시 보여준다. break-before:auto 로 빈 첫 페이지도 방지. */
+.continuous-mode.show-divider .section-divider {
+  display: flex !important;
+  break-before: auto !important;
+  page-break-before: auto !important;
+}
+.continuous-mode .report-toc,
+.continuous-mode .report-section,
+.continuous-mode .report-section.s0,
+.continuous-mode .report-section.s1,
+.continuous-mode .report-section.s2,
+.continuous-mode .report-section.s3,
+.continuous-mode .report-section.s4,
+.continuous-mode .report-section.s5,
+.continuous-mode .report-section.s6,
+.continuous-mode .report-section.s7,
+.continuous-mode .report-appendix {
+  page: auto !important;
+}
+.continuous-mode .page-break,
+.continuous-mode .page-break-after {
+  break-before: auto !important;
+  break-after: auto !important;
+  page-break-before: auto !important;
+  page-break-after: auto !important;
+}
+/* References 만은 continuous-mode 에서도 새 페이지 시작 — 부록 B 와 같은 페이지에 뭉치지 않도록.
+   .continuous-mode .report-appendix.s-refs (3-class) 가 .continuous-mode .page-break (2-class) 보다 specificity 우위. */
+.continuous-mode .report-appendix.s-refs {
+  break-before: page !important;
+  page-break-before: always !important;
+}
+/* SVG/이미지 페이지 폭 가득 — viewBox 비율 유지 */
+.continuous-mode img,
+.continuous-mode svg,
+.continuous-mode figure img,
+.continuous-mode figure svg,
+.continuous-mode p > img {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 0.6rem auto !important;
+}
+
+/* ===== REPORT CONTAINER ===== */
+.report {
+  max-width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 18mm 16mm 22mm 16mm;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 6px 40px rgba(0,0,0,0.10);
+  container-type: inline-size;
+}
+.report > * + * { margin-top: 24px; }
+
+/* 제목 텍스트 스케일 (A4 컨테이너 약 178mm ≈ 673px 기준) */
+.report h1 { font-size: clamp(22pt, 5cqi, 28pt); font-weight: 900; letter-spacing: -0.028em; }
+.report h2 { font-size: clamp(16pt, 3.6cqi, 20pt); font-weight: 800; letter-spacing: -0.02em; margin-top: 18px; margin-bottom: 10px; }
+.report h3 { font-size: clamp(12.5pt, 2.6cqi, 14pt); font-weight: 700; color: var(--brand-primary); margin-top: 16px; margin-bottom: 6px; }
+.report h4 { font-size: 11pt; font-weight: 700; color: var(--text); margin-top: 12px; margin-bottom: 4px; letter-spacing: 0; }
+.report p, .report li { font-size: 11pt; line-height: 1.65; color: var(--text); }
+.report p + p { margin-top: 0.6em; }
+
+.report a { color: var(--brand-primary); text-decoration: none; border-bottom: 1px solid rgba(15,44,89,0.3); }
+.report a:hover { border-bottom-color: var(--brand-primary); }
+
+/* ===== PAGE BREAK UTILITIES ===== */
+.page-break { break-before: page; page-break-before: always; }
+.page-break-after { break-after: page; page-break-after: always; }
+.avoid-break { break-inside: avoid; page-break-inside: avoid; }
+
+/* ===== COVER PAGE (풀블리드 첫 페이지) ===== */
+.report-cover {
+  position: relative;
+  margin: -18mm -16mm 0 -16mm;       /* .report 패딩을 상쇄해 A4 풀블리드 */
+  padding: 56mm 28mm 32mm 32mm;
+  min-height: calc(297mm - 0mm);
+  background: var(--gradient-hero);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  break-after: page;
+  page-break-after: always;
+  overflow: hidden;
+}
+.report-cover::before {                /* 좌측 Deep Navy 수직 바 */
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 14mm;
+  background: linear-gradient(180deg, var(--brand-primary) 0%, var(--brand-deep) 100%);
+}
+.report-cover__wordmark {
+  display: flex; flex-direction: column;
+  gap: 4px; margin-bottom: 56mm;
+  padding-left: 12px; border-left: 4px solid var(--brand-primary);
+}
+.report-cover__wordmark-name {
+  font-size: 20pt; font-weight: 900; letter-spacing: -0.028em; line-height: 1; color: var(--text);
+}
+.report-cover__wordmark-sub {
+  font-size: 9pt; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brand-primary);
+}
+.report-cover__kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  align-self: flex-start;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--brand-soft);
+  color: var(--brand-primary);
+  font-size: 10pt; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 18mm;
+}
+.report-cover__kicker::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--brand-primary);
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.18);
+}
+.report-cover__title {
+  font-size: 42pt; font-weight: 900; line-height: 1.04; letter-spacing: -0.035em;
+  max-width: 18ch; margin-bottom: 10mm; color: var(--text);
+}
+.report-cover__subtitle {
+  font-size: 15pt; font-weight: 500; line-height: 1.45; color: var(--text-secondary);
+  max-width: 38ch; margin-bottom: auto;
+}
+.report-cover__meta {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 12mm;
+  padding-top: 8mm;
+  border-top: 1px solid var(--border);
+  font-size: 10pt; color: var(--text-secondary);
+}
+.report-cover__meta dt {
+  display: block;
+  font-size: 9pt; font-weight: 800;
+  color: var(--text); letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.report-cover__meta dd { color: var(--text); font-weight: 500; }
+.report-cover__signature {
+  position: absolute; top: 22mm; right: 24mm;
+  font-family: 'Inter', serif; font-style: italic;
+  font-size: 11pt; color: var(--text-secondary);
+}
+
+/* ===== TABLE OF CONTENTS ===== */
+.report-toc { margin-top: 0; }
+.report-toc__title {
+  font-size: 22pt; font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.028em;
+  margin-bottom: 6mm;
+  padding-bottom: 4mm;
+  border-bottom: 3px solid var(--brand-primary);
+}
+.report-toc__list { list-style: none; padding: 0; margin: 0; counter-reset: toc; }
+.report-toc__item {
+  counter-increment: toc;
+  padding: 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 11pt;
+}
+.report-toc__item--h3 { padding-left: 22px; font-size: 10.5pt; color: var(--text-secondary); }
+.report-toc__num {
+  flex: 0 0 auto;
+  font-family: 'JetBrains Mono', 'D2 Coding', monospace;
+  font-size: 9.5pt;
+  font-weight: 800;
+  color: var(--brand-primary);
+  letter-spacing: 0.06em;
+  min-width: 36px;
+}
+.report-toc__item--h3 .report-toc__num { color: var(--text-secondary); font-weight: 500; }
+.report-toc__label { flex: 1 1 auto; color: var(--text); font-weight: 600; }
+.report-toc__item--h3 .report-toc__label { color: var(--text-secondary); font-weight: 500; }
+.report-toc__leader {
+  flex: 1 1 auto;
+  border-bottom: 1px dotted var(--border);
+  margin: 0 8px;
+  min-width: 20px;
+  transform: translateY(-3px);
+}
+.report-toc__page {
+  flex: 0 0 auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5pt; font-weight: 700;
+  color: var(--text); font-variant-numeric: tabular-nums;
+  min-width: 28px; text-align: right;
+}
+.report-toc a {
+  text-decoration: none; border-bottom: none; color: inherit;
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 10px 0;
+}
+
+/* ===== REPORT SECTION ===== */
+.report-section {
+  margin-top: 0;
+  /* 짧은 섹션이 페이지 끝에 한두 줄만 흘리지 않도록 — orphans/widows 보호 */
+  orphans: 3;
+  widows: 3;
+}
+.report-section p, .report-section li {
+  orphans: 3;
+  widows: 3;
+}
+.report-section__kicker {
+  font-size: 9pt; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--brand-primary);
+  margin-bottom: 6px;
+}
+.report-section > h1,
+.report-section > h2,
+.report-appendix > h1 {
+  font-size: 22pt; font-weight: 900;
+  color: var(--text);
+  letter-spacing: -0.028em;
+  line-height: 1.1;
+  margin-top: 0;
+  margin-bottom: 4mm;
+  padding-bottom: 3mm;
+  border-bottom: 3px solid var(--brand-primary);
+}
+/* 같은 섹션 내 2번째 이후 h2 (부록 A/B/C/D 등) — 새 페이지 + 상단 숨쉴 공간 */
+.report-section > h2 ~ h2 {
+  break-before: page;
+  page-break-before: always;
+  margin-top: 0;
+  padding-top: 4mm;
+}
+/* 섹션 서두 오리엔테이션 리드 — 섹션 끝의 .section-summary 와 시작/끝 대칭 구성.
+ *   상단: OVERVIEW 킥커 → 좌측 레드 accent 바 → 미묘한 그라데이션 배경
+ *   하단: 같은 섹션 끝의 Section Summary · 핵심 요약 과 짝을 이룸 */
+.report-section__lede {
+  position: relative;
+  font-size: 11pt;
+  line-height: 1.75;
+  color: var(--text);
+  font-weight: 400;
+  letter-spacing: -0.003em;
+  margin: 0 0 9mm 0;
+  padding: 13px 20px 14px 22px;
+  max-width: none;
+  background: linear-gradient(90deg, rgba(15,44,89,0.045) 0%, rgba(15,44,89,0.008) 55%, rgba(15,44,89,0) 100%);
+  border-left: 4px solid var(--brand-primary);
+  border-radius: 0 4px 4px 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  break-inside: avoid;
+}
+.report-section__lede::before {
+  content: "Overview · 섹션 개요";
+  display: block;
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  font-size: 8.5pt;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(15,44,89,0.22);
+}
+.report-section__lede strong {
+  color: var(--brand-deep);
+  font-weight: 700;
+}
+.report-section__lede em {
+  color: var(--text);
+  font-style: italic;
+}
+.report-section__lede code {
+  background: rgba(15,44,89,0.07);
+  color: var(--brand-deep);
+  padding: 0 4px;
+  border-radius: 3px;
+  font-size: 9.5pt;
+}
+.report-section > * + h3 { margin-top: 11mm; }
+/* h3 가 블록 요소(카드·콜아웃·테이블·리스트) 뒤에 오면 추가 호흡 */
+.report-section > .prompt-card + h3,
+.report-section > .callout + h3,
+.report-section > .arch-diagram + h3,
+.report-section > .decay-bars + h3,
+.report-section > table + h3,
+.report-section > ul + h3,
+.report-section > ol + h3,
+.report-section > .scatter-map + h3 { margin-top: 14mm; }
+/* h4 도 마찬가지로 앞 블록과 분리 */
+.report-section > * + h4 { margin-top: 7mm; }
+
+/* 주요 파트 divider — 전용 @page 규칙으로 A4 풀블리드
+ * (@page section-divider 의 margin:0 이 헤더/푸터/가장자리 여백을 모두 제거).
+ *
+ * Full-bleed 전략 — negative margins 로 부모 .report (padding: 18mm 16mm 22mm 16mm)
+ * 와 body (padding: 36px 0 ≈ 9.5mm) 를 빠져나가 페이지 모서리까지 채운다.
+ *
+ *  - 좌우: `.report` 의 16mm 패딩만 escape (body 의 좌우 패딩은 0)
+ *  - 상하: 디바이더가 .report 의 첫 자식일 때만 body padding-top + .report padding-top 이 누적되며,
+ *    페이지 break 직후의 일반 자리에서는 .report padding 이 없다. 양쪽 케이스를 모두 만족시키려고
+ *    수직 negative margin 도 항상 적용한다 — 음수 좌표가 page 영역 위로 나가더라도
+ *    `@page section-divider { margin: 0 }` 가 풀-블리드로 잡아주므로 시각 결과는 동일. */
+.section-divider {
+  page: section-divider;
+  margin: -28mm -16mm -32mm -16mm;
+  padding: 38mm 28mm;
+  background-color: #0A0A0A;
+  background-image: var(--gradient-section);
+  color: #fff;
+  border-radius: 0;
+  break-before: page; page-break-before: always;
+  break-after: page; page-break-after: always;
+  break-inside: avoid;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative;
+  overflow: hidden;
+  width: 210mm;
+  min-height: 297mm;
+  box-sizing: border-box;
+}
+.section-divider { color: #fff; }
+.section-divider p, .section-divider span, .section-divider h2, .section-divider h3 { color: inherit; }
+.section-divider__tag {
+  font-size: 11pt; font-weight: 800; letter-spacing: 0.12em;
+  color: #2563EB; margin-bottom: 20px;
+}
+.section-divider__title {
+  font-size: 46pt; font-weight: 900; letter-spacing: -0.035em; line-height: 1.04;
+  margin-bottom: 20px;
+}
+.section-divider__subtitle {
+  font-size: 14pt; font-weight: 400;
+  color: rgba(255,255,255,0.88);
+  max-width: 38ch;
+  line-height: 1.45;
+}
+.section-divider__rule {
+  width: 72px; height: 4px;
+  background: linear-gradient(90deg, #2563EB 0%, #0F2C59 100%);
+  border-radius: 2px;
+  margin-top: 28px;
+}
+.section-divider__num {
+  position: absolute;
+  right: 12mm; top: 20mm;
+  font-size: 110pt; font-weight: 900; line-height: 0.85; letter-spacing: -0.04em;
+  color: rgba(255,255,255,0.06);
+  pointer-events: none;
+  z-index: 0;
+}
+.section-divider__subtitle { max-width: 32ch; }
+.section-divider__tag,
+.section-divider__title,
+.section-divider__subtitle,
+.section-divider__rule { position: relative; z-index: 1; }
+
+/* ===== PRIMITIVES ===== */
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 12px;
+  background: var(--brand-soft); color: var(--brand-primary);
+  border-radius: 999px;
+  font-size: 9pt; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+  border: 1px solid rgba(15,44,89,0.12);
+}
+.chip::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--brand-primary);
+}
+.callout {
+  padding: 14px 18px;
+  background: var(--brand-soft);
+  border-left: 4px solid var(--brand-primary);
+  border-radius: 0 10px 10px 0;
+  font-size: 10.5pt; line-height: 1.55;
+  color: var(--text);
+  break-inside: avoid;
+}
+.callout strong { color: var(--brand-deep); font-weight: 800; }
+.emph { color: var(--brand-primary); font-weight: 700; }
+code {
+  font-family: 'JetBrains Mono', 'D2 Coding', monospace;
+  font-size: 0.88em;
+  padding: 2px 6px;
+  background: var(--brand-soft); color: var(--brand-deep);
+  border-radius: 4px; font-weight: 500;
+}
+
+/* 불릿 & 번호 리스트 */
+.bullets { list-style: none; padding: 0; margin: 10px 0 14px; }
+.bullets li {
+  position: relative;
+  padding-left: 20px;
+  margin: 7px 0;
+  line-height: 1.6;
+  color: var(--text);
+}
+.bullets li::before {
+  content: ""; position: absolute; left: 0; top: 10px;
+  width: 6px; height: 6px; background: var(--brand-primary); border-radius: 50%;
+}
+ol.nums { list-style: none; counter-reset: num; padding: 0; margin: 10px 0 14px; }
+ol.nums li {
+  position: relative; padding-left: 32px; counter-increment: num;
+  margin: 9px 0; line-height: 1.6;
+}
+ol.nums li::before {
+  content: counter(num);
+  position: absolute; left: 0; top: 1px;
+  width: 22px; height: 22px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-deep) 100%);
+  color: #fff; font-size: 10pt; font-weight: 900;
+  border-radius: 50%;
+  box-shadow: 0 3px 8px rgba(15,44,89,0.25);
+}
+
+/* ===== REPORT-ONLY: FOOTNOTE · SIDENOTE · PULL QUOTE · REFERENCES ===== */
+.footnote-ref {
+  display: inline-block;
+  vertical-align: super;
+  font-size: 0.7em; font-weight: 800;
+  color: var(--brand-primary);
+  margin-left: 1px;
+  line-height: 0;
+  border-bottom: none;
+}
+.footnote-ref::before { content: "["; }
+.footnote-ref::after { content: "]"; }
+
+.footnotes {
+  margin-top: 14mm;
+  padding-top: 4mm;
+  border-top: 1px solid var(--border);
+  font-size: 9.5pt; line-height: 1.5;
+  color: var(--text-secondary);
+  counter-reset: fn;
+  break-inside: avoid-page;
+}
+.footnotes ol { list-style: none; padding: 0; margin: 0; }
+.footnotes li {
+  position: relative;
+  padding-left: 22px;
+  margin: 4px 0;
+  counter-increment: fn;
+}
+.footnotes li::before {
+  content: counter(fn);
+  position: absolute; left: 0; top: 0;
+  font-size: 8pt; font-weight: 800;
+  color: var(--brand-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.sidenote {
+  float: right;
+  clear: right;
+  width: 30%;
+  margin: 0 -4mm 10px 14px;
+  padding: 10px 12px;
+  background: var(--brand-soft);
+  border-left: 3px solid var(--brand-primary);
+  border-radius: 0 6px 6px 0;
+  font-size: 9pt; line-height: 1.5;
+  color: var(--text-secondary);
+  break-inside: avoid;
+}
+.sidenote strong { color: var(--brand-deep); font-weight: 800; display: block; margin-bottom: 3px; font-size: 9pt; letter-spacing: 0.06em; text-transform: uppercase; }
+
+.pull-quote {
+  margin: 8mm 0;
+  padding: 14px 24px;
+  border-left: 4px solid var(--brand-primary);
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  font-size: 15pt; font-weight: 500; line-height: 1.4; letter-spacing: -0.016em;
+  color: var(--text);
+  break-inside: avoid;
+  position: relative;
+}
+.pull-quote::before {
+  content: "\201C";
+  display: block;
+  font-family: 'Inter', serif;
+  font-size: 40pt; font-weight: 900;
+  line-height: 0.4;
+  color: var(--brand-primary);
+  margin-bottom: 14px;
+  margin-left: -6px;
+}
+.pull-quote cite {
+  display: block;
+  margin-top: 10px;
+  font-size: 10pt; font-style: normal; font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+}
+.pull-quote cite::before { content: "— "; color: var(--brand-primary); }
+
+.references {
+  list-style: none; padding: 0; margin: 0;
+  counter-reset: ref;
+  font-size: 10pt; line-height: 1.55;
+}
+.references li {
+  position: relative;
+  padding-left: 34px;
+  margin: 6px 0;
+  counter-increment: ref;
+  text-indent: 0;
+  color: var(--text);
+  break-inside: avoid;
+}
+.references li::before {
+  content: "[" counter(ref) "]";
+  position: absolute; left: 0; top: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9pt; font-weight: 700;
+  color: var(--brand-primary);
+  font-variant-numeric: tabular-nums;
+}
+.references a { word-break: break-all; }
+
+/* ===== PALETTE (브랜드 컬러 스와치) ===== */
+.palette { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 10px 0; }
+.swatch {
+  display: flex; flex-direction: column;
+  border-radius: 8px; overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+  break-inside: avoid;
+}
+.swatch__color { flex: 1; min-height: 70px; }
+.swatch__label { padding: 8px 12px; background: var(--surface); }
+.swatch__name { display: block; font-size: 10pt; font-weight: 900; color: var(--text); letter-spacing: -0.01em; }
+.swatch__hex { display: block; margin-top: 2px; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; color: var(--text-secondary); }
+
+/* ===== TYPE SCALE ===== */
+.typescale { display: flex; flex-direction: column; gap: 10px; }
+.typescale__row {
+  display: grid;
+  grid-template-columns: 80px 60px 1fr;
+  align-items: baseline;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  gap: 14px;
+  break-inside: avoid;
+}
+.typescale__level { font-family: 'JetBrains Mono', monospace; font-size: 9pt; color: var(--brand-primary); font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+.typescale__size { font-family: 'JetBrains Mono', monospace; font-size: 9pt; color: var(--text-secondary); }
+.typescale__sample { color: var(--text); font-weight: 500; }
+
+/* ===== KPI GRID (A4 기본 2열) ===== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 2), 1fr);
+  gap: 12px;
+}
+.kpi {
+  position: relative;
+  padding: 18px 20px 18px 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  overflow: hidden;
+  min-height: 120px;
+  display: flex; flex-direction: column; justify-content: center;
+  break-inside: avoid;
+}
+.kpi::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: linear-gradient(180deg, var(--brand-primary) 0%, var(--brand-deep) 100%); }
+.kpi::after { content: ""; position: absolute; right: -40px; top: -40px; width: 120px; height: 120px;
+  background: radial-gradient(circle, var(--brand-soft) 0%, transparent 70%); pointer-events: none; }
+.kpi__value {
+  display: block;
+  font-size: clamp(22pt, 5cqi, 34pt);
+  font-weight: 900; line-height: 1;
+  color: var(--brand-primary); letter-spacing: -0.028em;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 10px; position: relative; z-index: 1;
+}
+/* 4열 배치에서는 값 폰트를 더 작게 */
+.kpi-grid[style*="--cols: 4"] .kpi__value,
+.kpi-grid[style*="--cols:4"] .kpi__value { font-size: clamp(18pt, 3.6cqi, 26pt); }
+.kpi-grid[style*="--cols: 4"] .kpi,
+.kpi-grid[style*="--cols:4"] .kpi { min-height: 100px; padding: 14px 14px 14px 18px; }
+.kpi__label { display: block; font-size: 9pt; font-weight: 800; color: var(--text); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 3px; position: relative; z-index: 1; }
+.kpi__sub { display: block; font-size: 9pt; font-weight: 500; color: var(--text-secondary); position: relative; z-index: 1; }
+
+/* ===== COMPARISON TABLE ===== */
+.cmp-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 10pt;
+  background: var(--surface);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  break-inside: avoid;
+}
+.cmp-table thead th {
+  background: linear-gradient(135deg, #0F0F10 0%, #1F1F22 100%);
+  color: #fff;
+  font-weight: 800;
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 9pt;
+  letter-spacing: -0.01em;
+  border-bottom: 3px solid var(--brand-primary);
+}
+.cmp-table tbody td {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: top;
+}
+.cmp-table tbody tr:last-child td { border-bottom: none; }
+.cmp-table tbody tr:nth-child(even) td { background: var(--surface-hover); }
+
+/* ===== CODE BLOCK =====
+ * 두 진입점: (1) markdown fenced ```...``` → <pre><code>  (2) 직접 작성한 .codeblock 박스.
+ *
+ * 디자인 — 상단 액센트 stripe + 미세한 blue ring border + 우상단 언어 라벨 + 내부 highlight.
+ * break-inside: auto + orphans/widows 로 긴 코드는 페이지 분할 허용 (1\~2줄짜리 추한 분할은 방지). */
+pre {
+  margin: 14px 0;
+  padding: 36px 22px 18px;  /* 상단 padding 36px = 26px 바 + 10px 여백 */
+  background: linear-gradient(170deg, #0A0C12 0%, #131722 100%);
+  color: #E8EAED;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', 'D2 Coding', monospace;
+  font-size: 9.5pt;
+  line-height: 1.65;
+  overflow-x: auto;
+  overflow-y: visible;
+  position: relative;
+  border: 1px solid rgba(37, 99, 235, 0.22);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.20),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  break-inside: auto;
+  orphans: 3;
+  widows: 3;
+  white-space: pre;
+  -webkit-overflow-scrolling: touch;
+}
+/* 상단 IDE 스타일 바 — 좌측 traffic-light 닷 3개 + 본문보다 살짝 밝은 배경, 통짜 검은 박스 인상 완화. */
+pre::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 26px;
+  background:
+    radial-gradient(circle at 14px 13px, #FF5F57 3.5px, transparent 4px),
+    radial-gradient(circle at 30px 13px, #FEBC2E 3.5px, transparent 4px),
+    radial-gradient(circle at 46px 13px, #28C840 3.5px, transparent 4px),
+    linear-gradient(180deg, #1C2030 0%, #161A26 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+/* 우상단 언어 라벨 — 상단 바 안에 사뿐히 — :has() 로 자식 code 의 language-* 클래스 매핑 */
+pre::after {
+  content: "</>";
+  position: absolute;
+  right: 14px; top: 7px;
+  font-size: 7.5pt;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.32);
+  font-family: 'JetBrains Mono', 'D2 Coding', monospace;
+}
+pre:has(code.language-python)::after     { content: "PYTHON"; color: rgba(96, 165, 250, 0.55); }
+pre:has(code.language-bash)::after       { content: "BASH";   color: rgba(167, 167, 175, 0.55); }
+pre:has(code.language-shell)::after      { content: "SHELL";  color: rgba(167, 167, 175, 0.55); }
+pre:has(code.language-text)::after       { content: "·";      color: rgba(167, 167, 175, 0.30); }
+pre:has(code.language-yaml)::after       { content: "YAML";   color: rgba(167, 167, 175, 0.55); }
+pre:has(code.language-json)::after       { content: "JSON";   color: rgba(167, 167, 175, 0.55); }
+pre:has(code.language-typescript)::after { content: "TS";     color: rgba(96, 165, 250, 0.55); }
+pre:has(code.language-javascript)::after { content: "JS";     color: rgba(251, 191, 36, 0.55); }
+pre:has(code.language-css)::after        { content: "CSS";    color: rgba(96, 165, 250, 0.55); }
+pre:has(code.language-html)::after       { content: "HTML";   color: rgba(251, 113, 133, 0.55); }
+pre:has(code.language-markdown)::after   { content: "MD";     color: rgba(167, 167, 175, 0.55); }
+/* <pre> 내부 <code> 는 인라인 code 룰(line 533) 의 background/padding 을 모두 unset */
+pre code {
+  background: transparent !important;
+  color: inherit !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  font-family: inherit !important;
+  display: block;
+  white-space: inherit;
+  min-width: max-content;
+}
+
+pre .c, pre .ch, pre .cm, pre .cp, pre .cpf, pre .c1, pre .cs {
+  color: #8B949E;
+  font-style: italic;
+}
+pre .k, pre .kc, pre .kd, pre .kn, pre .kp, pre .kr, pre .kt {
+  color: #FF7B72;
+  font-weight: 700;
+}
+pre .s, pre .sa, pre .sb, pre .sc, pre .dl, pre .sd, pre .s2, pre .se, pre .sh, pre .si, pre .sx, pre .sr, pre .s1, pre .ss {
+  color: #A5D6FF;
+}
+pre .m, pre .mb, pre .mf, pre .mh, pre .mi, pre .mo, pre .il {
+  color: #79C0FF;
+}
+pre .na, pre .nc, pre .nd, pre .ne, pre .nf, pre .fm {
+  color: #D2A8FF;
+}
+pre .nt, pre .nl, pre .nv, pre .vc, pre .vg, pre .vi, pre .vm {
+  color: #7EE787;
+}
+pre .nb, pre .bp {
+  color: #FFA657;
+}
+pre .o, pre .ow, pre .p {
+  color: #C9D1D9;
+}
+pre .err {
+  color: #FFDCD7;
+  background: rgba(248, 81, 73, 0.18);
+}
+.codeblock {
+  margin: 8px 0;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #0B0D13 0%, #15181F 100%);
+  color: #E6E7EA;
+  border-radius: 10px;
+  font-family: 'JetBrains Mono', 'D2 Coding', monospace;
+  font-size: 9.5pt;
+  line-height: 1.65;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.14);
+  border: 1px solid rgba(255,255,255,0.06);
+  break-inside: avoid;
+  white-space: pre-wrap;
+}
+.codeblock::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: linear-gradient(180deg, var(--brand-primary) 0%, var(--brand-deep) 100%);
+}
+.codeblock .c-cmt { color: #8B949E; }
+.codeblock .c-kw { color: #FF7B9C; font-weight: 500; }
+.codeblock .c-str { color: #A5D6FF; }
+.codeblock .c-fn { color: #FFD580; }
+.codeblock .c-var { color: #D2A8FF; }
+.codeblock code { background: transparent; color: inherit; padding: 0; font-size: inherit; }
+
+/* ===== FLOW (단계 흐름) ===== */
+.flow {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  break-inside: avoid;
+}
+.flow--vertical { flex-direction: column; }
+.flow--vertical .flow__arrow { transform: rotate(90deg); }
+.flow__step {
+  flex: 1;
+  padding: 14px 14px 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+  position: relative;
+  display: flex; flex-direction: column;
+  break-inside: avoid;
+}
+.flow__step::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: linear-gradient(90deg, var(--brand-primary) 0%, var(--brand-deep) 100%);
+  border-radius: 10px 10px 0 0;
+}
+.flow__num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-deep) 100%);
+  color: #fff;
+  font-size: 12pt; font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 4px 10px rgba(15,44,89,0.25);
+}
+.flow__title { font-size: 11pt; font-weight: 900; color: var(--text); margin-bottom: 3px; letter-spacing: -0.01em; }
+.flow__desc { font-size: 9.5pt; color: var(--text-secondary); line-height: 1.5; }
+.flow__arrow {
+  flex: 0 0 22px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--brand-primary);
+}
+.flow__arrow svg { width: 20px; height: 20px; }
+
+/* ===== STACK (계층 아키텍처) ===== */
+.stack {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  break-inside: avoid;
+}
+.stack__top {
+  padding: 14px 24px;
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-deep) 100%);
+  color: #fff;
+  position: relative;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.stack__top::after {
+  content: ""; position: absolute; left: 50%; bottom: -8px;
+  transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 9px solid transparent; border-right: 9px solid transparent;
+  border-top: 8px solid var(--brand-deep);
+  z-index: 3;
+}
+.stack__top strong { display: block; font-size: 13pt; font-weight: 900; color: #fff; letter-spacing: -0.02em; margin-bottom: 2px; }
+.stack__top span { display: block; font-size: 9.5pt; color: rgba(255,255,255,0.86); }
+.stack__row { display: grid; grid-template-columns: 1fr 1fr; background: var(--surface); }
+.stack__cell { padding: 16px 24px; border-top: 1px solid var(--border); }
+.stack__cell + .stack__cell { border-left: 1px solid var(--border); }
+.stack__cell strong { display: block; font-size: 11.5pt; font-weight: 900; color: var(--text); margin-bottom: 3px; }
+.stack__cell span { display: block; font-size: 9.5pt; color: var(--text-secondary); line-height: 1.5; }
+
+/* ===== MATRIX (2축 포지셔닝) ===== */
+.matrix {
+  position: relative;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  grid-template-rows: 1fr 40px;
+  width: 100%;
+  max-width: 480px;
+  min-height: 280px;
+  margin: 0 auto;
+  break-inside: avoid;
+}
+.matrix__axis-y {
+  position: relative;
+  padding: 4px 14px 4px 0;
+  display: flex; flex-direction: column;
+  align-items: flex-end; justify-content: space-between;
+  text-align: right;
+}
+.matrix__axis-y strong { font-size: 9pt; color: var(--brand-primary); font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; }
+.matrix__axis-y span { font-size: 8.5pt; color: var(--text-secondary); font-weight: 600; }
+.matrix__plot {
+  position: relative;
+  grid-column: 2; grid-row: 1;
+  background:
+    linear-gradient(to right, transparent calc(50% - 0.5px), var(--border) calc(50% - 0.5px), var(--border) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    linear-gradient(to bottom, transparent calc(50% - 0.5px), var(--border) calc(50% - 0.5px), var(--border) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    repeating-linear-gradient(to right, transparent 0, transparent calc(25% - 0.5px), var(--grid-line) calc(25% - 0.5px), var(--grid-line) calc(25% + 0.5px), transparent calc(25% + 0.5px)),
+    repeating-linear-gradient(to bottom, transparent 0, transparent calc(25% - 0.5px), var(--grid-line) calc(25% - 0.5px), var(--grid-line) calc(25% + 0.5px), transparent calc(25% + 0.5px));
+  border-left: 2px solid var(--text);
+  border-bottom: 2px solid var(--text);
+  border-radius: 0 8px 0 0;
+}
+.matrix__plot::before { content: ""; position: absolute; left: -7px; top: -11px; border: 5px solid transparent; border-bottom: 7px solid var(--brand-primary); z-index: 3; }
+.matrix__plot::after { content: ""; position: absolute; right: -11px; bottom: -7px; border: 5px solid transparent; border-left: 7px solid var(--brand-primary); z-index: 3; }
+.matrix__item {
+  position: absolute;
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex; flex-direction: column; gap: 1px;
+  min-width: 100px;
+}
+.matrix__item::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, var(--brand-primary) 0%, var(--brand-deep) 100%); border-radius: 8px 0 0 8px; }
+.matrix__item::after { content: ""; position: absolute; left: -7px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; background: var(--brand-primary); border: 2px solid var(--surface); border-radius: 50%; box-shadow: 0 0 0 2px var(--brand-primary), 0 3px 8px rgba(37,99,235,0.28); }
+.matrix__item strong { font-size: 10pt; font-weight: 900; color: var(--text); letter-spacing: -0.01em; }
+.matrix__item small { font-size: 8.5pt; color: var(--text-secondary); font-weight: 500; }
+.matrix__axis-x {
+  grid-column: 2; grid-row: 2;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 8px 4px 0 4px; position: relative;
+}
+.matrix__axis-x span { font-size: 8.5pt; color: var(--text-secondary); font-weight: 600; }
+.matrix__axis-x strong {
+  position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%);
+  font-size: 9pt; color: var(--brand-primary); font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase;
+}
+
+/* ===== HUB ===== */
+.hub {
+  display: flex; flex-direction: column;
+  align-items: stretch; width: 100%;
+  break-inside: avoid;
+}
+.hub__row {
+  display: flex; justify-content: space-between; position: relative; gap: 12px;
+}
+.hub__row--top { margin-bottom: 36px; }
+.hub__row--bottom { margin-top: 36px; }
+.hub__row::before {
+  content: ""; position: absolute; left: 6%; right: 6%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--brand-deep), var(--brand-primary), var(--brand-deep));
+  opacity: 0.5;
+}
+.hub__row--top::before { bottom: -20px; }
+.hub__row--bottom::before { top: -20px; }
+.hub__node {
+  flex: 1; max-width: 140px;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 10pt; font-weight: 800;
+  color: var(--text);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+  position: relative;
+}
+.hub__row--top .hub__node::after {
+  content: ""; position: absolute; left: 50%; top: 100%;
+  width: 2px; height: 20px; background: var(--brand-primary); opacity: 0.5;
+}
+.hub__row--bottom .hub__node::before {
+  content: ""; position: absolute; left: 50%; bottom: 100%;
+  width: 2px; height: 20px; background: var(--brand-primary); opacity: 0.5;
+}
+.hub__center {
+  align-self: center;
+  padding: 18px 40px 16px 40px;
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-deep) 100%);
+  color: #fff;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 14px 36px rgba(37,99,235,0.24), 0 0 0 1px rgba(255,255,255,0.08) inset;
+  position: relative; z-index: 3;
+}
+.hub__center strong { display: block; font-size: 18pt; font-weight: 900; letter-spacing: -0.02em; line-height: 1; }
+.hub__center small { display: block; margin-top: 5px; font-size: 9pt; font-weight: 800; letter-spacing: 0.2em; color: rgba(255,255,255,0.85); text-transform: uppercase; }
+
+/* ===== BARS (Chart.js 래퍼) ===== */
+.bars-wrap {
+  display: flex; flex-direction: column; width: 100%;
+  break-inside: avoid;
+}
+.bars-wrap__header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px; }
+.bars-wrap__title { font-size: 10pt; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.1em; text-transform: uppercase; }
+.chart-container {
+  width: 100%; height: 240px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+
+/* ===== TIMELINE ===== */
+.timeline {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  break-inside: avoid;
+}
+.timeline::before {
+  content: ""; position: absolute;
+  left: 2%; right: 2%; top: 10px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--brand-deep) 0%, var(--brand-primary) 50%, var(--brand-deep) 100%);
+  border-radius: 2px;
+  z-index: 0;
+}
+.timeline__event {
+  flex: 1; min-width: 0;
+  margin-top: 26px;
+  padding: 32px 12px 14px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+  position: relative;
+  text-align: center;
+  break-inside: avoid;
+}
+.timeline__event::before {
+  content: ""; position: absolute; left: 50%; top: -16px;
+  transform: translateX(-50%);
+  width: 20px; height: 20px;
+  background: var(--bg);
+  border: 4px solid var(--brand-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--brand-soft), 0 4px 12px rgba(37,99,235,0.18);
+  z-index: 2;
+}
+.timeline__date { display: block; font-size: 9pt; font-weight: 900; color: var(--brand-primary); letter-spacing: 0.12em; font-variant-numeric: tabular-nums; }
+.timeline__title { display: block; margin-top: 4px; font-size: 11pt; font-weight: 900; color: var(--text); line-height: 1.25; letter-spacing: -0.01em; }
+.timeline__body { display: block; margin-top: 4px; font-size: 9pt; color: var(--text-secondary); line-height: 1.5; }
+
+/* ===== FEATURE CARDS (A4 기본 2열) ===== */
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  align-items: stretch;
+}
+.feature-cards--wide { grid-template-columns: 1fr; }
+.feature-cards--three { grid-template-columns: repeat(3, 1fr); }
+.feature-card {
+  padding: 18px 18px 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex; flex-direction: column;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+  position: relative;
+  overflow: hidden;
+  min-height: 140px;
+  break-inside: avoid;
+}
+.feature-card::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: linear-gradient(90deg, var(--brand-primary) 0%, var(--brand-deep) 100%);
+  border-radius: 12px 12px 0 0;
+}
+.feature-card__icon {
+  width: 40px; height: 40px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-deep) 100%);
+  color: #fff;
+  margin-bottom: 12px;
+  box-shadow: 0 6px 14px rgba(15,44,89,0.24);
+}
+.feature-card__icon svg { width: 20px; height: 20px; }
+.feature-card__tag {
+  display: inline-block; align-self: flex-start;
+  padding: 3px 10px;
+  margin-bottom: 6px;
+  font-size: 8pt; font-weight: 900; letter-spacing: 0.18em;
+  color: var(--brand-primary); background: transparent;
+  border: 1px solid var(--brand-primary); border-radius: 999px;
+  text-transform: uppercase;
+}
+.feature-card__title { font-size: 12.5pt; font-weight: 900; color: var(--text); margin-bottom: 6px; letter-spacing: -0.015em; line-height: 1.22; }
+.feature-card__body { font-size: 10pt; color: var(--text-secondary); line-height: 1.55; flex: 1; }
+
+/* ===== STATS BIG NUMBERS (A4 기본 2열) ===== */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 2), 1fr);
+  gap: 14px;
+}
+.stat {
+  position: relative;
+  padding: 18px 18px 16px 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  overflow: hidden;
+  min-height: 140px;
+  display: flex; flex-direction: column; justify-content: center;
+  break-inside: avoid;
+}
+.stat::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--brand-primary) 0%, var(--brand-deep) 100%); }
+.stat::after { content: ""; position: absolute; right: -40px; top: -40px; width: 140px; height: 140px; background: radial-gradient(circle, var(--brand-soft) 0%, transparent 70%); pointer-events: none; }
+.stat__value {
+  display: block; font-size: clamp(28pt, 7cqi, 44pt);
+  font-weight: 900; line-height: 0.95;
+  color: var(--brand-primary); letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 10px; position: relative; z-index: 1;
+}
+.stat__label { display: block; font-size: 9pt; font-weight: 900; color: var(--text); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 4px; position: relative; z-index: 1; }
+.stat__sub { display: block; font-size: 9pt; font-weight: 500; color: var(--text-secondary); line-height: 1.5; position: relative; z-index: 1; }
+
+/* ===== CHECKLIST ===== */
+.checklist { display: flex; flex-direction: column; gap: 6px; break-inside: avoid; }
+.checklist__item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 10.5pt;
+  break-inside: avoid;
+}
+.checklist__check {
+  flex: 0 0 auto;
+  width: 18px; height: 18px;
+  border-radius: 5px;
+  border: 2px solid var(--brand-primary);
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-top: 1px;
+}
+.checklist__check svg { width: 12px; height: 12px; color: var(--brand-primary); }
+
+/* ===== TWO-COLUMN ===== */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+.two-col__heading { font-size: 11pt; font-weight: 900; color: var(--brand-primary); margin-bottom: 6px; letter-spacing: -0.01em; }
+
+/* ===== INTERACTIVE CONTROLS (브라우저 전용, 인쇄 시 숨김) ===== */
+.report-controls {
+  position: fixed;
+  bottom: 20px; right: 20px;
+  display: flex; gap: 8px;
+  z-index: 60;
+}
+.report-controls button {
+  width: 42px; height: 42px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  transition: background 0.15s, color 0.15s;
+  font-size: 16px;
+}
+.report-controls button:hover { background: var(--surface-hover); color: var(--brand-primary); }
+
+.report-nav-toggle,
+.report-settings button,
+.report-settings a,
+.report-toc-drawer__head button {
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  color: var(--text);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+.report-nav-toggle,
+.report-settings-toggle {
+  position: fixed;
+  top: 22px;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  z-index: 90;
+  font: 800 18px/1 'Inter', 'Noto Sans KR', sans-serif;
+}
+.report-nav-toggle { left: 22px; }
+.report-settings {
+  position: fixed;
+  top: 22px;
+  right: 22px;
+  z-index: 90;
+  display: block;
+}
+.report-settings-toggle {
+  position: static;
+}
+/* 스크롤 방향 기반 자동 숨김 (Medium 스타일) — 아래로 스크롤 시 body.chrome-hidden 으로
+   좌상단 TOC 토글·우상단 설정 토글을 숨기고, 위로 스크롤·최상단·좌우 가장자리 hover·
+   터치·키 입력 시 report.js 가 복귀시킨다. 인쇄 시 컨트롤 숨김은 아래 @media print 블록이 담당. */
+body.chrome-hidden .report-nav-toggle,
+body.chrome-hidden .report-settings {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.report-nav-toggle,
+.report-settings {
+  transition: opacity 0.2s ease, background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+.report-settings-panel {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 248px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  color: var(--text);
+  box-shadow: 0 18px 54px rgba(0,0,0,0.18);
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px) scale(0.98);
+  transform-origin: top right;
+  transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s ease;
+}
+.report-settings-panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+.report-settings-panel__group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
+}
+.report-settings-panel__group:first-child { padding-top: 0; }
+.report-settings-panel__group:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.report-settings-panel__label {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.report-quick-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.report-settings-panel #themeToggle,
+.report-settings-action,
+.report-settings a {
+  position: static;
+  width: auto;
+  height: 34px;
+  min-width: 34px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font: 800 12px/1 'Inter', 'Noto Sans KR', sans-serif;
+  text-decoration: none;
+  box-shadow: none;
+}
+.report-settings-panel #themeToggle {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  padding: 0;
+  font-size: 16px;
+}
+.report-quick-links a {
+  height: 32px;
+  min-width: 0;
+  font-size: 11px;
+  letter-spacing: 0;
+}
+.report-settings-action {
+  height: 34px;
+}
+.report-settings-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+.report-nav-toggle:hover,
+.report-settings button:hover,
+.report-settings a:hover,
+.report-toc-drawer__head button:hover {
+  background: var(--surface-hover);
+  color: var(--brand-primary);
+  transform: translateY(-1px);
+}
+.report-toc-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(10,10,10,0.28);
+  backdrop-filter: blur(2px);
+}
+.report-toc-backdrop[hidden] { display: none; }
+.report-toc-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(360px, calc(100vw - 44px));
+  z-index: 100;
+  background: var(--surface);
+  color: var(--text);
+  border-right: 1px solid var(--border);
+  box-shadow: 20px 0 48px rgba(0,0,0,0.18);
+  transform: translateX(-102%);
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  flex-direction: column;
+}
+.report-toc-drawer.is-open { transform: translateX(0); }
+.report-toc-drawer__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 22px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--brand-primary);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.report-toc-drawer__head button {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  box-shadow: none;
+  font-size: 20px;
+  line-height: 1;
+}
+.report-toc-drawer__list {
+  list-style: none;
+  overflow-y: auto;
+  padding: 12px 16px 28px;
+}
+.report-toc-drawer__item a {
+  display: block;
+  padding: 9px 8px;
+  border-radius: 6px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.report-toc-drawer__item--h2 a {
+  padding-left: 22px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+}
+.report-toc-drawer__item a:hover {
+  background: var(--surface-hover);
+  color: var(--brand-primary);
+}
+
+/* ===== ENTRANCE ANIMATIONS (IntersectionObserver 트리거) ===== */
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+.animate-in { opacity: 0; }
+.animate-in.is-visible { animation: fadeInUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.animate-in.is-visible.delay-1 { animation-delay: 0.1s; }
+.animate-in.is-visible.delay-2 { animation-delay: 0.2s; }
+.animate-in.is-visible.delay-3 { animation-delay: 0.3s; }
+.animate-in.is-visible.delay-4 { animation-delay: 0.4s; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-in { opacity: 1 !important; animation: none !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ===== PRINT (A4 PDF 렌더 최적화) ===== */
+@media print {
+  html, body { background: #FFFFFF !important; }
+  body { padding: 0 !important; margin: 0 !important; }
+  .report {
+    max-width: none;
+    margin: 0;
+    padding: 0;             /* @page margin이 담당 */
+    box-shadow: none;
+    background: #FFFFFF;
+    container-type: inline-size;
+  }
+  .report-cover {
+    margin: 0;
+    padding: 56mm 28mm 32mm 32mm;
+    min-height: 297mm;
+    /* @page :first 가 margin 0 으로 풀블리드 허용 */
+  }
+  .section-divider {
+    margin: 0;
+    width: 100%;          /* @media print 의 body/.report 가 padding 0 + max-width:none 이라 100% = 페이지 폭 */
+    /* 세로 풀-블리드 — Chrome 인쇄 엔진은 height:297mm 만으론 페이지 끝까지 안 채우므로
+     * vh + min-height 이중 강제 (vh 는 print 시 page height 매핑). */
+    height: 100vh;
+    min-height: 100vh;
+    padding: 38mm 28mm;
+    border-radius: 0;
+    box-sizing: border-box;
+  }
+  .report-controls,
+  .report-nav-toggle,
+  .report-settings,
+  .report-toc-backdrop,
+  .report-toc-drawer { display: none !important; }
+  .animate-in { opacity: 1 !important; animation: none !important; transform: none !important; }
+  a { color: var(--brand-primary) !important; border-bottom: none !important; }
+  * { print-color-adjust: exact !important; -webkit-print-color-adjust: exact !important; }
+  /* 컴포넌트 분할 방지 기본 */
+  .kpi, .stat, .feature-card, .flow__step, .timeline__event, .callout, .pull-quote,
+  .codeblock, .cmp-table, .stack, .hub, .matrix, .bars-wrap {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  /* 섹션 시작 제목이 마지막 줄에 고립되지 않도록 */
+  h1, h2, h3 { break-after: avoid; page-break-after: avoid; }
+
+  /* PDF 합성 레이어 아티팩트 방지: box-shadow + overflow:hidden + 의사요소 gradient
+   * 조합이 Chrome printToPDF 에서 카드 뒤에 회색 사각형을 남기는 현상을 차단한다. */
+  .kpi { box-shadow: none !important; overflow: visible !important; }
+  .kpi::after { display: none !important; }
+  .feature-card, .callout, .callout--hero, .callout--insight,
+  .prompt-card, .section-summary, .hero-kpi .kpi {
+    box-shadow: none !important;
+  }
+  /* 동그란 번호 배지 뒤에 분홍 사각형이 찍히는 현상도 box-shadow 가 원인 */
+  ol.nums li::before,
+  .num-flow__step::before { box-shadow: none !important; }
+  /* 코드 블록도 동일 조합(box-shadow + overflow:hidden + ::before gradient bar)으로
+   * PDF 에서 카드 뒤에 색번짐/음영이 남는다. 그림자만 제거하면 충분. */
+  pre, .codeblock { box-shadow: none !important; }
+}
+
+/* =========================================================================
+ * v2.1 — REPORT COMPONENTS
+ * build_structured.py 에서 주입하던 의미 블록 · 다이어그램 · prompt 카드를
+ * 첫 번째 시민 컴포넌트로 올린 섹션. HTML 을 직접 작성하는 경우에도 이 파일만
+ * 참조하면 동일한 브랜드 룩을 얻을 수 있다.
+ * ========================================================================= */
+
+/* ===== Callout 변형 (hero · insight) ===== */
+.callout--hero {
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-deep) 100%);
+  color: #fff;
+  border-left: none;
+  padding: 14px 20px;
+  border-radius: 6px;
+  margin: 14px 0 18px;
+  box-shadow: 0 2px 10px rgba(15,44,89,0.18);
+  break-inside: avoid;
+}
+.callout--hero .callout__kicker {
+  display: block;
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  font-size: 8.5pt; font-weight: 800;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  opacity: 0.86; margin-bottom: 5px;
+}
+.callout--hero .callout__body {
+  display: block; font-size: 11pt; line-height: 1.6;
+  font-weight: 500; color: #fff;
+}
+.callout--hero .callout__body strong { color: #fff; font-weight: 800; }
+.callout--hero .callout__body code {
+  background: rgba(255,255,255,0.16); color: #fff;
+  padding: 1px 5px; border-radius: 3px;
+}
+.callout--insight {
+  background: rgba(217, 119, 6, 0.07);
+  border-left: 3px solid #D97706;
+  padding: 11px 14px 11px 16px;
+  margin: 14px 0;
+  border-radius: 0 4px 4px 0;
+  break-inside: avoid;
+}
+.callout--insight .callout__kicker {
+  display: block;
+  font-size: 8.5pt; font-weight: 800;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #A05A06; margin-bottom: 6px;
+}
+.callout--insight .callout__body { font-size: 10pt; line-height: 1.6; }
+.callout--insight .callout__body p { margin: 0 0 6px; }
+.callout--insight .callout__body p:last-child { margin-bottom: 0; }
+.callout--insight .callout__body ul,
+.callout--insight .callout__body ol { margin: 0; padding-left: 18px; }
+.callout--insight .callout__body li { font-size: 10pt; line-height: 1.6; }
+
+/* ===== Section Summary — 섹션 진입부 핵심 요약 블릿 박스 =====
+ * 각 섹션 서두에 배치하는 bullet 요약. hero(강조) 보다 가볍고
+ * insight(인사이트) 와 구분되는 중립적 정보 카드 스타일.
+ * 패턴: build_structured.py 가 "**섹션 요약**" + ul 을 이 컨테이너로 승격한다. */
+.section-summary {
+  background: linear-gradient(135deg, rgba(15,44,89,0.045) 0%, rgba(15,44,89,0.012) 100%);
+  border: 1px solid rgba(15,44,89,0.18);
+  border-left: 4px solid var(--brand-primary);
+  padding: 12px 18px 12px 18px;
+  margin: 14px 0 20px;
+  border-radius: 0 6px 6px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.section-summary__kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  font-size: 8.5pt;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+  margin-bottom: 9px;
+  padding-bottom: 7px;
+  border-bottom: 1px dashed rgba(15,44,89,0.22);
+}
+.section-summary__kicker::before {
+  content: "";
+  display: inline-block;
+  width: 14px; height: 2px;
+  background: var(--brand-primary);
+  flex: 0 0 auto;
+}
+.section-summary__body { margin: 0; }
+.section-summary__body ul,
+.section-summary__body ol {
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+.section-summary__body li {
+  position: relative;
+  padding: 2px 0 2px 22px;
+  margin: 0 0 6px 0 !important;
+  font-size: 9.8pt;
+  line-height: 1.55;
+  color: var(--text);
+}
+.section-summary__body li::before {
+  content: "";
+  position: absolute;
+  left: 6px; top: 9px;
+  width: 7px; height: 7px;
+  background: var(--brand-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(15,44,89,0.10);
+}
+.section-summary__body li:last-child { margin-bottom: 0 !important; }
+.section-summary__body li strong {
+  color: var(--brand-deep);
+  font-weight: 800;
+}
+.section-summary__body li code {
+  background: rgba(15,44,89,0.07);
+  color: var(--brand-deep);
+  padding: 0 4px;
+  border-radius: 3px;
+  font-size: 9.2pt;
+}
+.section-summary__body li a {
+  color: var(--brand-deep);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--brand-primary);
+}
+/* 중첩 서브 블릿 — 회색 미니 도트 */
+.section-summary__body li ul,
+.section-summary__body li ol { margin-top: 4px !important; padding-left: 14px !important; }
+.section-summary__body li ul li,
+.section-summary__body li ol li {
+  padding-left: 14px;
+  font-size: 9.4pt;
+  color: var(--text-secondary);
+  margin-bottom: 3px !important;
+}
+.section-summary__body li ul li::before,
+.section-summary__body li ol li::before {
+  width: 4px; height: 4px;
+  left: 3px; top: 11px;
+  background: var(--text-secondary);
+  box-shadow: none;
+}
+
+/* ===== 슬라이드 h3 chip (강연 아티팩트 기반 리포트에서 사용) ===== */
+.slide-h3 {
+  display: flex; align-items: baseline; gap: 10px;
+  margin-top: 18pt !important;
+  padding-bottom: 4pt;
+  border-bottom: 1px solid var(--border);
+}
+.slide-chip {
+  display: inline-block; flex: 0 0 auto;
+  font-family: 'JetBrains Mono', 'Inter', monospace;
+  font-size: 8pt; font-weight: 800; letter-spacing: 0.1em;
+  color: var(--brand-primary); background: var(--brand-soft);
+  padding: 3px 8px; border-radius: 3px;
+  border: 1px solid rgba(15,44,89,0.15);
+}
+.slide-h3__text {
+  font-size: 13pt; font-weight: 800;
+  color: var(--text); letter-spacing: -0.02em;
+}
+
+/* ===== sub-h4: 섹션 내부 부제목 (배경·상세·결과 같은 의미 구분) ===== */
+.sub-h4 {
+  color: var(--brand-primary);
+  font-size: 10pt !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.02em;
+  margin: 11pt 0 3pt !important;
+  text-transform: none;
+}
+.sub-h4::before {
+  content: "";
+  display: inline-block;
+  width: 10px; height: 2px;
+  background: var(--brand-primary);
+  vertical-align: middle;
+  margin-right: 6px; margin-bottom: 2px;
+}
+
+/* ===== Reading-more 푸터 박스 ===== */
+aside.reading-more {
+  background: rgba(0,0,0,0.025);
+  border-left: 2px solid var(--text-secondary);
+  padding: 8px 14px;
+  margin: 14px 0 4px;
+  font-size: 9.5pt;
+  color: var(--text-secondary);
+  border-radius: 0 3px 3px 0;
+  break-inside: avoid;
+}
+.reading-more__kicker {
+  display: block;
+  font-size: 8pt; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  margin-bottom: 4px;
+  color: var(--text-secondary);
+}
+aside.reading-more ul,
+aside.reading-more ol { margin: 0; padding-left: 16px; list-style: disc; }
+aside.reading-more ul.bullets,
+aside.reading-more ol.nums { padding-left: 16px; }
+aside.reading-more li { font-size: 9.5pt; line-height: 1.55; color: var(--text-secondary); }
+aside.reading-more p { margin: 2px 0; font-size: 9.5pt; }
+
+/* ===== Hero KPI (cover 혹은 Executive Summary 상단용 3열) ===== */
+.hero-kpi { margin: 14px 0 20px; }
+.hero-kpi .kpi {
+  background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--brand-primary);
+  padding: 14px 14px 12px;
+  border-radius: 4px;
+}
+.hero-kpi .kpi__value {
+  font-size: 28pt; font-weight: 900;
+  color: var(--brand-primary); letter-spacing: -0.03em;
+  line-height: 1;
+}
+.hero-kpi .kpi__value-suf { font-size: 60%; font-weight: 800; margin-left: 2px; }
+.hero-kpi .kpi__label {
+  display: block;
+  font-size: 9.5pt; font-weight: 800;
+  color: var(--text); margin-top: 6px;
+  letter-spacing: -0.01em;
+}
+.hero-kpi .kpi__sub {
+  display: block;
+  font-size: 8.5pt; color: var(--text-secondary);
+  margin-top: 3px; line-height: 1.4;
+}
+
+/* ===== cmp-table 레드 헤더 스타일 (markdown 테이블 → cmp-table 자동 승격 시) =====
+ * v5.2 개선: 헤더 가독성, 컬럼 폭 배분, 패딩, 첫 컬럼 강조, 각주/코드 inline 안정화. */
+.report-section table.cmp-table {
+  font-size: 9.5pt;
+  table-layout: auto;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.025);
+}
+
+/* ===== Asset captions — 그림 / 표 / 코드 공통 번호 표기 ===== */
+.report-section .asset-caption,
+.report-appendix .asset-caption {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  margin: 12pt 0 6pt;
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  font-size: 9.5pt;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.4;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+.report-section .asset-caption__inner,
+.report-appendix .asset-caption__inner {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+}
+.report-section .asset-caption__chip,
+.report-appendix .asset-caption__chip {
+  display: inline-block;
+  font-size: 8pt;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-deep), var(--brand-primary));
+  padding: 2px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.report-section .asset-caption__title,
+.report-appendix .asset-caption__title {
+  font-size: 10pt;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.4;
+}
+.report-section .asset-caption--code + pre,
+.report-appendix .asset-caption--code + pre {
+  margin-top: 0;
+}
+
+/* ===== 표 캡션 (figure-style numbering) — v5.3 신설 · v5.4 수정 =====
+ * markdown 의 **표 N. 제목** 패턴이 build_structured.py 에서
+ * <caption class="cmp-table__caption"><div class="cmp-table__caption-inner">...
+ * 으로 변환되어 부착된다.
+ * ※ <caption> 자체에 display:flex 를 주면 Chrome 이 caption-side:top 을 무시하고
+ *   thead 아래로 렌더링하는 버그가 있어, flex 는 내부 div 로 이동시켰다. */
+.report-section table.cmp-table > caption.cmp-table__caption {
+  display: table-caption;
+  caption-side: top;
+  text-align: left;
+  padding: 0 0 6pt 0;
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+.report-section table.cmp-table > caption.asset-caption {
+  margin: 0;
+}
+.report-section table.cmp-table > caption.cmp-table__caption > .cmp-table__caption-inner {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+}
+.report-section .cmp-table__chip {
+  display: inline-block;
+  font-size: 8pt;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-deep), var(--brand-primary));
+  padding: 2px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+  text-transform: none;
+}
+.report-section .cmp-table__title {
+  font-size: 10pt;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.4;
+}
+.report-section .cmp-table__sub {
+  font-size: 9pt;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  flex: 1 1 100%;
+  margin-top: 2pt;
+}
+
+/* ===== 그림 번호 칩 — v5.3 신설 =====
+ * svg-figure / arch-diagram / ota-loop / decay-bars / num-flow 등
+ * 시각 컴포넌트 제목 영역의 [그림 N] 칩에 사용. */
+.fig-chip {
+  display: inline-block;
+  font-size: 7.5pt;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-deep), var(--brand-primary));
+  padding: 1px 7px;
+  border-radius: 3px;
+  margin-right: 8px;
+  vertical-align: 1px;
+  white-space: nowrap;
+}
+/* svg-figure__title 안의 그림 칩이 ::before 사각형보다 먼저 오도록 정렬 */
+.svg-figure__title { gap: 6px; flex-wrap: wrap; }
+.svg-figure__title .fig-chip { margin-right: 0; }
+/* arch-diagram__title 에 fig-chip 추가 시 좌측 정렬 보정 */
+.arch-diagram__title { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+.arch-diagram__title .fig-chip { margin-right: 0; }
+/* ota-loop 의 figcaption 칩 정렬 */
+.ota-loop__caption .fig-chip { margin-right: 6px; vertical-align: 0; }
+/* v5.5: 붉은 사각 마커(::before) 제거 — chip 과 중복이라 단정화
+ *   표 캡션(.cmp-table__caption)과 일관성을 위해 chip 만 유지 */
+/* decay-bars 와 num-flow 는 자체 제목이 없어 위쪽에 별도 caption 블록 사용 */
+.fig-caption {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  margin: 8pt 0 4pt;
+  font-size: 9.5pt;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.4;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+.fig-caption .fig-chip { margin-right: 0; vertical-align: 0; }
+.fig-caption__sub {
+  flex: 1 1 100%;
+  font-weight: 400;
+  font-size: 9pt;
+  color: var(--text-secondary);
+  margin-top: 2pt;
+}
+.report-figure {
+  margin: 14pt 0 18pt;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.report-figure > .asset-caption {
+  margin-top: 0;
+}
+.report-figure > img,
+.report-figure > svg {
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  margin: 6pt auto;
+}
+.report-figure > .asset-note {
+  display: block;
+  margin: 6pt auto 0;
+  max-width: 92%;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 9pt;
+  line-height: 1.45;
+  font-style: italic;
+}
+.report-section table.cmp-table thead th {
+  background: linear-gradient(180deg, var(--brand-primary) 0%, var(--brand-deep) 100%);
+  color: #fff;
+  font-weight: 800;
+  padding: 9px 12px;
+  letter-spacing: -0.005em;
+  text-align: left;
+  vertical-align: middle;
+  line-height: 1.35;
+  border-bottom: 2px solid var(--brand-deep);
+  font-size: 9.3pt;
+  white-space: normal;        /* 긴 헤더는 wrap 허용 */
+  word-break: keep-all;       /* CJK 어절 단위 유지 */
+  overflow-wrap: break-word;
+}
+.report-section table.cmp-table thead th:not(:last-child) {
+  border-right: 1px solid rgba(255,255,255,0.15);
+}
+.report-section table.cmp-table tbody td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.55;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+.report-section table.cmp-table tbody tr:last-child td { border-bottom: none; }
+.report-section table.cmp-table tbody tr:nth-child(even) td {
+  background: rgba(15,44,89,0.018);
+}
+.report-section table.cmp-table tbody tr:hover td {
+  background: rgba(15,44,89,0.045);
+}
+/* 첫 컬럼 — 범주/레이블 컬럼은 미묘한 구분 + 레드 계열 강조 */
+.report-section table.cmp-table tbody td:first-child {
+  font-weight: 700;
+  color: var(--brand-deep);
+  border-right: 1px solid var(--border);
+  background: rgba(15,44,89,0.025);
+}
+.report-section table.cmp-table tbody tr:nth-child(even) td:first-child {
+  background: rgba(15,44,89,0.045);
+}
+.report-section table.cmp-table td strong { color: var(--brand-primary); font-weight: 700; }
+/* 테이블 내 인라인 코드 — 줄바꿈 가능, compact
+ * overflow-wrap: anywhere 는 '넘칠 때만' 중간 break 를 허용 — word-break: break-all
+ * 처럼 단어를 항상 쪼개지 않아 긴 모델명(computer_20251124 등) 가독성 유지. */
+.report-section table.cmp-table td code,
+.report-section table.cmp-table th code {
+  background: rgba(0,0,0,0.05);
+  padding: 0 4px; border-radius: 2px;
+  font-size: 8.8pt;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+.report-section table.cmp-table thead th code {
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+}
+/* 각주 superscript 는 줄바꿈 방지 — 숫자+대괄호가 중간에 깨지지 않게 */
+.report-section table.cmp-table sup.ref-cite { white-space: nowrap; }
+/* 링크는 brand red, 긴 URL 은 마지막 순간에만 break */
+.report-section table.cmp-table a {
+  color: var(--brand-deep);
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+/* ===== 본문 밀도 보정 — 코드 인라인 ===== */
+.report-section p { margin-bottom: 8pt; line-height: 1.65; }
+.report-section li p { margin-bottom: 4pt; }
+.report-section .prompt-card,
+.report-section .arch-diagram,
+.report-section .decay-bars,
+.report-section .scope-stack,
+.report-section .scatter-map,
+.report-section .callout,
+.report-section .kpi-grid,
+.report-section table.cmp-table { margin: 10px 0 14px; }
+.report-section p code,
+.report-section li code {
+  background: var(--brand-soft);
+  color: var(--brand-deep);
+  padding: 1px 4px; border-radius: 3px;
+  font-size: 9pt;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ===== Prompt Card (Handoff Note · Failure Fallback · Example Attack) ===== */
+.prompt-card {
+  background: #0F1115;
+  color: #E5E7EB;
+  border-radius: 7px;
+  margin: 12pt 0;
+  overflow: hidden;
+  break-inside: avoid;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.prompt-card__head {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-deep) 100%);
+  color: #fff;
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  font-size: 8.5pt; font-weight: 800;
+  letter-spacing: 0.14em; text-transform: uppercase;
+}
+.prompt-card__head .prompt-card__tag {
+  background: rgba(255,255,255,0.18);
+  padding: 2px 7px; border-radius: 3px;
+  font-size: 7.5pt; letter-spacing: 0.1em;
+}
+.prompt-card__head .prompt-card__title { letter-spacing: 0.04em; }
+.prompt-card__body {
+  padding: 12px 16px;
+  font-family: 'JetBrains Mono', 'Noto Sans KR', monospace;
+  font-size: 9pt; line-height: 1.65;
+  color: #F3F4F6;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+.prompt-card__body,
+.prompt-card__body * { color: #F3F4F6; }
+.prompt-card__body .tok { color: #F9A8D4 !important; font-weight: 700; }
+.prompt-card__body .key { color: #93C5FD !important; font-weight: 700; }
+.prompt-card__body .cmt { color: #D1D5DB !important; font-style: normal; }
+.prompt-card--danger .prompt-card__head {
+  background: linear-gradient(135deg, #B91C1C 0%, #7F1D1D 100%);
+}
+.prompt-card--danger .prompt-card__body code,
+.prompt-card--danger .prompt-card__body { color: #FCA5A5; }
+
+/* ===== SVG 컨테이너 (OTA Loop 등 인라인 SVG figure) ===== */
+.ota-loop { display: block; margin: 14pt 0; max-width: 520px; break-inside: avoid; }
+.ota-loop svg { width: 100%; height: auto; }
+.ota-loop__caption {
+  display: flex; align-items: baseline; flex-wrap: wrap;
+  gap: 6px 8px;
+  font-size: 9.5pt; font-weight: 800;
+  color: var(--text);
+  line-height: 1.4;
+  margin: 0 0 6pt;
+  break-after: avoid; page-break-after: avoid;
+}
+
+/* ===== 범용 SVG figure — v2.3 신설 인라인 다이어그램 공용 ===== */
+.svg-figure {
+  display: block;
+  margin: 10pt 0;
+  max-width: 560px;
+  break-inside: avoid;
+  padding: 4px 2px 6px;
+}
+.svg-figure--wide { max-width: 720px; }
+.svg-figure--inline {
+  margin: 6pt 0;
+  padding: 2px 0 4px;
+}
+.svg-figure svg { width: 100%; height: auto; display: block; }
+.svg-figure__title {
+  font-size: 9pt; font-weight: 800;
+  color: var(--text);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 6pt;
+}
+.svg-figure__caption {
+  display: block; text-align: center;
+  font-size: 9pt; color: var(--text-secondary);
+  margin-top: 4pt; font-style: italic;
+  line-height: 1.45;
+}
+
+/* ===== Decay Bars (다단계 감쇠 시각화, 예: VPI 방어 계단) ===== */
+.decay-bars {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px; margin: 12pt 0;
+  break-inside: avoid;
+}
+.decay-bars__cell {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 10px 12px;
+  text-align: center;
+  position: relative;
+}
+.decay-bars__cell::after {
+  content: "→";
+  position: absolute; right: -10px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-weight: 800; font-size: 12pt;
+  z-index: 2;
+}
+.decay-bars__cell:last-child::after { content: none; }
+.decay-bars__stage {
+  display: block;
+  font-size: 8pt; font-weight: 800;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+.decay-bars__value {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 20pt; font-weight: 900;
+  color: var(--brand-primary);
+  line-height: 1; letter-spacing: -0.02em;
+}
+.decay-bars__cell--low .decay-bars__value { color: #059669; }
+.decay-bars__cell--mid .decay-bars__value { color: #D97706; }
+.decay-bars__label {
+  display: block;
+  font-size: 8.5pt; color: var(--text);
+  margin-top: 4px; line-height: 1.35;
+}
+
+/* ===== Decision Tree (의사결정 트리, YES/NO 분기형) ===== */
+.decision-tree { margin: 12pt 0; break-inside: avoid; }
+.decision-tree__step {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brand-primary);
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+.decision-tree__q {
+  grid-column: 1 / -1;
+  font-weight: 800; font-size: 10pt;
+  color: var(--text); margin-bottom: 4px;
+}
+.decision-tree__q .dt-num {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--brand-primary); color: #fff;
+  padding: 1px 7px; border-radius: 3px;
+  font-size: 9pt; margin-right: 6px;
+}
+.decision-tree__yes,
+.decision-tree__no {
+  grid-column: 1 / -1;
+  display: flex; align-items: baseline; gap: 8px;
+  font-size: 9.5pt; padding: 3px 0;
+}
+.decision-tree__yes > .dt-tag {
+  color: #059669;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800; font-size: 9pt;
+  flex: 0 0 auto;
+}
+.decision-tree__no > .dt-tag {
+  color: var(--text-secondary);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800; font-size: 9pt;
+  flex: 0 0 auto;
+}
+.decision-tree__yes > .dt-action { color: var(--brand-deep); font-weight: 700; }
+.decision-tree__no > .dt-action { color: var(--text-secondary); }
+
+/* ===== Num Flow (연속 번호 카드 그리드, --cols 가변) ===== */
+.num-flow {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), 1fr);
+  gap: 8px; margin: 12pt 0;
+  break-inside: avoid;
+}
+.num-flow__step {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--brand-primary);
+  border-radius: 4px;
+  padding: 22px 10px 10px;
+  text-align: left;
+}
+.num-flow__step::before {
+  content: attr(data-n);
+  position: absolute;
+  top: -12px; left: 8px;
+  width: 22px; height: 22px;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-deep) 100%);
+  color: #fff;
+  font-weight: 900; font-size: 10pt;
+  border-radius: 50%;
+  box-shadow: 0 3px 8px rgba(15,44,89,0.25);
+}
+.num-flow__title {
+  display: block;
+  font-weight: 800; font-size: 9.5pt;
+  color: var(--brand-primary); margin-bottom: 2px;
+}
+.num-flow__body {
+  display: block;
+  font-size: 9pt; color: var(--text);
+  line-height: 1.5;
+}
+
+/* ===== Arch Diagram (아키텍처 레이어 스택, ASCII 트리 대체) ===== */
+.arch-diagram {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px 16px;
+  margin: 12pt 0;
+  break-inside: avoid;
+}
+.arch-diagram__title {
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  font-size: 9pt; font-weight: 800;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-secondary);
+  padding: 4px 10px 6px;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed var(--border);
+}
+.arch-diagram__layers { display: flex; flex-direction: column; gap: 8px; }
+.arch-diagram__layers--split { flex-direction: row; gap: 10px; flex-wrap: wrap; }
+.arch-diagram__layers--split > .arch-layer { flex: 1; min-width: 200px; }
+.arch-layer {
+  background: linear-gradient(180deg, rgba(15,44,89,0.04) 0%, rgba(15,44,89,0.02) 100%);
+  border: 1px solid rgba(15,44,89,0.15);
+  border-left: 3px solid var(--brand-primary);
+  border-radius: 4px;
+  padding: 10px 12px;
+}
+.arch-layer--cloud {
+  background: linear-gradient(180deg, rgba(15,15,16,0.04) 0%, rgba(15,15,16,0.01) 100%);
+  border-left-color: var(--text);
+}
+.arch-layer__label {
+  font-weight: 800; font-size: 10pt;
+  color: var(--text); margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.arch-layer__items { display: flex; flex-wrap: wrap; gap: 5px 6px; }
+.arch-layer__items > span {
+  display: inline-flex; align-items: center;
+  font-size: 9pt;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 3px 8px; border-radius: 3px;
+  color: var(--text);
+}
+.arch-layer__items > span code {
+  background: transparent !important;
+  color: var(--brand-primary) !important;
+  padding: 0 !important;
+  font-size: 8.5pt;
+}
+
+/* ===== Scope Stack (3단계 격자, MCP 스코프 등) ===== */
+.scope-stack {
+  display: flex; flex-direction: column;
+  margin: 12pt 0;
+  border-radius: 6px; overflow: hidden;
+  border: 1px solid var(--border);
+  break-inside: avoid;
+}
+.scope-stack__row {
+  display: flex; gap: 14px;
+  align-items: baseline;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.scope-stack__row:last-child { border-bottom: none; }
+.scope-stack__row--user    { background: rgba(15,44,89,0.08); }
+.scope-stack__row--project { background: rgba(15,44,89,0.04); }
+.scope-stack__row--local   { background: rgba(15,44,89,0.01); }
+.scope-stack__label {
+  flex: 0 0 90px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800; font-size: 10pt;
+  color: var(--brand-primary); letter-spacing: 0.02em;
+}
+.scope-stack__desc { flex: 1; font-size: 10pt; color: var(--text); }
+
+/* ===== Folder Grid (디렉토리 시각화, 트리 대체) ===== */
+.folder-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 2), 1fr);
+  gap: 8px; margin: 10pt 0;
+}
+.folder-grid--four  { --cols: 2; }
+.folder-grid--three { --cols: 3; }
+.folder-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brand-primary);
+  padding: 9px 12px;
+  border-radius: 4px;
+  break-inside: avoid;
+}
+.folder-card__name {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10pt; font-weight: 800;
+  color: var(--brand-primary); margin-bottom: 3px;
+}
+.folder-card__desc {
+  display: block;
+  font-size: 9pt; color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ===== Gap Bars (두 지표 격차 시각화) ===== */
+.gap-bars {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin: 12pt 0;
+  break-inside: avoid;
+}
+.gap-bars__row {
+  display: flex; align-items: center;
+  gap: 12px; margin-bottom: 10px;
+}
+.gap-bars__row:last-of-type { margin-bottom: 0; }
+.gap-bars__label {
+  flex: 0 0 80px;
+  font-weight: 700; font-size: 10pt;
+  color: var(--text);
+}
+.gap-bars__bar {
+  flex: 1; height: 16px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 3px; overflow: hidden;
+  position: relative;
+}
+.gap-bars__bar > span { display: block; height: 100%; border-radius: 3px; }
+.gap-bars__bar--full > span {
+  background: linear-gradient(90deg, var(--brand-primary) 0%, var(--brand-deep) 100%);
+}
+.gap-bars__bar--low > span {
+  background: linear-gradient(90deg, #D97706 0%, #B45309 100%);
+}
+.gap-bars__value {
+  flex: 0 0 50px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 800; font-size: 11pt;
+  color: var(--brand-primary); text-align: right;
+}
+.gap-bars__gap {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: rgba(15,44,89,0.08);
+  border-left: 3px solid var(--brand-primary);
+  font-size: 9.5pt; font-weight: 700;
+  color: var(--brand-deep);
+  text-align: center;
+}
+
+/* ===== Attack Timeline (수직 이벤트 레일, danger 강조) ===== */
+.attack-timeline {
+  position: relative;
+  padding-left: 22px;
+  margin: 12pt 0;
+  break-inside: avoid;
+}
+.attack-timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px; top: 4px; bottom: 4px;
+  width: 2px;
+  background: var(--border);
+}
+.attack-timeline__event { position: relative; padding: 6px 0 10px 14px; }
+.attack-timeline__event::before {
+  content: "";
+  position: absolute;
+  left: -21px; top: 10px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--brand-primary);
+  box-shadow: 0 0 0 2px var(--surface);
+}
+.attack-timeline__event--danger::before {
+  background: var(--brand-primary);
+  border-color: var(--brand-deep);
+}
+.attack-timeline__date {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5pt; font-weight: 800;
+  color: var(--brand-primary);
+  background: var(--brand-soft);
+  padding: 2px 6px; border-radius: 3px;
+  margin-right: 8px;
+}
+.attack-timeline__title { font-size: 10pt; font-weight: 700; color: var(--text); }
+.attack-timeline__event--danger .attack-timeline__title { color: var(--brand-deep); }
+.attack-timeline__event ul {
+  margin: 6px 0 0;
+  padding-left: 16px;
+  list-style: none;
+}
+.attack-timeline__event ul li {
+  position: relative;
+  font-size: 9pt; color: var(--text);
+  line-height: 1.55; padding-left: 4px;
+}
+.attack-timeline__event ul li::before {
+  content: "—";
+  position: absolute;
+  left: -12px;
+  color: var(--brand-primary);
+  font-weight: 800;
+}
+
+/* ===== Sandbox Diagram (분리 대비 블록, forbidden ✕ / allowed ✓) ===== */
+.sandbox-diagram {
+  display: flex; flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  margin: 12pt 0;
+  break-inside: avoid;
+}
+.sandbox-diagram__box {
+  padding: 12px 14px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+}
+.sandbox-diagram__box--forbidden {
+  background: rgba(0,0,0,0.04);
+  border-left: 3px solid var(--text-secondary);
+}
+.sandbox-diagram__box--allowed {
+  background: rgba(15,44,89,0.05);
+  border-left: 3px solid var(--brand-primary);
+}
+.sandbox-diagram__label {
+  display: block;
+  font-weight: 800; font-size: 10.5pt;
+  color: var(--text); margin-bottom: 3px;
+}
+.sandbox-diagram__box--forbidden .sandbox-diagram__label::before {
+  content: "✕ "; color: var(--text-secondary);
+}
+.sandbox-diagram__box--allowed .sandbox-diagram__label::before {
+  content: "✓ "; color: var(--brand-primary);
+}
+.sandbox-diagram__note {
+  display: block;
+  font-size: 9pt; color: var(--text-secondary);
+  line-height: 1.5;
+}
+.sandbox-diagram__divider {
+  display: flex;
+  align-items: center; justify-content: center;
+  padding: 4px 0;
+  position: relative;
+}
+.sandbox-diagram__divider::before {
+  content: "";
+  position: absolute;
+  left: 8px; right: 8px;
+  top: 50%; height: 1px;
+  background: var(--border);
+}
+.sandbox-diagram__divider > span {
+  position: relative;
+  background: var(--bg);
+  padding: 2px 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 8.5pt; font-weight: 800;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--brand-primary);
+}
+
+/* ===== 고아 문단 방지 (v2 컴포넌트 포함) ===== */
+.report-section h1,
+.report-section h2,
+.report-appendix h1,
+.report-section h3,
+.slide-h3,
+.sub-h4 {
+  page-break-after: avoid;
+  break-after: avoid-page;
+}
+.callout, .callout--hero, .callout--insight,
+.kpi-grid, .hero-kpi, .feature-cards,
+aside.reading-more,
+.prompt-card, .arch-diagram, .scope-stack,
+.folder-grid, .gap-bars, .attack-timeline,
+.sandbox-diagram, .decay-bars, .decision-tree,
+.num-flow, .ota-loop, .scatter-map, .svg-figure {
+  page-break-inside: avoid;
+  break-inside: avoid-page;
+}
+
+/* =========================================================================
+ * v2.2 — INLINE BADGES (risk · difficulty · cost · trend)
+ *
+ * 마크다운의 "낮/중/높" 평문을 색상·아이콘 배지로 승격한다.
+ * build_structured.py 의 apply_visual_transforms() 가 아래 토큰을 치환한다:
+ *   [risk:low|mid|high]   · [diff:low|mid|high]
+ *   [cost:low|mid|high]   · [tier:1|2|3]
+ *   [trend:up|down|flat]  · [status:ok|warn|danger]
+ * ========================================================================= */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1.5px 8px 1.5px 7px;
+  border-radius: 10px;
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  font-size: 8.5pt;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.35;
+  white-space: nowrap;
+  vertical-align: middle;
+  border: 1px solid transparent;
+}
+.badge::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.85;
+}
+.badge--low,
+.badge--down,
+.badge--ok {
+  background: rgba(5,150,105,0.10);
+  color: #059669;
+  border-color: rgba(5,150,105,0.28);
+}
+.badge--mid,
+.badge--flat,
+.badge--warn {
+  background: rgba(217,119,6,0.10);
+  color: #b45309;
+  border-color: rgba(217,119,6,0.30);
+}
+.badge--high,
+.badge--up,
+.badge--danger {
+  background: rgba(37,99,235,0.10);
+  color: var(--brand-deep);
+  border-color: rgba(37,99,235,0.30);
+}
+/* Tier 배지 — 1=녹색, 2=앰버, 3=레드 */
+.badge--tier1 { background: rgba(5,150,105,0.10); color: #059669; border-color: rgba(5,150,105,0.28); }
+.badge--tier2 { background: rgba(217,119,6,0.10); color: #b45309; border-color: rgba(217,119,6,0.30); }
+.badge--tier3 { background: rgba(37,99,235,0.10); color: var(--brand-deep); border-color: rgba(37,99,235,0.30); }
+/* 방향 화살표 (trend:up/down) — ::before 덮어쓰기 */
+.badge--up::before,
+.badge--down::before,
+.badge--flat::before { width: auto; height: auto; border-radius: 0; background: transparent; }
+.badge--up::before   { content: "▲"; font-size: 7.5pt; }
+.badge--down::before { content: "▼"; font-size: 7.5pt; }
+.badge--flat::before { content: "▬"; font-size: 7.5pt; letter-spacing: -1px; }
+
+/* cmp-table 내부 배지 — 행 간 정렬 안정화 */
+.report-section table.cmp-table .badge { font-size: 8pt; padding: 1px 7px 1px 6px; }
+
+/* =========================================================================
+ * v2.2 — SCATTER MAP (Chart.js 포지셔닝 맵)
+ *
+ * Chart.js scatter 를 단 한 곳(SLIDE 7 3사 포지셔닝 맵)에만 쓴다.
+ * 본문 <canvas id="positioningMap"> 를 만나면 report.js 의 buildPositioningMap()
+ * 이 활성화된다. 그 외엔 Chart.js 가 로드돼 있어도 아무 것도 그리지 않는다.
+ * ========================================================================= */
+.scatter-map {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px 18px;
+  margin: 10px 0 18px;
+}
+.scatter-map__title {
+  font-weight: 800; font-size: 10pt;
+  color: var(--text);
+  margin-bottom: 2px;
+  display: flex; align-items: center; gap: 8px;
+}
+.scatter-map__title::before {
+  content: "";
+  width: 12px; height: 12px; border-radius: 3px;
+  background: linear-gradient(135deg, var(--brand-deep), var(--brand-primary));
+}
+.scatter-map__subtitle {
+  font-size: 8.5pt; color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+.scatter-map__canvas-wrap {
+  position: relative;
+  width: 100%;
+  height: 280px;
+}
+.scatter-map__legend {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  margin-top: 8px;
+  font-size: 8.5pt; color: var(--text-secondary);
+}
+.scatter-map__legend-item {
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.scatter-map__legend-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  display: inline-block;
+}
+
+/* =========================================================================
+ * APPENDIX (s7) 전용 — 페이지 활용 최적화 + 시각 컴포넌트
+ * 부록은 표·카드·결정 트리가 연달아 등장하므로 cmp-table 의
+ * break-inside: avoid 가 큰 표를 다음 페이지로 통째 밀어내며
+ * 직전 페이지에 거대 공란을 만든다. 부록 영역에서만 분할을 허용한다.
+ * ========================================================================= */
+
+/* 부록 영역 cmp-table — 행 단위로 끊을 수 있게 허용 (단 캡션과 첫 행은 묶음) */
+.report-section.s7 table.cmp-table {
+  break-inside: auto !important;
+  page-break-inside: auto !important;
+}
+.report-section.s7 table.cmp-table thead {
+  display: table-header-group; /* 분할 시 헤더가 다음 페이지에도 반복 */
+}
+.report-section.s7 table.cmp-table tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+/* h3 가 페이지 마지막에 고립되지 않도록 하되, 큰 블록과 강제 묶임은 풀기 */
+.report-section.s7 > h3 {
+  break-after: avoid-page;
+  page-break-after: avoid;
+  /* 부록 N.x · 한 줄 요지 chip 스타일 — 부록 N 안에서 위치 인식 보강 */
+  position: relative;
+  padding: 6px 10px 6px 14px;
+  margin-top: 10mm;
+  background: linear-gradient(90deg, rgba(15,44,89,0.07) 0%, rgba(15,44,89,0.012) 70%, rgba(15,44,89,0) 100%);
+  border-left: 4px solid var(--brand-primary);
+  border-radius: 0 4px 4px 0;
+  font-size: 13pt;
+}
+.report-section.s7 > * + h3 { margin-top: 12mm; }
+
+/* ===== A.1~A.4 용어집 2칼럼 그리드 (아이디어 1) =====
+ * 표 대신 dt/dd 카드 그리드를 쓰면 페이지 활용도가 60% 이상 향상되고,
+ * 카드 단위로 자연스럽게 흘러 공란이 거의 발생하지 않는다. */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+  margin: 10pt 0 14pt;
+  break-inside: auto;
+}
+.glossary-grid__item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 11px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brand-primary);
+  border-radius: 0 5px 5px 0;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.glossary-grid__term {
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  font-size: 9.5pt;
+  font-weight: 800;
+  color: var(--brand-deep);
+  letter-spacing: -0.005em;
+  line-height: 1.25;
+}
+.glossary-grid__def {
+  font-size: 9pt;
+  line-height: 1.5;
+  color: var(--text);
+  margin: 0;
+}
+.glossary-grid__def em {
+  font-style: italic;
+  color: var(--text);
+}
+.glossary-grid__def code {
+  background: rgba(15,44,89,0.07);
+  color: var(--brand-deep);
+  padding: 0 4px;
+  border-radius: 3px;
+  font-size: 8.5pt;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ===== 부록 A 표지 4상한 매트릭스 (아이디어 4) ===== */
+.gloss-map {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 12pt 0 18pt;
+  break-inside: avoid;
+}
+.gloss-map__cell {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--brand-primary);
+  border-radius: 0 0 6px 6px;
+  background: linear-gradient(180deg, rgba(15,44,89,0.04) 0%, rgba(15,44,89,0) 60%);
+  break-inside: avoid;
+}
+.gloss-map__cell-num {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8pt;
+  font-weight: 800;
+  color: var(--brand-primary);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.gloss-map__cell-title {
+  display: block;
+  font-size: 11pt;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.gloss-map__cell-terms {
+  font-size: 9pt;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.gloss-map__cell-terms code {
+  background: transparent;
+  color: var(--text);
+  font-weight: 600;
+  padding: 0;
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  font-size: 9pt;
+}
+
+/* ===== 부록 D 영상 색인 카드 그리드 (아이디어 2) ===== */
+.video-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+  margin: 10pt 0 14pt;
+}
+.video-card {
+  display: flex;
+  flex-direction: column;
+  padding: 11px 13px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  border-top: 3px solid var(--brand-primary);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.video-card__chip {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7.5pt;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--brand-primary);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.video-card__title {
+  display: block;
+  font-size: 10.5pt;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 3px;
+  letter-spacing: -0.005em;
+}
+.video-card__meta {
+  display: block;
+  font-size: 8.5pt;
+  color: var(--text-secondary);
+  margin-bottom: 7px;
+}
+.video-card__meta a {
+  color: var(--brand-primary);
+  border-bottom: 1px solid rgba(15,44,89,0.25);
+  word-break: break-all;
+}
+.video-card__ts-label {
+  display: block;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin: 4px 0 4px;
+}
+.video-card__ts {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.video-card__ts li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 8.8pt;
+  line-height: 1.45;
+  color: var(--text);
+}
+.video-card__ts li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 7px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--brand-primary);
+}
+.video-card__ts li code,
+.video-card__ts li strong code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.2pt;
+  font-weight: 700;
+  color: var(--brand-deep);
+  background: rgba(15,44,89,0.06);
+  padding: 0 3px;
+  border-radius: 2px;
+}
+.video-card__ref {
+  margin-top: auto;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border);
+  font-size: 8.2pt;
+  color: var(--text-secondary);
+}
+.video-card__ref strong {
+  color: var(--brand-deep);
+  font-weight: 800;
+}
+.video-card--wide {
+  grid-column: 1 / -1;
+}
+
+/* ===== 부록 B.4 보강 — Failure Fallback 효과 비교 SVG (아이디어 5) ===== */
+.fallback-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 10pt 0 14pt;
+  break-inside: avoid;
+}
+.fallback-compare__col {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  break-inside: avoid;
+}
+.fallback-compare__col--bad {
+  background: linear-gradient(180deg, rgba(220,38,38,0.06) 0%, rgba(220,38,38,0) 70%);
+  border-left: 3px solid #E11D48;
+}
+.fallback-compare__col--good {
+  background: linear-gradient(180deg, rgba(5,150,105,0.06) 0%, rgba(5,150,105,0) 70%);
+  border-left: 3px solid #059669;
+}
+.fallback-compare__head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 9.5pt;
+  font-weight: 800;
+  margin-bottom: 6px;
+  letter-spacing: -0.005em;
+}
+.fallback-compare__col--bad .fallback-compare__head { color: #B91C1C; }
+.fallback-compare__col--good .fallback-compare__head { color: #059669; }
+.fallback-compare__head::before {
+  display: inline-block;
+  width: 18px; height: 18px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 11pt; line-height: 18px; font-weight: 900;
+  color: #fff;
+}
+.fallback-compare__col--bad .fallback-compare__head::before {
+  content: "X"; background: #E11D48;
+}
+.fallback-compare__col--good .fallback-compare__head::before {
+  content: "OK"; background: #059669; font-size: 7.5pt; letter-spacing: 0;
+}
+.fallback-compare__timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.fallback-compare__timeline li {
+  position: relative;
+  padding-left: 56px;
+  font-size: 8.8pt;
+  line-height: 1.45;
+  color: var(--text);
+}
+.fallback-compare__timeline li::before {
+  content: attr(data-time);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8pt;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+.fallback-compare__col--bad .fallback-compare__timeline li:last-child {
+  font-weight: 700;
+  color: #B91C1C;
+}
+.fallback-compare__col--good .fallback-compare__timeline li:last-child {
+  font-weight: 700;
+  color: #059669;
+}
+
+/* =========================================================================
+ * BLOG MODE OVERLAY — `.continuous-mode` 스코프
+ *
+ * A4 인쇄/PDF 용 기본 스타일은 그대로 두고, 브라우저에서 보는 "테크 블로그"
+ * 형태를 위한 override 집합. build_all.py 가 report 빌드에 `--continuous
+ * --show-divider` 플래그를 넣어 `<article class="report continuous-mode
+ * show-divider">` 가 emit되면 본 블록이 활성화된다.
+ *
+ * 디자인 의도 — Vercel/Stripe/Anthropic 블로그 톤: max-width 본문 + sticky
+ * sidebar TOC + 풀폭 hero + 어두운 코드 블록 + callout style blockquote +
+ * 부드러운 figure shadow.
+ * ========================================================================= */
+
+/* ----- 0. 글로벌 캔버스 ----- */
+html.theme-light:has(.continuous-mode) {
+  background: #F7F8FA;
+}
+body:has(> .continuous-mode) {
+  padding: 0;
+  overflow-x: hidden;
+}
+.continuous-mode {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  --reader-body-size: 17px;
+  --reader-line-height: 1.76;
+  --reader-column-width: 820px;
+}
+html.reader-size-compact .continuous-mode {
+  --reader-body-size: 16px;
+  --reader-line-height: 1.74;
+  --reader-column-width: 760px;
+}
+html.reader-size-large .continuous-mode {
+  --reader-body-size: 18.5px;
+  --reader-line-height: 1.78;
+  --reader-column-width: 860px;
+}
+
+/* ----- 1. Article header — A4 cover -> technical blog title block ----- */
+.continuous-mode .report-cover {
+  break-after: auto !important;
+  page-break-after: auto !important;
+  min-height: auto;
+  width: auto;
+  max-width: var(--reader-column-width);
+  margin: 0 auto;
+  padding: 72px clamp(20px, 5vw, 32px) 44px;
+  background: transparent;
+  border-bottom: 1px solid rgba(15,44,89,0.12);
+  box-sizing: border-box;
+  overflow: visible;
+}
+.continuous-mode .report-cover::before {
+  display: none;
+}
+.continuous-mode .report-cover__wordmark {
+  display: none;
+}
+.continuous-mode .report-cover__wordmark-name {
+  font-size: 22px;
+  letter-spacing: 0;
+}
+.continuous-mode .report-cover__wordmark-sub {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+.continuous-mode .report-cover__signature {
+  position: static;
+  order: 2;
+  align-self: flex-start;
+  margin-top: 14px;
+  font-family: 'Inter', 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  color: var(--text-secondary);
+}
+.continuous-mode .report-cover__kicker {
+  order: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  align-self: flex-start;
+  margin-bottom: 22px;
+  padding: 6px 14px;
+  background: var(--brand-soft);
+  border-radius: 999px;
+  color: var(--brand-primary);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.continuous-mode .report-cover__kicker::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.18);
+}
+.continuous-mode .report-cover__title {
+  order: 3;
+  max-width: 100%;
+  margin: 0 0 18px;
+  font-size: 48px;
+  line-height: 1.06;
+  letter-spacing: 0;
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+.continuous-mode .report-cover__subtitle {
+  order: 4;
+  max-width: 36ch;
+  margin: 0 0 30px;
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+.continuous-mode .report-cover__meta {
+  order: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(15,44,89,0.12);
+  font-size: 13px;
+}
+.continuous-mode .report-cover__meta div {
+  min-width: 120px;
+}
+.continuous-mode .report-cover__meta dt {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  margin-bottom: 3px;
+}
+.continuous-mode .report-cover__meta dd {
+  color: var(--text-secondary);
+}
+
+/* ----- 2. Main container — reader-width article column ----- */
+.continuous-mode .report-toc,
+.continuous-mode .report-section,
+.continuous-mode .report-appendix {
+  max-width: var(--reader-column-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(20px, 5vw, 32px);
+  padding-right: clamp(20px, 5vw, 32px);
+}
+.continuous-mode .report-section {
+  padding-top: clamp(48px, 7vw, 80px);
+  padding-bottom: clamp(48px, 7vw, 80px);
+}
+
+/* ----- 3. TOC — compact article outline ----- */
+.continuous-mode .report-toc {
+  padding-top: 28px;
+  padding-bottom: 28px;
+  margin-top: 0;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(15,44,89,0.08);
+}
+.continuous-mode .report-toc__title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+  margin-bottom: 14px;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.continuous-mode .report-toc__item {
+  padding: 5px 0;
+  border-bottom: none;
+  font-size: 14px;
+  transition: background 0.15s ease;
+}
+.continuous-mode .report-toc__item--h3 { display: none; }
+.continuous-mode .report-toc__item:hover {
+  background: transparent;
+}
+.continuous-mode .report-toc__num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--brand-primary);
+  font-weight: 700;
+  margin-right: 10px;
+  min-width: 24px;
+  display: inline-block;
+}
+.continuous-mode .report-toc__leader,
+.continuous-mode .report-toc__page {
+  display: none;
+}
+.continuous-mode .report-toc__label {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* ----- 4. Section dividers — disabled for blog reading ----- */
+.continuous-mode.show-divider .section-divider {
+  display: none !important;
+}
+.continuous-mode.show-divider .section-divider::before {
+  display: none;
+}
+.continuous-mode.show-divider .section-divider > * { position: relative; z-index: 1; }
+
+/* ----- 5. Section kicker (eyebrow over title) ----- */
+.continuous-mode .report-section__kicker {
+  display: none;
+}
+
+/* ----- 6. Typography — heading rhythm ----- */
+.continuous-mode .report-section h1,
+.continuous-mode .report-appendix h1 {
+  font-size: 36px;
+  line-height: 1.1;
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+.continuous-mode .report-section h2 {
+  font-size: 28px;
+  line-height: 1.2;
+  margin-top: 56px;
+  margin-bottom: 16px;
+  letter-spacing: 0;
+  scroll-margin-top: 24px;
+}
+.continuous-mode .report-section h3 {
+  font-size: 21px;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--text);
+  scroll-margin-top: 24px;
+}
+.continuous-mode .report-section h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 28px;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.continuous-mode .report-section p {
+  font-size: var(--reader-body-size);
+  line-height: var(--reader-line-height);
+  margin-bottom: 18px;
+  color: var(--text);
+}
+.continuous-mode .report-section ul,
+.continuous-mode .report-section ol {
+  font-size: var(--reader-body-size);
+  line-height: calc(var(--reader-line-height) - 0.04);
+  margin: 12px 0 18px 0;
+  padding-left: 24px;
+}
+.continuous-mode .report-section li { margin-bottom: 6px; }
+
+/* ----- 7. Links — accent + hover underline ----- */
+.continuous-mode .report-section a {
+  color: var(--accent-secondary);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(37,99,235,0.3);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.continuous-mode .report-section a:hover {
+  border-bottom-color: var(--accent-secondary);
+  background: rgba(37,99,235,0.06);
+}
+
+/* ----- 8. Code blocks — dark theme ----- */
+.continuous-mode .report-section pre {
+  background: #0F1419;
+  color: #E6EDF3;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 10px;
+  padding: 42px 22px 18px;
+  margin: 20px 0 24px;
+  overflow-x: auto;
+  overflow-y: visible;
+  font-size: 13px;
+  line-height: 1.55;
+  box-shadow: 0 6px 24px rgba(15,44,89,0.08);
+  white-space: pre;
+  -webkit-overflow-scrolling: touch;
+}
+.continuous-mode .report-section .asset-caption {
+  max-width: 100%;
+  margin: 20px 0 8px;
+}
+.continuous-mode .report-section .asset-caption--code + pre {
+  margin-top: 0;
+}
+.continuous-mode .report-section pre code {
+  background: transparent;
+  font-family: 'JetBrains Mono', 'Menlo', monospace;
+  font-size: 13px;
+  padding: 0;
+  white-space: pre;
+  min-width: max-content;
+}
+.continuous-mode .report-section p code,
+.continuous-mode .report-section li code,
+.continuous-mode .report-section td code {
+  background: rgba(15,44,89,0.07);
+  color: var(--accent-secondary);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.88em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ----- 9. Blockquote — callout box ----- */
+.continuous-mode .report-section blockquote {
+  margin: 24px 0;
+  padding: 16px 20px 16px 22px;
+  background: rgba(37,99,235,0.05);
+  border-left: 4px solid var(--accent-secondary);
+  border-radius: 6px;
+  color: var(--text);
+  font-style: normal;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.continuous-mode .report-section blockquote::before {
+  content: "";
+}
+.continuous-mode .report-section blockquote p { margin: 0; }
+.continuous-mode .report-section blockquote p + p { margin-top: 10px; }
+
+/* ----- 10. Tables — modern data ----- */
+.continuous-mode .report-section table {
+  width: 100%;
+  max-width: 100%;
+  margin: 24px 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+  border: 1px solid rgba(15,44,89,0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(15,44,89,0.04);
+}
+.continuous-mode .report-section table th {
+  background: rgba(15,44,89,0.06);
+  color: var(--brand-primary);
+  font-weight: 700;
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(15,44,89,0.1);
+  font-size: 13.5px;
+  letter-spacing: 0.01em;
+}
+.continuous-mode .report-section table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  vertical-align: top;
+  line-height: 1.55;
+}
+.continuous-mode .report-section table tr:last-child td { border-bottom: none; }
+.continuous-mode .report-section table tr:hover td { background: rgba(37,99,235,0.025); }
+
+/* ----- 11. Figures (img + small caption) ----- */
+.continuous-mode .report-section img,
+.continuous-mode .report-section svg {
+  display: block;
+  margin: 28px auto 8px;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(15,44,89,0.08);
+  background: #FFFFFF;
+}
+.continuous-mode .report-section .report-figure {
+  margin: 28px 0 34px;
+}
+.continuous-mode .report-section .report-figure > img,
+.continuous-mode .report-section .report-figure > svg {
+  margin: 10px auto 8px;
+}
+.continuous-mode .report-section .report-figure > .asset-note {
+  max-width: 90%;
+}
+.continuous-mode .report-section small {
+  display: block;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin: 0 auto 32px;
+  max-width: 90%;
+  font-style: italic;
+}
+/* svg with native bg shouldn't get extra white pad */
+.continuous-mode .report-section img[src$=".svg"] { background: transparent; }
+
+/* ----- 12. HR — subtle divider ----- */
+.continuous-mode .report-section hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(15,44,89,0.15), transparent);
+  margin: 48px auto;
+  max-width: 200px;
+}
+
+/* ----- 13. Footnote list — compact ----- */
+.continuous-mode .report-section .footnotes,
+.continuous-mode .report-appendix {
+  font-size: 13px;
+  color: var(--text-secondary);
+  border-top: 1px solid rgba(15,44,89,0.08);
+  padding-top: 32px;
+  margin-top: 48px;
+}
+.continuous-mode .report-section .footnotes li,
+.continuous-mode .report-appendix li {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+/* ----- 14. Responsive — narrow viewports ----- */
+@media (max-width: 720px) {
+  html:has(.continuous-mode),
+  body:has(> .continuous-mode),
+  .continuous-mode {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  .report-nav-toggle {
+    top: auto;
+    bottom: 18px;
+    left: 18px;
+  }
+  .report-settings {
+    top: auto;
+    right: 18px;
+    bottom: 18px;
+  }
+  .report-settings-panel {
+    top: auto;
+    right: 0;
+    bottom: 50px;
+    transform: translateY(6px) scale(0.98);
+    transform-origin: bottom right;
+  }
+  .continuous-mode .report-cover {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box;
+    padding: 44px 18px 32px;
+  }
+  .continuous-mode .report-cover__wordmark {
+    margin-bottom: 28px;
+  }
+  .continuous-mode .report-cover__signature {
+    max-width: 100%;
+  }
+  .continuous-mode .report-cover__kicker {
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .continuous-mode .report-cover__title {
+    font-size: clamp(20px, 6vw, 28px);
+    line-height: 1.14;
+    white-space: nowrap;
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+  .continuous-mode .report-cover__subtitle {
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .continuous-mode .report-cover__meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .continuous-mode .report-toc,
+  .continuous-mode .report-section,
+  .continuous-mode .report-appendix {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .continuous-mode .callout--hero,
+  .continuous-mode .section-summary {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+  }
+  .continuous-mode .report-cover > *,
+  .continuous-mode .report-section > *,
+  .continuous-mode .report-appendix > * {
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+  .continuous-mode .callout--hero .callout__body,
+  .continuous-mode .section-summary__body li {
+    font-size: 14px;
+    overflow-wrap: anywhere;
+  }
+  .continuous-mode .report-toc {
+    padding-top: 24px;
+    padding-bottom: 20px;
+  }
+  .continuous-mode .report-section h2 { margin-top: 40px; }
+  .continuous-mode .report-section h1 { font-size: 30px; }
+  .continuous-mode .report-section h2 { font-size: 24px; }
+  .continuous-mode .report-section h3 { font-size: 20px; }
+  .continuous-mode .report-section h4 { font-size: 15px; }
+  .continuous-mode .report-section pre {
+    font-size: 12px;
+    padding: 38px 16px 14px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .continuous-mode .report-section pre code { font-size: inherit; }
+  .continuous-mode .report-section table {
+    display: block;
+    overflow-x: auto;
+    font-size: 12.5px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .continuous-mode .report-section table th,
+  .continuous-mode .report-section table td { padding: 8px 10px; }
+  .continuous-mode .report-section p,
+  .continuous-mode .report-section li {
+    font-size: max(16px, var(--reader-body-size));
+    line-height: 1.72;
+    overflow-wrap: anywhere;
+  }
+  .continuous-mode .report-section small,
+  .continuous-mode .report-appendix li {
+    overflow-wrap: anywhere;
+  }
+  .report-settings-action,
+  .report-settings a {
+    height: 32px;
+    padding: 0 9px;
+    font-size: 11px;
+  }
+  .report-settings-panel {
+    width: min(248px, calc(100vw - 36px));
+  }
+  .continuous-mode .report-section img,
+  .continuous-mode .report-section svg {
+    border-radius: 8px;
+  }
+}
+
+</style>
+  <style id="brand-vars">:root{
+  --running-header-left: "Claude Code 업무자동화 워크숍 · 참가자 핸드북";
+  --running-header-right: "CCW HANDBOOK";
+  --slide-section-monogram: "CCW";
+}</style>
+  <style>
+    sup.ref-cite a {
+      color: var(--brand-primary);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 8pt;
+      padding: 0 2px;
+    }
+    sup.ref-cite a:hover { text-decoration: underline; }
+    .references li a { word-break: break-all; }
+    .report-section h3 { margin-top: 14pt; }
+    .report-section h4 { margin-top: 10pt; font-weight: 800; }
+    .report-appendix ol.references,
+    .s-refs ol.references { padding-left: 0 !important; }
+    .report-appendix ol.references li,
+    .s-refs ol.references li { padding-left: 0 !important; }
+    .report-appendix ol.references li::before,
+    .s-refs ol.references li::before { content: none !important; }
+  </style>
+</head>
+<body>
+  <button id="tocToggle" class="report-nav-toggle" type="button" aria-label="목차 열기" aria-controls="tocDrawer" aria-expanded="false" title="목차">
+    <span aria-hidden="true">☰</span>
+  </button>
+  <div class="report-settings" aria-label="설정">
+    <button id="settingsToggle" class="report-settings-toggle" type="button" aria-label="설정 열기" aria-controls="settingsPanel" aria-expanded="false" title="설정">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M9.67 4.14a2.34 2.34 0 0 1 4.66 0 2.34 2.34 0 0 0 3.32 1.91 2.34 2.34 0 0 1 2.33 4.04 2.34 2.34 0 0 0 0 3.82 2.34 2.34 0 0 1-2.33 4.04 2.34 2.34 0 0 0-3.32 1.91 2.34 2.34 0 0 1-4.66 0 2.34 2.34 0 0 0-3.32-1.91 2.34 2.34 0 0 1-2.33-4.04 2.34 2.34 0 0 0 0-3.82 2.34 2.34 0 0 1 2.33-4.04 2.34 2.34 0 0 0 3.32-1.91"/>
+      </svg>
+    </button>
+    <div id="settingsPanel" class="report-settings-panel" aria-hidden="true">
+      <div class="report-settings-panel__group">
+        <span class="report-settings-panel__label">화면</span>
+        <button id="themeToggle" type="button" onclick="cycleTheme()" aria-label="나이트 모드 전환" title="나이트 모드 전환">☀</button>
+      </div>
+      <div class="report-settings-panel__group">
+        <span class="report-settings-panel__label">출력</span>
+        <button class="report-settings-action" type="button" onclick="window.print()" aria-label="PDF 또는 인쇄" title="PDF 또는 인쇄">Print / PDF</button>
+      </div>
+      <div class="report-settings-panel__group">
+        <span class="report-settings-panel__label">이동</span>
+        <nav class="report-quick-links" aria-label="세미나 링크">
+          <a href="../../index.html" title="전체 세미나 목차" aria-label="전체 세미나 목차">Index</a>
+          <a href="report.html" title="리포트" aria-label="리포트">Report</a>
+          <a href="slides.html" title="발표 슬라이드" aria-label="발표 슬라이드">Slides</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div id="tocBackdrop" class="report-toc-backdrop" hidden></div>
+  <nav id="tocDrawer" class="report-toc-drawer" aria-label="문서 목차" aria-hidden="true">
+    <div class="report-toc-drawer__head">
+      <span>목차</span>
+      <button id="tocClose" type="button" aria-label="목차 닫기">×</button>
+    </div>
+    <ol id="tocDrawerList" class="report-toc-drawer__list"></ol>
+  </nav>
+  <article class="report continuous-mode">
+<section class="report-cover">
+  <div class="report-cover__wordmark">
+    <span class="report-cover__wordmark-name">Claude Code 업무자동화 워크숍</span>
+    <span class="report-cover__wordmark-sub">비개발자를 위한 4시간 BYOD 핸즈온</span>
+  </div>
+  <span class="report-cover__signature">Claude Code Workshop</span>
+  <span class="report-cover__kicker">Participant Handbook</span>
+  <h1 class="report-cover__title">Claude Code 업무자동화 워크숍</h1>
+  <p class="report-cover__subtitle">받은 업무 메일 한 통을, 제안서로 완주하는 4시간</p>
+  <dl class="report-cover__meta">
+    <div><dt>저자</dt><dd>Claude Code 업무자동화 워크숍</dd></div>
+    <div><dt>회차</dt><dd>1회</dd></div>
+    <div><dt>발행</dt><dd>2026-07-19</dd></div>
+  </dl>
+</section>
+
+
+    <aside class="section-divider" aria-hidden="true">
+      <div class="section-divider__tag">섹션 00</div>
+      <h2 class="section-divider__title">핵심 요약</h2>
+      <p class="section-divider__subtitle">임원 5분 핵심 요약 — §1~§6 의 결론을 한 페이지에</p>
+      <div class="section-divider__rule"></div>
+      <div class="section-divider__num">00</div>
+    </aside>
+    
+<section class="report-section s0 page-break">
+<div class="report-section__kicker">Section 00 · 0. 핵심 요약</div>
+<h1>0. 핵심 요약</h1>
+<div class="kpi-grid hero-kpi" style="--cols: 3;">
+  <div class="kpi">
+    <span class="kpi__value">4<span class="kpi__value-suf">시간</span></span>
+    <span class="kpi__label">한 자리에서</span>
+    <span class="kpi__sub">비개발자 · BYOD 핸즈온</span>
+  </div>
+  <div class="kpi">
+    <span class="kpi__value">1<span class="kpi__value-suf">건</span></span>
+    <span class="kpi__label">예제 업무 완주</span>
+    <span class="kpi__sub">밀키트 파일럿 제안</span>
+  </div>
+  <div class="kpi">
+    <span class="kpi__value">5<span class="kpi__value-suf">단계</span></span>
+    <span class="kpi__label">한 흐름으로</span>
+    <span class="kpi__sub">메일→리서치→근거표→제안서→피드백</span>
+  </div>
+</div>
+<div class="callout callout--hero">
+  <span class="callout__kicker">한 줄 요약</span>
+  <span class="callout__body">이 핸드북은 <strong>읽을거리</strong>가 아니라 <strong>실습 작업서</strong>입니다. 막히면 해당 단계로 돌아와 <strong>그대로 써도 되는 프롬프트</strong>와 <strong>막히는 지점</strong>을 확인하세요.</span>
+</div>
+
+<div class="callout--hero">
+  <span class="callout__kicker">Participant Handbook</span>
+  <span class="callout__body">오늘은 여러분 업무 <strong>전체</strong>를 자동화하는 날이 아닙니다. <strong>예제 업무 한 건</strong>을 메일에서 제안서까지 직접 끝내고, 그 방식을 내 업무로 옮기는 법을 익히는 날입니다.</span>
+</div>
+<!-- hero-kpi:
+{
+  "kpis": [
+    {"value": 4, "suffix": "시간", "label": "한 자리에서", "sub": "비개발자 · BYOD 핸즈온"},
+    {"value": 1, "suffix": "건", "label": "예제 업무 완주", "sub": "밀키트 파일럿 제안"},
+    {"value": 5, "suffix": "단계", "label": "한 흐름으로", "sub": "메일→리서치→근거표→제안서→피드백"}
+  ],
+  "summary": "이 핸드북은 <strong>읽을거리</strong>가 아니라 <strong>실습 작업서</strong>입니다. 막히면 해당 단계로 돌아와 <strong>그대로 써도 되는 프롬프트</strong>와 <strong>막히는 지점</strong>을 확인하세요."
+}
+-->
+<p>이 핸드북은 워크숍 당일과 <strong>사후 자율학습</strong>을 위한 자료입니다. 각 실습 단계는 같은 형식으로 반복됩니다 — <strong>이 단계의 목표 / 사용할 파일 / Claude에게 시킬 일 / 그대로 써도 되는 프롬프트 / 잘 된 결과의 기준 / 자주 막히는 지점 / 플랜B / 다음 단계 체크포인트</strong>. 순서대로 따라오면 한 명도 빠짐없이 제안서 초안까지 도착하도록 설계했습니다.</p>
+<div class="section-summary">
+  <div class="section-summary__kicker">오늘의 시나리오</div>
+  <div class="section-summary__body">
+    <ul>
+      <li><strong>상황</strong> — 박팀장이 "직장인 평일 저녁용 10분 밀키트 + 정기배송" 파일럿을 검토해 달라고 메일을 보냈습니다.</li>
+      <li><strong>할 일</strong> — 경쟁사·시장을 리서치해 <strong>근거표</strong> 로 정리하고, 회사 양식에 맞춘 <strong>제안서 초안</strong> 을 만듭니다.</li>
+      <li><strong>마무리</strong> — 팀장 피드백을 반영해 <strong>제안서 v2</strong> 로 고치고, 내 업무 자동화 후보를 한 줄 적습니다.</li>
+    </ul>
+  </div>
+</div>
+<h3 id="오늘-만드는-것-구성">오늘 만드는 것 (구성)</h3>
+<table class="cmp-table"><caption class="cmp-table__caption asset-caption asset-caption--table"><div class="asset-caption__inner"><span class="asset-caption__chip">표 1</span><span class="asset-caption__title">오늘 만드는 것 (구성)</span></div></caption>
+<thead>
+<tr>
+<th>단계</th>
+<th>핸드북 장</th>
+<th>산출물</th>
+<th>대략 시간</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>준비</td>
+<td>1·2장</td>
+<td>환경 점검 + 첫 성공 대화</td>
+<td>약 45분</td>
+</tr>
+<tr>
+<td>핸즈온 1</td>
+<td>3장</td>
+<td>근거표 (경쟁사·시장 정리)</td>
+<td>약 50분</td>
+</tr>
+<tr>
+<td>핸즈온 2</td>
+<td>4장</td>
+<td>제안서 초안 1건 ★완주점</td>
+<td>약 45분</td>
+</tr>
+<tr>
+<td>핸즈온 3</td>
+<td>5장</td>
+<td>제안서 v2 (피드백 반영)</td>
+<td>약 30분</td>
+</tr>
+<tr>
+<td>확장</td>
+<td>6장</td>
+<td>내 업무 자동화 후보 1줄</td>
+<td>약 20분</td>
+</tr>
+</tbody>
+</table>
+<h3 id="핵심-용어-짧은-사전">핵심 용어 짧은 사전</h3>
+<table class="cmp-table"><caption class="cmp-table__caption asset-caption asset-caption--table"><div class="asset-caption__inner"><span class="asset-caption__chip">표 2</span><span class="asset-caption__title">핵심 용어 짧은 사전</span></div></caption>
+<thead>
+<tr>
+<th>용어</th>
+<th>뜻</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Claude Code</strong></td>
+<td>Claude Desktop 앱의 <strong>Code 탭</strong> — 내 폴더를 열고 그 안의 파일을 두고 대화로 일을 시키는 작업 공간</td>
+</tr>
+<tr>
+<td><strong>폴더 열기</strong></td>
+<td>Code 탭에서 실습 폴더를 지정하는 것. 그래야 Claude가 그 안의 파일을 읽고 고칠 수 있다</td>
+</tr>
+<tr>
+<td><strong>프롬프트</strong></td>
+<td>Claude에게 보내는 <strong>지시 문장</strong>. &quot;무엇을, 무엇으로, 어떤 형태로&quot;가 들어가면 좋은 프롬프트</td>
+</tr>
+<tr>
+<td><strong>커넥터</strong></td>
+<td>Gmail 등 외부 서비스 연결. <strong>안 돼도 괜찮다</strong> — 같은 실습을 샘플 메일 파일로 진행한다(플랜B)</td>
+</tr>
+<tr>
+<td><strong>Skill</strong></td>
+<td>반복하는 작업 절차·프롬프트를 한 폴더에 정리해 <strong>재사용</strong>하는 능력 단위. 오늘은 감만 잡는다</td>
+</tr>
+<tr>
+<td><strong>플랜B / 따라가기 패킷</strong></td>
+<td>막혔을 때 쓰는 안전장치. 완성 중간본으로 다음 단계로 따라붙는다 — <strong>완주가 품질보다 우선</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="준비물-플랜b-한눈에">준비물 · 플랜B 한눈에</h3>
+<ul class="bullets">
+<li><strong>노트북</strong>(충전기) · 인터넷 · Claude 계정(유료 플랜 권장).</li>
+<li><strong>사전 인증 과제</strong>를 끝냈다면 그대로 진행, 아니면 2장에서 함께 점검합니다.</li>
+<li><strong>Gmail이 안 돼도, 폴더가 안 열려도 오늘 실습은 멈추지 않습니다</strong> — 각 단계의 <em>플랜B</em> 를 따르세요.</li>
+</ul>
+<blockquote>
+<p>모든 실습은 <strong>강의용 가상 시나리오</strong>입니다. 등장하는 회사·인물·수치는 실제와 무관합니다.</p>
+</blockquote>
+</section>
+
+    <aside class="section-divider" aria-hidden="true">
+      <div class="section-divider__tag">섹션 01</div>
+      <h2 class="section-divider__title">1. 오늘의 목표와 완성본</h2>
+      
+      <div class="section-divider__rule"></div>
+      <div class="section-divider__num">01</div>
+    </aside>
+    
+<section class="report-section s1 page-break">
+<div class="report-section__kicker">Section 01 · 1. 오늘의 목표와 완성본</div>
+<h1 id="1.-오늘의-목표와-완성본">1. 오늘의 목표와 완성본</h1>
+<blockquote>
+<p><strong>이 장의 한 줄</strong> — 도착점을 먼저 본다. 오늘 끝에 내 손에 무엇이 남는지 알면, 중간에 막혀도 길을 잃지 않는다.</p>
+</blockquote>
+<h2 id="오늘의-약속">오늘의 약속</h2>
+<div class="callout callout--hero"><span class="callout__kicker">핵심 메시지</span><span class="callout__body">오늘은 &quot;여러분의 모든 업무를 자동화하는 날&quot;이 아니라, <strong>예제 업무 한 건을 끝까지 완주</strong>하고 그 일하는 방식을 가져가는 날입니다.</span></div>
+<p>입문자가 핸즈온에서 가장 자주 겪는 일은 &quot;이것저것 해보다 아무것도 못 끝내는 것&quot;입니다. 그래서 오늘은 범위를 좁힙니다. 박팀장이 보낸 메일 한 통에서 출발해, 아래 다섯 단계를 <strong>한 흐름으로</strong> 통과합니다.</p>
+<div class="asset-caption asset-caption--code"><span class="asset-caption__chip">코드 1</span><span class="asset-caption__title">오늘의 약속</span></div>
+<pre class="code-block code-block--text" data-lang="text"><code class="language-text">메일 읽기  →  리서치  →  근거표  →  제안서 초안  →  팀장 피드백 반영
+ (2장)       (3장)     (3장)      (4장 ★)        (5장)</code></pre>
+<p>4장의 <strong>제안서 초안</strong>이 오늘의 핵심 완주점입니다. 여기까지는 전원이 도착하는 것을 목표로 합니다. 발표자료·Skill은 시간이 허락하는 만큼 다루며, 못 가도 사후 자료로 이어갈 수 있게 안내합니다.</p>
+<h2 id="완성본-미리보기">완성본 미리보기</h2>
+<p>시작하기 전에 <strong>도착점</strong>을 봅니다. 실습 키트의 <code>3_완성_미리보기 (도착점)</code> 폴더에 오늘 만들 결과물의 완성 예시가 들어 있습니다.</p>
+<table class="cmp-table"><caption class="cmp-table__caption asset-caption asset-caption--table"><div class="asset-caption__inner"><span class="asset-caption__chip">표 3</span><span class="asset-caption__title">완성본 미리보기</span></div></caption>
+<thead>
+<tr>
+<th>완성본 파일</th>
+<th>무엇인가</th>
+<th>오늘 어디서 만드나</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>제안서.docx</code></td>
+<td>회사 양식에 맞춘 밀키트 파일럿 제안서</td>
+<td>4장(초안) → 5장(v2)</td>
+</tr>
+<tr>
+<td><code>발표.pptx</code></td>
+<td>임원 보고용 발표자료</td>
+<td>시간이 되면 시연·일부 변환</td>
+</tr>
+</tbody>
+</table>
+<p>완성본은 &quot;이만큼 만들면 된다&quot;는 <strong>기준선</strong>입니다. 똑같이 만들 필요는 없습니다 — 내 결과물이 이 수준의 구조와 근거를 갖추면 충분합니다.</p>
+<h2 id="오늘-잘-따라왔다는-신호">오늘 잘 따라왔다는 신호</h2>
+<ul class="bullets">
+<li>3장 끝: 경쟁사·시장이 정리된 <strong>근거표</strong>가 내 화면에 있다.</li>
+<li>4장 끝: 회사 양식 형태의 <strong>제안서 초안</strong>이 하나 있다. ← 오늘의 핵심</li>
+<li>5장 끝: 팀장 피드백을 <strong>최소 1개 이상</strong> 반영한 제안서 v2가 있다.</li>
+<li>6장 끝: &quot;내 업무 중 이건 자동화해보고 싶다&quot; 한 줄이 적혀 있다.</li>
+</ul>
+<blockquote>
+<p><strong>막혀도 괜찮습니다.</strong> 각 단계에는 <em>플랜B</em> 와 <em>따라가기 패킷</em>(완성 중간본)이 있습니다. 한 단계가 막히면 그 중간본으로 다음 단계에 따라붙으면 됩니다. 오늘의 목표는 <strong>완벽한 품질이 아니라 한 바퀴 완주</strong>입니다.</p>
+</blockquote>
+
+</section>
+
+    <aside class="section-divider" aria-hidden="true">
+      <div class="section-divider__tag">섹션 02</div>
+      <h2 class="section-divider__title">2. 환경 준비와 첫 대화</h2>
+      
+      <div class="section-divider__rule"></div>
+      <div class="section-divider__num">02</div>
+    </aside>
+    
+<section class="report-section s2 page-break">
+<div class="report-section__kicker">Section 02 · 2. 환경 준비와 첫 대화</div>
+<h1 id="2.-환경-준비와-첫-대화">2. 환경 준비와 첫 대화</h1>
+<blockquote>
+<p><strong>이 장의 한 줄</strong> — 실습 가능한 상태를 만들고, &quot;대화로 일을 시킨다&quot;를 <strong>첫 성공 경험</strong>으로 몸에 익힌다.</p>
+</blockquote>
+<h2 id="2.1-환경-점검-체크-4가지">2.1 환경 점검 (체크 4가지)</h2>
+<p>아래 네 가지가 되면 오늘 실습 준비 완료입니다. 사전 인증을 마쳤다면 ①~③은 이미 통과한 상태입니다.</p>
+<table class="cmp-table"><caption class="cmp-table__caption asset-caption asset-caption--table"><div class="asset-caption__inner"><span class="asset-caption__chip">표 4</span><span class="asset-caption__title">2.1 환경 점검 (체크 4가지)</span></div></caption>
+<thead>
+<tr>
+<th>#</th>
+<th>확인할 것</th>
+<th>성공 신호</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>Claude Desktop 앱 로그인</td>
+<td>내 계정으로 들어와 있다</td>
+</tr>
+<tr>
+<td>②</td>
+<td>유료 플랜</td>
+<td>응답이 끊기지 않는다(권장)</td>
+</tr>
+<tr>
+<td>③</td>
+<td><strong>Code 탭에서 실습 폴더 열기</strong></td>
+<td><code>1_시작자료 (여기서 시작)</code> 가 열린다</td>
+</tr>
+<tr>
+<td>④</td>
+<td>(선택) Gmail 커넥터</td>
+<td>안 돼도 무방 — 플랜B로 진행</td>
+</tr>
+</tbody>
+</table>
+<p><strong>자주 막히는 지점</strong></p>
+<ul class="bullets">
+<li><strong>Code 탭이 안 보임</strong> → 앱이 최신 버전인지 확인하고 재시작합니다.</li>
+<li><strong>폴더가 안 열림</strong> → 압축을 <strong>풀어서 생긴 폴더</strong>를 여세요(압축 파일 자체가 아니라). 위치를 모르면 바탕화면을 먼저 확인합니다.</li>
+<li><strong>응답이 느리거나 끊김</strong> → 네트워크를 확인하고, 가능하면 테더링으로 바꿔봅니다.</li>
+</ul>
+<blockquote>
+<p><strong>플랜B — 폴더가 끝내 안 열리면</strong>: 강사 화면 미러링을 보며 <em>따라가기 패킷</em>으로 진행합니다. <strong>Gmail이 안 되면</strong>: 메일 대신 <code>2_박팀장에게_받는_메일</code> 폴더의 <code>.md</code> 파일을 입력으로 씁니다. 실습 내용은 완전히 동일합니다.</p>
+</blockquote>
+<h2 id="2.2-첫-대화-폴더를-읽게-하고-요약시키기">2.2 첫 대화 — 폴더를 읽게 하고 요약시키기</h2>
+<p>이제 첫 성공을 만듭니다. 목표는 거창하지 않습니다. <strong>Claude가 내 폴더 안 파일을 읽고 응답하는 것</strong>을 한 번 확인하면 됩니다.</p>
+<p><strong>사용할 파일</strong>: <code>1_시작자료 (여기서 시작)</code> 폴더 전체.</p>
+<p><strong>그대로 써도 되는 프롬프트</strong></p>
+<div class="asset-caption asset-caption--code"><span class="asset-caption__chip">코드 2</span><span class="asset-caption__title">2.2 첫 대화 — 폴더를 읽게 하고 요약시키기</span></div>
+<pre class="code-block code-block--text" data-lang="text"><code class="language-text">이 폴더에 어떤 파일들이 있는지 알려줘. 각 파일이 뭐에 쓰는 건지 한 줄씩 설명해줘.</code></pre>
+<p>이어서 한 발 더 나갑니다 — 메모 파일을 요약시켜 봅니다.</p>
+<div class="asset-caption asset-caption--code"><span class="asset-caption__chip">코드 3</span><span class="asset-caption__title">2.2 첫 대화 — 폴더를 읽게 하고 요약시키기</span></div>
+<pre class="code-block code-block--text" data-lang="text"><code class="language-text">&#39;신메뉴 아이디어 메모&#39; 파일을 열어서 핵심 내용을 3줄로 요약해줘.</code></pre>
+<p><strong>잘 된 결과의 기준</strong></p>
+<ul class="bullets">
+<li>폴더 안 파일 목록이 설명과 함께 나온다.</li>
+<li>메모의 내용이 <strong>내가 읽지 않고도</strong> 3줄로 파악된다.</li>
+<li>→ 여기까지 오면 &quot;대화로 일을 시킨다&quot;의 감을 잡은 것입니다.</li>
+</ul>
+<p><strong>자주 막히는 지점</strong></p>
+<ul class="bullets">
+<li><strong>&quot;파일을 못 찾겠다&quot;는 응답</strong> → 폴더가 제대로 열렸는지(2.1 ③) 다시 확인합니다.</li>
+<li><strong>엉뚱한 파일을 요약</strong> → 파일 이름을 따옴표로 정확히 지정해 다시 시킵니다.</li>
+</ul>
+<blockquote>
+<p><strong>다음 단계 체크포인트</strong>: 시작자료 파일 1개 이상을 Claude가 요약했다. → 3장으로.</p>
+</blockquote>
+
+</section>
+
+    <aside class="section-divider" aria-hidden="true">
+      <div class="section-divider__tag">섹션 03</div>
+      <h2 class="section-divider__title">3. 핸즈온 1</h2>
+      <p class="section-divider__subtitle">메일에서 근거표까지</p>
+      <div class="section-divider__rule"></div>
+      <div class="section-divider__num">03</div>
+    </aside>
+    
+<section class="report-section s3 page-break">
+<div class="report-section__kicker">Section 03 · 3. 핸즈온 1</div>
+<h1 id="3.-핸즈온-1-메일에서-근거표까지">3. 핸즈온 1 — 메일에서 근거표까지</h1>
+<blockquote>
+<p><strong>이 장의 한 줄</strong> — 받은 업무 메일을 읽고, 경쟁사·시장을 리서치해 <strong>근거표</strong> 한 장으로 정리한다.</p>
+</blockquote>
+<h3 id="이-단계의-목표">이 단계의 목표</h3>
+<p>박팀장의 메일을 출발점으로, &quot;우리가 밀키트 파일럿을 할 만한가&quot;를 판단할 <strong>근거</strong>를 모아 한 표로 정리합니다. 제안서의 뼈대가 되는 자료입니다.</p>
+<h3 id="사용할-파일">사용할 파일</h3>
+<ul class="bullets">
+<li>입력 메일: <code>2_박팀장에게_받는_메일/01_밀키트_파일럿_검토요청_2026-06-15_박팀장.md</code>
+<em>(Gmail 커넥터가 되면 받은 메일을 직접 읽혀도 됩니다 — 내용은 같습니다.)</em></li>
+<li>참고: <code>1_시작자료/신메뉴 아이디어 메모.docx</code></li>
+</ul>
+<h3 id="claude에게-시킬-일">Claude에게 시킬 일</h3>
+<ol class="nums">
+<li>메일을 읽고 <strong>요청의 핵심</strong>(무엇을, 왜, 언제까지)을 정리하게 한다.</li>
+<li>경쟁사(예: CJ·풀무원 계열의 밀키트/정기배송)와 시장 동향을 <strong>리서치</strong>하게 한다.</li>
+<li>결과를 <strong>근거표</strong> 형태로 정리하게 한다.</li>
+</ol>
+<h3 id="그대로-써도-되는-프롬프트">그대로 써도 되는 프롬프트</h3>
+<p>메일 파악:</p>
+<div class="asset-caption asset-caption--code"><span class="asset-caption__chip">코드 4</span><span class="asset-caption__title">그대로 써도 되는 프롬프트</span></div>
+<pre class="code-block code-block--text" data-lang="text"><code class="language-text">&#39;01_밀키트_파일럿_검토요청…&#39; 메일을 읽고, 팀장이 부탁한 게 정확히 뭔지
+&#39;무엇을 / 왜 / 언제까지&#39;로 정리해줘.</code></pre>
+<p>리서치 + 근거표:</p>
+<div class="asset-caption asset-caption--code"><span class="asset-caption__chip">코드 5</span><span class="asset-caption__title">그대로 써도 되는 프롬프트</span></div>
+<pre class="code-block code-block--text" data-lang="text"><code class="language-text">직장인 평일 저녁용 &#39;10분 밀키트 + 정기배송&#39; 파일럿을 검토하려고 해.
+경쟁사(CJ·풀무원 등)가 비슷한 걸 어떻게 하고 있는지, 시장 흐름은 어떤지 조사해서
+아래 칸을 채운 표로 정리해줘:
+| 항목 | 내용 | 우리에게 주는 시사점 |
+경쟁사 동향 / 가격대 / 타깃 고객 / 시장 성장·둔화 / 차별화 기회 를 행으로.</code></pre>
+<h3 id="잘-된-결과의-기준">잘 된 결과의 기준</h3>
+<ul class="bullets">
+<li>표에 <strong>경쟁사·가격대·타깃·시장 흐름·차별화 기회</strong>가 채워져 있다.</li>
+<li>각 행에 &quot;그래서 우리에게 무슨 의미인지&quot;(시사점)가 한 줄씩 있다.</li>
+<li>숫자가 있으면 <strong>출처나 '가정'</strong> 표시가 붙어 있다. <em>(나중에 팀장이 &quot;이 숫자 어디서 나왔냐&quot;고 묻습니다 — 5장 참고.)</em></li>
+</ul>
+<h3 id="자주-막히는-지점">자주 막히는 지점</h3>
+<ul class="bullets">
+<li><strong>표가 안 나오고 줄글로만 답함</strong> → &quot;표로, 위 칸 형식 그대로 정리해줘&quot;라고 다시 시킵니다.</li>
+<li><strong>리서치가 너무 일반적임</strong> → &quot;직장인 1~2인 가구, 평일 저녁, 10분 조리&quot; 처럼 조건을 좁혀 다시 시킵니다.</li>
+<li><strong>숫자를 단정적으로 말함</strong> → &quot;확실한 근거가 없으면 '추정/가정'이라고 표시해줘&quot;를 덧붙입니다.</li>
+</ul>
+<h3 id="플랜b-따라가기-패킷">플랜B / 따라가기 패킷</h3>
+<p>리서치 품질이 낮거나 시간이 부족하면, 강사가 제공하는 <strong>샘플 근거표</strong>로 다음 단계(4장)에 바로 진입합니다. 근거표의 완성도보다 <strong>제안서까지 가는 것</strong>이 우선입니다.</p>
+<h3 id="다음-단계로-넘어가는-체크포인트">다음 단계로 넘어가는 체크포인트</h3>
+<blockquote>
+<p>경쟁사·시장이 정리된 <strong>근거표 초안</strong>이 내 화면에 있다. → 4장으로.</p>
+</blockquote>
+
+</section>
+
+    <aside class="section-divider" aria-hidden="true">
+      <div class="section-divider__tag">섹션 04</div>
+      <h2 class="section-divider__title">4. 핸즈온 2</h2>
+      <p class="section-divider__subtitle">제안서 초안 만들기 ★오늘의 완주점</p>
+      <div class="section-divider__rule"></div>
+      <div class="section-divider__num">04</div>
+    </aside>
+    
+<section class="report-section s4 page-break">
+<div class="report-section__kicker">Section 04 · 4. 핸즈온 2</div>
+<h1 id="4.-핸즈온-2-제안서-초안-만들기-오늘의-완주점">4. 핸즈온 2 — 제안서 초안 만들기 ★오늘의 완주점</h1>
+<blockquote>
+<p><strong>이 장의 한 줄</strong> — 근거표와 회사 양식을 합쳐, 제출 가능한 <strong>제안서 초안 한 건</strong>을 만든다. 오늘 전원이 도착하는 지점이다.</p>
+</blockquote>
+<h3 id="이-단계의-목표">이 단계의 목표</h3>
+<p>3장에서 만든 근거표를 회사 제안서 양식에 부어, <strong>임원 보고로 이어질 제안서 초안</strong>을 완성합니다. 완벽한 최종본이 아니라, 팀장에게 보여줄 수 있는 <strong>1차 초안</strong>이 목표입니다.</p>
+<h3 id="사용할-파일">사용할 파일</h3>
+<ul class="bullets">
+<li>양식: <code>1_시작자료/회사_제안서양식.docx</code></li>
+<li>입력: 3장의 근거표 + <code>1_시작자료/신메뉴 아이디어 메모.docx</code></li>
+<li>도착점 참고: <code>3_완성_미리보기/제안서.docx</code></li>
+</ul>
+<h3 id="claude에게-시킬-일">Claude에게 시킬 일</h3>
+<ol class="nums">
+<li>회사 양식의 **구조(목차·항목)**를 그대로 따르게 한다.</li>
+<li>근거표 내용을 각 항목에 배치해 <strong>초안</strong>을 쓰게 한다.</li>
+<li>양식의 <strong>결재란·문서번호 같은 형식 요소는 건드리지 않게</strong> 한다.</li>
+</ol>
+<h3 id="그대로-써도-되는-프롬프트">그대로 써도 되는 프롬프트</h3>
+<div class="asset-caption asset-caption--code"><span class="asset-caption__chip">코드 6</span><span class="asset-caption__title">그대로 써도 되는 프롬프트</span></div>
+<pre class="code-block code-block--text" data-lang="text"><code class="language-text">&#39;회사_제안서양식.docx&#39;의 구조와 항목을 그대로 유지하면서,
+앞에서 만든 근거표 내용으로 &#39;밀키트 파일럿 제안서&#39; 초안을 채워줘.
+- 제목/배경/시장·경쟁분석/제안내용/기대효과/리스크 순서로
+- 양식의 결재란·문서번호·로고 자리는 그대로 두고
+- 숫자나 주장에는 근거 또는 &#39;가정&#39; 표시를 달아줘</code></pre>
+<p>항목이 비면 이렇게 보완합니다:</p>
+<div class="asset-caption asset-caption--code"><span class="asset-caption__chip">코드 7</span><span class="asset-caption__title">그대로 써도 되는 프롬프트</span></div>
+<pre class="code-block code-block--text" data-lang="text"><code class="language-text">&#39;기대효과&#39;와 &#39;리스크&#39; 항목이 비었어. 근거표를 바탕으로 각각 3줄씩 채워줘.
+과장 표현 없이 담백하게.</code></pre>
+<h3 id="잘-된-결과의-기준">잘 된 결과의 기준</h3>
+<ul class="bullets">
+<li>양식의 <strong>항목 구조</strong>가 유지된 채 내용이 채워져 있다.</li>
+<li>시장·경쟁 분석에 3장 근거표가 반영돼 있다.</li>
+<li><strong>결재란·문서번호·로고 자리</strong>가 그대로 있다.</li>
+<li>읽었을 때 &quot;팀장에게 보여줄 수 있겠다&quot; 싶은 <strong>1차 초안</strong> 수준이다.</li>
+</ul>
+<h3 id="자주-막히는-지점">자주 막히는 지점</h3>
+<ul class="bullets">
+<li><strong>양식을 무시하고 새로 씀</strong> → &quot;양식 파일의 항목 순서와 형식을 그대로 따라&quot;라고 다시 지정합니다.</li>
+<li><strong>내용이 붕 뜸(근거 없음)</strong> → &quot;각 주장 옆에 근거표의 어떤 항목에서 나왔는지 표시해줘&quot;를 덧붙입니다.</li>
+<li><strong>너무 길어짐</strong> → 길이 조정은 5장에서 합니다. 지금은 <strong>초안 완성</strong>이 먼저입니다.</li>
+</ul>
+<h3 id="플랜b-따라가기-패킷">플랜B / 따라가기 패킷</h3>
+<p>근거표가 약하거나 시간이 부족하면, 강사의 <strong>샘플 근거표</strong>로 제안서 초안을 만듭니다. 그래도 안 되면 <code>3_완성_미리보기/제안서.docx</code>를 열어 구조를 보고, 한 항목씩 내 내용으로 바꿔 채웁니다. <strong>목표는 초안 1건 보유</strong>입니다.</p>
+<h3 id="다음-단계로-넘어가는-체크포인트">다음 단계로 넘어가는 체크포인트</h3>
+<blockquote>
+<p>회사 양식 형태의 <strong>제안서 초안</strong>이 하나 있다. ← 오늘의 핵심 완주점. → 5장으로.</p>
+</blockquote>
+
+</section>
+
+    <aside class="section-divider" aria-hidden="true">
+      <div class="section-divider__tag">섹션 05</div>
+      <h2 class="section-divider__title">5. 핸즈온 3</h2>
+      <p class="section-divider__subtitle">팀장 피드백 반영하기</p>
+      <div class="section-divider__rule"></div>
+      <div class="section-divider__num">05</div>
+    </aside>
+    
+<section class="report-section s5 page-break">
+<div class="report-section__kicker">Section 05 · 5. 핸즈온 3</div>
+<h1 id="5.-핸즈온-3-팀장-피드백-반영하기">5. 핸즈온 3 — 팀장 피드백 반영하기</h1>
+<blockquote>
+<p><strong>이 장의 한 줄</strong> — 받은 피드백을 제안서에 반영해 <strong>v2</strong>로 고치고, 무엇이 바뀌었는지 스스로 검수한다.</p>
+</blockquote>
+<h3 id="이-단계의-목표">이 단계의 목표</h3>
+<p>실무는 한 번에 끝나지 않습니다. 팀장 피드백을 받아 <strong>수정 루프</strong>를 한 바퀴 도는 것이 이 단계의 목표입니다. 피드백 전부를 반영하지 못해도 괜찮습니다 — <strong>최소 1개</strong>라도 반영하고 변경점을 확인하면 성공입니다.</p>
+<h3 id="사용할-파일">사용할 파일</h3>
+<ul class="bullets">
+<li>피드백 메일: <code>2_박팀장에게_받는_메일/01_제안서_피드백_2026-06-17_박팀장.md</code></li>
+<li>대상: 4장에서 만든 제안서 초안</li>
+<li>(시간이 되면) 발표 피드백: <code>02_발표_피드백_디자인…</code>, <code>03_발표_피드백_톤…</code></li>
+</ul>
+<h3 id="claude에게-시킬-일">Claude에게 시킬 일</h3>
+<p>팀장 메일의 요청은 네 가지입니다:</p>
+<ol class="nums">
+<li>임원 보고용으로 <strong>2페이지로 축약</strong>.</li>
+<li>시장 둔화를 <strong>앞에서 정면으로</strong> 다루기 → &quot;둔화 → 그래서 차별화&quot; 순서.</li>
+<li>&quot;1식 9,000원&quot;의 <strong>근거 표시</strong>(출처 또는 '가정').</li>
+<li>결재란 위 <strong>문서번호 유지</strong> 확인.</li>
+</ol>
+<h3 id="그대로-써도-되는-프롬프트">그대로 써도 되는 프롬프트</h3>
+<div class="asset-caption asset-caption--code"><span class="asset-caption__chip">코드 8</span><span class="asset-caption__title">그대로 써도 되는 프롬프트</span></div>
+<pre class="code-block code-block--text" data-lang="text"><code class="language-text">팀장 피드백 메일을 읽고, 내 제안서를 아래대로 고쳐서 v2로 만들어줘:
+1) 임원 보고용으로 핵심만 남겨 2페이지 분량으로 줄여줘
+2) 시장 둔화 얘기를 맨 앞으로 빼고 &#39;둔화 → 그래서 차별화&#39; 순서로
+3) &#39;1식 9,000원&#39;에 근거가 있으면 출처를, 없으면 &#39;가정&#39;이라고 표시
+4) 결재란·문서번호는 그대로 두기
+그리고 뭘 바꿨는지 마지막에 변경점 목록으로 정리해줘.</code></pre>
+<h3 id="잘-된-결과의-기준">잘 된 결과의 기준</h3>
+<ul class="bullets">
+<li>분량이 줄고 <strong>2페이지 분량</strong>에 가깝다.</li>
+<li>도입부가 &quot;시장 둔화 → 차별화&quot; 순서로 바뀌었다.</li>
+<li>9,000원에 <strong>출처 또는 '가정'</strong> 표시가 붙었다.</li>
+<li><strong>문서번호·결재란</strong>이 유지돼 있다.</li>
+<li>마지막에 <strong>무엇을 바꿨는지</strong> 목록이 있다.</li>
+</ul>
+<h3 id="자주-막히는-지점">자주 막히는 지점</h3>
+<ul class="bullets">
+<li><strong>줄이랬더니 내용이 통째로 사라짐</strong> → &quot;핵심 메시지는 유지하고 표현만 압축해줘&quot;로 다시 시킵니다.</li>
+<li><strong>변경점 목록이 없음</strong> → &quot;마지막에 v1 대비 바뀐 점을 목록으로 정리해줘&quot;를 덧붙입니다.</li>
+<li><strong>문서번호가 바뀜</strong> → &quot;문서번호와 결재란은 원본 그대로 둬&quot;라고 다시 못 박습니다.</li>
+</ul>
+<h3 id="플랜b-따라가기-패킷">플랜B / 따라가기 패킷</h3>
+<p>시간이 부족하면 <strong>피드백 4개 중 1개만</strong> 반영해도 인정합니다(가장 쉬운 것: 9,000원 근거 표시). 발표자료 피드백(디자인·톤)은 <strong>시간이 남을 때</strong> 같은 방식으로 적용합니다 — 핵심은 &quot;지시 → 반영 → 변경점 확인&quot; 루프를 한 번 경험하는 것입니다.</p>
+<h3 id="다음-단계로-넘어가는-체크포인트">다음 단계로 넘어가는 체크포인트</h3>
+<blockquote>
+<p>팀장 피드백을 <strong>최소 1개 이상</strong> 반영한 제안서 v2가 있고, 무엇을 바꿨는지 안다. → 6장으로.</p>
+</blockquote>
+
+</section>
+
+    <aside class="section-divider" aria-hidden="true">
+      <div class="section-divider__tag">섹션 06</div>
+      <h2 class="section-divider__title">6. 내 업무로 옮기기</h2>
+      
+      <div class="section-divider__rule"></div>
+      <div class="section-divider__num">06</div>
+    </aside>
+    
+<section class="report-section s6 page-break">
+<div class="report-section__kicker">Section 06 · 6. 내 업무로 옮기기</div>
+<h1 id="6.-내-업무로-옮기기">6. 내 업무로 옮기기</h1>
+<blockquote>
+<p><strong>이 장의 한 줄</strong> — 오늘의 방식을 내 실제 업무로 가져간다. 반복 작업 하나를 <strong>자동화 후보</strong>로 적는다.</p>
+</blockquote>
+<h3 id="이-단계의-목표">이 단계의 목표</h3>
+<p>오늘 예제로 한 &quot;메일 → 리서치 → 문서 → 수정&quot;은 사실 <strong>수많은 업무의 공통 골격</strong>입니다. 이 장에서는 그 골격을 내 업무에 대보고, 자동화해볼 후보 하나를 고릅니다. 그리고 그 다음 단계인 <strong>Skill</strong>의 감을 잡습니다.</p>
+<h3 id="skill이란-감만-잡기">Skill이란 (감만 잡기)</h3>
+<div class="callout callout--hero"><span class="callout__kicker">핵심 메시지</span><span class="callout__body">같은 일을 매번 똑같이 시키는 게 번거롭다면, 그 절차·프롬프트를 한 번 정리해 <strong>재사용</strong>할 수 있습니다. 이렇게 정리한 능력 단위가 <strong>Skill</strong>입니다.</span></div>
+<p>오늘은 만들지 않습니다. &quot;아, 반복되는 일은 이렇게 묶어서 재사용할 수 있구나&quot;라는 감만 가져가면 충분합니다. 강사 시연을 보며 &quot;내 업무 중 이런 게 있겠다&quot;를 떠올려 보세요.</p>
+<h3 id="내-업무-자동화-후보-1줄-쓰기">내 업무 자동화 후보 1줄 쓰기</h3>
+<p>아래 빈칸을 채워 <strong>한 줄</strong>로 적어보세요. 좋은 후보는 <em>자주 반복되고, 입력과 출력이 분명한</em> 일입니다.</p>
+<div class="asset-caption asset-caption--code"><span class="asset-caption__chip">코드 9</span><span class="asset-caption__title">내 업무 자동화 후보 1줄 쓰기</span></div>
+<pre class="code-block code-block--text" data-lang="text"><code class="language-text">나는 [____]를 받아서 [____]로 만드는 일을 [매주/매월] 반복한다.
+이걸 Claude에게 시키면 [____] 시간을 줄일 수 있을 것 같다.</code></pre>
+<p>예시:</p>
+<ul class="bullets">
+<li>&quot;매주 받는 <strong>주간 보고 메일들</strong>을 <strong>한 장 요약</strong>으로 만드는 일.&quot;</li>
+<li>&quot;고객 문의 <strong>엑셀</strong>을 <strong>유형별 분류 + 답변 초안</strong>으로 만드는 일.&quot;</li>
+<li>&quot;회의록을 <strong>결정사항·할 일 목록</strong>으로 정리하는 일.&quot;</li>
+</ul>
+<h3 id="잘-됐다는-기준">잘 됐다는 기준</h3>
+<ul class="bullets">
+<li>후보가 <strong>구체적인 입력→출력</strong>으로 적혀 있다(막연한 &quot;업무 자동화&quot; X).</li>
+<li>자주 반복되는 일이라 자동화 가치가 있다.</li>
+</ul>
+<h3 id="자주-막히는-지점">자주 막히는 지점</h3>
+<ul class="bullets">
+<li><strong>너무 큰 걸 고름</strong> → &quot;업무 전체&quot;가 아니라 <strong>반복되는 작은 절차 하나</strong>로 좁히세요.</li>
+<li><strong>떠오르지 않음</strong> → 지난주에 <strong>두 번 이상 한 비슷한 작업</strong>을 떠올려 보세요.</li>
+</ul>
+<h3 id="다음-단계-집에-가서">다음 단계 (집에 가서)</h3>
+<aside class="reading-more"><span class="reading-more__kicker">Further Reading · 더 깊이 읽기</span><ul class="bullets">
+<li>오늘의 제안서 흐름을 <strong>내 후보 업무</strong>로 한 번 더 돌려보기.</li>
+<li>잘 되는 프롬프트는 메모해 두기 — 그게 나중에 내 Skill의 재료가 됩니다.</li>
+<li>막히는 지점이 생기면 기록해 두기 — 사후 보완 자료/문의로 해결.</li>
+</ul></aside>
+<blockquote>
+<p><strong>오늘의 마무리</strong> — 중요한 건 도구가 아니라 <strong>일하는 방식</strong>입니다. 월요일에 내 책상에서 한 번 더 써보는 것, 그게 오늘의 진짜 완주점입니다.</p>
+</blockquote>
+
+</section>
+  </article>
+  <script data-source="report.js">
+// AI Odyssey Publisher — Report 런타임 (인터랙티브 HTML + 인쇄 프리프로세스)
+// 슬라이드 `deck.js` 에서 네비게이션·뷰포트 스케일링을 제거하고,
+// 리포트에 필요한 (1) 테마 토글 (2) Chart.js 빌더
+// (4) IntersectionObserver 기반 카운터/애니메이션 (5) TOC 자동 생성
+// (6) 각주 번호 자동 부여만 남겼다.
+
+(function () {
+  // ===== Theme toggle =====
+  var THEME_KEY = 'aio-report-theme';
+  var saved = localStorage.getItem(THEME_KEY);
+  var current = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+  window.applyTheme = function (t) {
+    document.documentElement.className = 'theme-' + t;
+    var btn = document.getElementById('themeToggle');
+    if (btn) {
+      btn.textContent = t === 'dark' ? '☾' : '☀';
+      btn.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+      btn.setAttribute('title', t === 'dark' ? '라이트 모드로 전환' : '나이트 모드로 전환');
+    }
+    localStorage.setItem(THEME_KEY, t);
+    current = t;
+    if (typeof onThemeChange === 'function') onThemeChange();
+  };
+  window.cycleTheme = function () { window.applyTheme(current === 'dark' ? 'light' : 'dark'); };
+  window.applyTheme(current);
+
+  // ===== Floating controls / drawer TOC =====
+  function getHeadingLabel(h) {
+    return (h.textContent || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function ensureHeadingId(h, idx) {
+    if (h.id) return h.id;
+    h.id = 'toc-heading-' + idx;
+    return h.id;
+  }
+
+  window.buildDrawerTOC = function () {
+    var list = document.getElementById('tocDrawerList');
+    if (!list || list.children.length) return;
+    var headings = Array.from(document.querySelectorAll('.report-section h1, .report-section h2, .report-appendix h1, .report-appendix h2'));
+    headings.forEach(function (h, idx) {
+      var label = getHeadingLabel(h);
+      if (!label || /^References$/i.test(label)) label = '참고문헌';
+      var id = ensureHeadingId(h, idx + 1);
+      var li = document.createElement('li');
+      li.className = 'report-toc-drawer__item report-toc-drawer__item--' + h.tagName.toLowerCase();
+      var a = document.createElement('a');
+      a.href = '#' + id;
+      a.textContent = label;
+      a.addEventListener('click', function () { window.closeTOCDrawer(); });
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+  };
+
+  window.openTOCDrawer = function () {
+    window.buildDrawerTOC();
+    var drawer = document.getElementById('tocDrawer');
+    var backdrop = document.getElementById('tocBackdrop');
+    var toggle = document.getElementById('tocToggle');
+    if (!drawer || !backdrop) return;
+    drawer.classList.add('is-open');
+    drawer.setAttribute('aria-hidden', 'false');
+    backdrop.hidden = false;
+    backdrop.classList.add('is-open');
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+  };
+
+  window.closeTOCDrawer = function () {
+    var drawer = document.getElementById('tocDrawer');
+    var backdrop = document.getElementById('tocBackdrop');
+    var toggle = document.getElementById('tocToggle');
+    if (!drawer || !backdrop) return;
+    drawer.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    backdrop.classList.remove('is-open');
+    backdrop.hidden = true;
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  };
+
+  window.openSettingsPanel = function () {
+    var panel = document.getElementById('settingsPanel');
+    var toggle = document.getElementById('settingsToggle');
+    if (!panel || !toggle) return;
+    panel.classList.add('is-open');
+    panel.setAttribute('aria-hidden', 'false');
+    toggle.setAttribute('aria-expanded', 'true');
+  };
+
+  window.closeSettingsPanel = function () {
+    var panel = document.getElementById('settingsPanel');
+    var toggle = document.getElementById('settingsToggle');
+    if (!panel || !toggle) return;
+    panel.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+    toggle.setAttribute('aria-expanded', 'false');
+  };
+
+  window.toggleSettingsPanel = function () {
+    var panel = document.getElementById('settingsPanel');
+    if (panel && panel.classList.contains('is-open')) window.closeSettingsPanel();
+    else window.openSettingsPanel();
+  };
+
+  function setupFloatingControls() {
+    var tocToggle = document.getElementById('tocToggle');
+    var tocClose = document.getElementById('tocClose');
+    var backdrop = document.getElementById('tocBackdrop');
+    var settingsToggle = document.getElementById('settingsToggle');
+    if (tocToggle) tocToggle.addEventListener('click', window.openTOCDrawer);
+    if (tocClose) tocClose.addEventListener('click', window.closeTOCDrawer);
+    if (backdrop) backdrop.addEventListener('click', window.closeTOCDrawer);
+    if (settingsToggle) settingsToggle.addEventListener('click', window.toggleSettingsPanel);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        window.closeTOCDrawer();
+        window.closeSettingsPanel();
+      }
+    });
+    document.addEventListener('click', function (e) {
+      var settings = document.querySelector('.report-settings');
+      if (settings && !settings.contains(e.target)) window.closeSettingsPanel();
+    });
+
+    // Auto-hide floating controls — Medium/Substack scroll-direction reveal +
+    // edge-hover boost. idle timer 가 아니라 사용자 의도(읽기 vs 탐색)에 연동.
+    // - 아래로 스크롤 = 읽는 중 → 숨김
+    // - 위로 스크롤 = 탐색 의도 → 표시
+    // - scrollY < 100 (페이지 최상단 부근) = 항상 표시
+    // - 마우스가 좌/우 가장자리 100px 영역 = 즉시 표시
+    // - TOC 드로어 / 설정 패널 열림 = 강제 표시
+    var SCROLL_THRESHOLD = 8;
+    var TOP_ZONE = 100;
+    var EDGE_ZONE = 100;
+    var lastScrollY = window.scrollY || window.pageYOffset || 0;
+
+    function isAnyPanelOpen() {
+      var drawer = document.getElementById('tocDrawer');
+      var panel = document.getElementById('settingsPanel');
+      return (drawer && drawer.classList.contains('is-open'))
+          || (panel && panel.classList.contains('is-open'));
+    }
+    function showChrome() {
+      if (!document.body.classList.contains('chrome-hidden')) return;
+      document.body.classList.remove('chrome-hidden');
+    }
+    function hideChrome() {
+      if (isAnyPanelOpen()) return;
+      if ((window.scrollY || 0) < TOP_ZONE) return;
+      if (document.body.classList.contains('chrome-hidden')) return;
+      document.body.classList.add('chrome-hidden');
+    }
+    function onScroll() {
+      var y = window.scrollY || window.pageYOffset || 0;
+      var dy = y - lastScrollY;
+      if (Math.abs(dy) < SCROLL_THRESHOLD) return;
+      if (y < TOP_ZONE) showChrome();
+      else if (dy > 0) hideChrome();
+      else showChrome();
+      lastScrollY = y;
+    }
+    function onMouseMove(e) {
+      if (e.clientX <= EDGE_ZONE || e.clientX >= window.innerWidth - EDGE_ZONE) {
+        showChrome();
+      }
+    }
+    document.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('mousemove', onMouseMove, { passive: true });
+    document.addEventListener('touchstart', showChrome, { passive: true });
+    document.addEventListener('keydown', showChrome);
+  }
+
+  // ===== TOC auto-generation =====
+  window.buildTOC = function () {
+    var tocList = document.querySelector('.report-toc__list');
+    if (!tocList) return;
+    // 이미 수동으로 채워져 있으면 덮어쓰지 않음
+    if (tocList.children.length > 0) return;
+
+    function makeItem(href, num, label, isSub) {
+      var li = document.createElement('li');
+      li.className = 'report-toc__item' + (isSub ? ' report-toc__item--h3' : '');
+      li.innerHTML =
+        '<a href="#' + href + '">' +
+          '<span class="report-toc__num">' + num + '</span>' +
+          '<span class="report-toc__label">' + label + '</span>' +
+          '<span class="report-toc__leader"></span>' +
+          '<span class="report-toc__page" data-toc-page></span>' +
+        '</a>';
+      return li;
+    }
+
+    function isAppendixSection(sec) {
+      if (sec.classList.contains('report-appendix')) return true;
+      var k = sec.querySelector(':scope > .report-section__kicker');
+      return !!(k && /^Appendix/i.test(k.textContent));
+    }
+
+    var secCount = 0;
+    var subCount = 0;
+
+    // 1) 일반 섹션 — 부록(Appendix) 이 아닌 .report-section
+    document.querySelectorAll('.report-section').forEach(function (sec) {
+      if (isAppendixSection(sec)) return;
+      var heading = sec.querySelector(':scope > h1, :scope > h2');
+      if (heading) {
+        secCount += 1;
+        subCount = 0;
+        if (!sec.id) sec.id = 'section-' + secCount;
+        tocList.appendChild(makeItem(sec.id, String(secCount).padStart(2, '0'), heading.textContent, false));
+      }
+      sec.querySelectorAll(':scope h3').forEach(function (h3) {
+        subCount += 1;
+        if (!h3.id) h3.id = (sec.id || 'section-' + secCount) + '-' + subCount;
+        tocList.appendChild(makeItem(h3.id, secCount + '.' + subCount, h3.textContent, true));
+      });
+    });
+
+    // 2) 참고문헌 — report 말미의 독립 섹션
+    var refs = document.querySelector('.report-appendix.s-refs');
+    if (refs) {
+      var refsHeading = refs.querySelector(':scope > h1, :scope > h2');
+      secCount += 1;
+      if (!refs.id) refs.id = 'section-' + secCount;
+      if (refsHeading && !refsHeading.id) refsHeading.id = refs.id + '-' + refsHeading.tagName.toLowerCase();
+      tocList.appendChild(makeItem(refs.id, String(secCount).padStart(2, '0'), refsHeading ? refsHeading.textContent : '참고문헌', false));
+    }
+  };
+
+  // ===== Footnote auto-numbering =====
+  window.numberFootnotes = function () {
+    var refs = document.querySelectorAll('.footnote-ref');
+    refs.forEach(function (ref, idx) {
+      var n = idx + 1;
+      if (!ref.textContent.trim()) ref.textContent = n;
+      if (!ref.id) ref.id = 'fnref-' + n;
+      if (!ref.getAttribute('href')) ref.setAttribute('href', '#fn-' + n);
+    });
+    var items = document.querySelectorAll('.footnotes li');
+    items.forEach(function (li, idx) {
+      var n = idx + 1;
+      if (!li.id) li.id = 'fn-' + n;
+    });
+  };
+
+  // ===== Counter animation (data-count, IntersectionObserver) =====
+  function animateCounter(el) {
+    if (el.dataset.counted === '1') return;
+    el.dataset.counted = '1';
+    var target = parseFloat(el.dataset.count);
+    var suffix = el.dataset.suffix || '';
+    var prefix = el.dataset.prefix || '';
+    var isFloat = String(target).indexOf('.') > -1;
+    var start = performance.now();
+    var duration = 1100;
+    (function tick(now) {
+      var p = Math.min((now - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      var v = target * eased;
+      el.textContent = prefix + (isFloat ? v.toFixed(1) : Math.round(v).toLocaleString()) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    })(start);
+  }
+  function setupObserver() {
+    if (!('IntersectionObserver' in window)) {
+      // Fallback: 즉시 최종 값으로 채움 (인쇄 경로 안전장치)
+      document.querySelectorAll('[data-count]').forEach(function (el) {
+        var target = parseFloat(el.dataset.count);
+        var isFloat = String(target).indexOf('.') > -1;
+        el.textContent = (el.dataset.prefix || '') + (isFloat ? target.toFixed(1) : Math.round(target).toLocaleString()) + (el.dataset.suffix || '');
+      });
+      document.querySelectorAll('.animate-in').forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var el = e.target;
+        if (el.hasAttribute('data-count')) animateCounter(el);
+        if (el.classList.contains('animate-in')) el.classList.add('is-visible');
+        io.unobserve(el);
+      });
+    }, { threshold: 0.25 });
+    document.querySelectorAll('[data-count]').forEach(function (el) { io.observe(el); });
+    document.querySelectorAll('.animate-in').forEach(function (el) { io.observe(el); });
+  }
+
+  // ===== Chart.js (슬라이드 bars 빌더 + 리포트 전용 positioningMap scatter) =====
+  var chartsBuilt = false;
+  var barsChart = null;
+  var positioningChart = null;
+  function getChartColors() {
+    var s = getComputedStyle(document.documentElement);
+    return {
+      text: s.getPropertyValue('--text').trim(),
+      textSecondary: s.getPropertyValue('--text-secondary').trim(),
+      border: s.getPropertyValue('--border').trim(),
+      surface: s.getPropertyValue('--surface').trim(),
+      lgRed: s.getPropertyValue('--brand-primary').trim(),
+      lgRedDeep: s.getPropertyValue('--brand-deep').trim(),
+    };
+  }
+  function resetCanvas(id) {
+    var old = document.getElementById(id);
+    if (!old) return null;
+    var parent = old.parentNode;
+    var c = document.createElement('canvas');
+    c.id = id;
+    c.setAttribute('role', 'img');
+    c.setAttribute('aria-label', 'Bars chart');
+    parent.replaceChild(c, old);
+    return c;
+  }
+  function buildPositioningMap(c) {
+    try { if (positioningChart) { positioningChart.destroy(); positioningChart = null; } } catch (e) {}
+    var canvas = resetCanvas('positioningMap');
+    if (!canvas) return;
+    // x: 0 = 개발자/API, 100 = 비개발자/UI · y: 0 = 좁음(브라우저), 100 = 넓음(OS 전체)
+    var points = [
+      { label: 'Anthropic',       x: 18, y: 92, color: '#0F2C59' },
+      { label: 'OpenAI Operator', x: 82, y: 35, color: '#059669' },
+      { label: 'Google AI Ultra', x: 55, y: 58, color: '#2563eb' },
+    ];
+    var datasets = points.map(function (p) {
+      return {
+        label: p.label,
+        data: [{ x: p.x, y: p.y, _label: p.label }],
+        backgroundColor: p.color,
+        borderColor: p.color,
+        pointRadius: 11,
+        pointHoverRadius: 13,
+        pointStyle: 'circle',
+      };
+    });
+    positioningChart = new Chart(canvas.getContext('2d'), {
+      type: 'scatter',
+      data: { datasets: datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        layout: { padding: { top: 18, right: 18, bottom: 6, left: 6 } },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: c.text, titleColor: c.surface, bodyColor: c.surface,
+            padding: 8, cornerRadius: 6, displayColors: false,
+            callbacks: {
+              title: function (items) { return items[0].dataset.label; },
+              label: function (ctx) {
+                var xLbl = ctx.parsed.x >= 50 ? '비개발자/UI' : '개발자/API';
+                var yLbl = ctx.parsed.y >= 50 ? '넓은 범위' : '좁은 범위';
+                return xLbl + ' · ' + yLbl;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            min: 0, max: 100,
+            ticks: {
+              color: c.textSecondary, font: { size: 9, family: 'Inter', weight: '600' },
+              callback: function (v) {
+                if (v === 0) return '개발자/API';
+                if (v === 100) return '비개발자/UI';
+                if (v === 50) return '혼합';
+                return '';
+              }
+            },
+            grid: { color: c.border, drawBorder: false },
+            border: { display: false },
+            title: { display: false }
+          },
+          y: {
+            min: 0, max: 100,
+            ticks: {
+              color: c.textSecondary, font: { size: 9, family: 'Inter', weight: '600' },
+              callback: function (v) {
+                if (v === 0) return '좁음(브라우저)';
+                if (v === 100) return '넓음(OS 전체)';
+                if (v === 50) return '중간';
+                return '';
+              }
+            },
+            grid: { color: c.border, drawBorder: false },
+            border: { display: false }
+          }
+        }
+      },
+      plugins: [{
+        id: 'pointLabels',
+        afterDatasetsDraw: function (chart) {
+          var ctx = chart.ctx;
+          ctx.save();
+          ctx.font = "700 10.5px 'Inter', 'Noto Sans KR', sans-serif";
+          ctx.fillStyle = c.text;
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          chart.data.datasets.forEach(function (ds, i) {
+            var meta = chart.getDatasetMeta(i);
+            meta.data.forEach(function (pt) {
+              ctx.fillText('  ' + ds.label, pt.x + 10, pt.y);
+            });
+          });
+          ctx.restore();
+        }
+      }]
+    });
+  }
+
+  window.buildCharts = function () {
+    if (typeof Chart === 'undefined') return;
+    if (chartsBuilt) return;
+    var c = getChartColors();
+    // 포지셔닝 맵이 본문에 있으면 그린다 (없으면 skip)
+    buildPositioningMap(c);
+    try { if (barsChart) { barsChart.destroy(); barsChart = null; } } catch (e) {}
+    var ctx = resetCanvas('barsChart');
+    if (!ctx) { chartsBuilt = true; return; }
+    var gctx = ctx.getContext('2d');
+    var w = Math.max(ctx.parentElement.clientWidth || 600, 400);
+    var grad = gctx.createLinearGradient(0, 0, w, 0);
+    grad.addColorStop(0, c.lgRedDeep);
+    grad.addColorStop(1, c.lgRed);
+    var gray = gctx.createLinearGradient(0, 0, w, 0);
+    gray.addColorStop(0, '#4A4A52');
+    gray.addColorStop(1, '#8A8A92');
+    barsChart = new Chart(gctx, {
+      type: 'bar',
+      data: {
+        labels: ['탐색·이해', '설계·계획', '구현·검증', '배포·운영'],
+        datasets: [{
+          label: '%',
+          data: [68, 45, 82, 37],
+          backgroundColor: [grad, gray, grad, gray],
+          borderRadius: 5,
+          borderSkipped: false,
+          barThickness: 22,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        layout: { padding: { top: 8, right: 24, bottom: 8, left: 8 } },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            enabled: true,
+            backgroundColor: c.text,
+            titleColor: c.surface,
+            bodyColor: c.surface,
+            padding: 10,
+            cornerRadius: 6,
+            displayColors: false,
+            callbacks: { label: function (ctx) { return ctx.parsed.x + '%'; } }
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            max: 100,
+            ticks: { color: c.textSecondary, font: { size: 10, family: 'Inter', weight: '600' }, callback: function (v) { return v + '%'; } },
+            grid: { color: c.border, drawBorder: false },
+            border: { display: false }
+          },
+          y: {
+            ticks: { color: c.text, font: { size: 11, family: 'Inter', weight: '700' } },
+            grid: { display: false },
+            border: { display: false }
+          }
+        }
+      }
+    });
+    chartsBuilt = true;
+  };
+  window.onThemeChange = function () {
+    chartsBuilt = false;
+    setTimeout(window.buildCharts, 120);
+  };
+
+  // ===== Print hooks =====
+  window.addEventListener('beforeprint', function () {
+    // 인쇄 전 카운터·애니메이션 즉시 완료 + 차트 리빌드
+    document.querySelectorAll('[data-count]').forEach(function (el) {
+      if (el.dataset.counted !== '1') {
+        var target = parseFloat(el.dataset.count);
+        var isFloat = String(target).indexOf('.') > -1;
+        el.textContent = (el.dataset.prefix || '') + (isFloat ? target.toFixed(1) : Math.round(target).toLocaleString()) + (el.dataset.suffix || '');
+        el.dataset.counted = '1';
+      }
+    });
+    document.querySelectorAll('.animate-in').forEach(function (el) { el.classList.add('is-visible'); });
+    chartsBuilt = false;
+    window.buildCharts();
+  });
+  window.addEventListener('afterprint', function () {
+    chartsBuilt = false;
+    setTimeout(window.buildCharts, 100);
+  });
+
+  // ===== Init =====
+  window.addEventListener('load', function () {
+    window.buildTOC();
+    window.buildDrawerTOC();
+    window.numberFootnotes();
+    setupFloatingControls();
+    setupObserver();
+    window.buildCharts();
+  });
+})();
+
+</script>
+</body>
+</html>

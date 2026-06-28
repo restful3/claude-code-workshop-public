@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko" class="theme-light">
+<head><link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij4KICA8dGl0bGU+Q2xhdWRlIENvZGUgV29ya3Nob3A8L3RpdGxlPgogIDxyZWN0IHg9IjIiIHk9IjIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcng9IjE0IiBmaWxsPSIjMjQzNDQ3Ii8+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRDk3NzA2IiBzdHJva2Utd2lkdGg9IjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgICA8cG9seWxpbmUgcG9pbnRzPSIyNCwyMiAxNCwzMiAyNCw0MiIvPgogICAgPHBvbHlsaW5lIHBvaW50cz0iNDAsMjIgNTAsMzIgNDAsNDIiLz4KICA8L2c+Cjwvc3ZnPgo=">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code 업무자동화 워크숍</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script>Chart.defaults.animation = false;</script>
+  <link rel="stylesheet" href="../../template/theme_slides.css">
+  <style id="brand-vars">:root{
+  --running-header-left: "Claude Code 업무자동화 워크숍 · 참가자 핸드북";
+  --running-header-right: "CCW HANDBOOK";
+  --slide-section-monogram: "CCW";
+}</style>
+</head>
+<body class="chrome-hidden">
+  <a href="#main-content" class="skip-to-content" style="position:absolute;left:-9999px;">Skip to content</a>
+  <button class="toc-toggle" id="tocToggle" onclick="toggleToc()" aria-label="목차" aria-expanded="false">
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="3.2" cy="5" r="1.4" fill="currentColor" stroke="none"/><line x1="7.5" y1="5" x2="17" y2="5"/>
+      <circle cx="3.2" cy="10" r="1.4" fill="currentColor" stroke="none"/><line x1="7.5" y1="10" x2="17" y2="10"/>
+      <circle cx="3.2" cy="15" r="1.4" fill="currentColor" stroke="none"/><line x1="7.5" y1="15" x2="17" y2="15"/>
+    </svg>
+  </button>
+  <nav class="toc-panel" id="tocPanel" aria-label="목차" aria-hidden="true"></nav>
+  <div class="viz-menu">
+    <button class="viz-menu-toggle" onclick="toggleMenu()" aria-label="설정">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M9.67 4.14a2.34 2.34 0 0 1 4.66 0 2.34 2.34 0 0 0 3.32 1.91 2.34 2.34 0 0 1 2.33 4.04 2.34 2.34 0 0 0 0 3.82 2.34 2.34 0 0 1-2.33 4.04 2.34 2.34 0 0 0-3.32 1.91 2.34 2.34 0 0 1-4.66 0 2.34 2.34 0 0 0-3.32-1.91 2.34 2.34 0 0 1-2.33-4.04 2.34 2.34 0 0 0 0-3.82 2.34 2.34 0 0 1 2.33-4.04 2.34 2.34 0 0 0 3.32-1.91"/>
+      </svg>
+    </button>
+    <div class="viz-menu-dropdown" id="vizMenuDropdown">
+      <div class="viz-menu-group">
+        <span class="viz-menu-label">화면</span>
+        <button class="viz-menu-icon-action" onclick="cycleTheme()" aria-label="나이트 모드 전환" title="나이트 모드 전환"><span id="themeIcon">☀️</span><span id="themeLabel" class="viz-menu-theme-label">Light</span></button>
+      </div>
+      <div class="viz-menu-group">
+        <span class="viz-menu-label">출력</span>
+        <button class="viz-menu-action" onclick="window.print()" aria-label="PDF 또는 인쇄" title="PDF 또는 인쇄">Print / PDF</button>
+      </div>
+      <div class="viz-menu-group">
+        <span class="viz-menu-label">이동</span>
+        <nav class="viz-menu-links" aria-label="세미나 링크">
+          <a href="../../index.html" title="전체 세미나 목차" aria-label="전체 세미나 목차">Index</a>
+          <a href="report.html" title="리포트" aria-label="리포트">Report</a>
+          <a href="slides.html" title="발표 슬라이드" aria-label="발표 슬라이드">Slides</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div class="deck-progress"><div class="deck-progress__fill" id="progressFill"></div></div>
+  <main id="main-content" role="main">
+    <div class="deck">
+      <div class="stage">
+        <div class="slides" id="slidesContainer">
+<section class="slide slide--cover" aria-label="Cover">
+  <div class="cover-wordmark">
+    <span class="cover-wordmark__name">Claude Code 업무자동화 워크숍</span>
+    <span class="cover-wordmark__sub">Workshop Deck</span>
+  </div>
+  <div class="cover-signature">Claude Code Workshop</div>
+  <div class="cover-hero">
+    <div class="cover-kicker animate-in">Workshop Deck</div>
+    <h1 class="animate-in delay-1">Claude Code<br>업무자동화 워크숍</h1>
+    <p class="cover-subtitle animate-in delay-2">받은 업무 메일 한 통을, 제안서로 완주하는 4시간</p>
+  </div>
+  <div class="cover-meta">
+    <div><strong>발표자</strong></div>
+    <div><strong>회차</strong>1기 파일럿</div>
+    <div><strong>채널</strong>Claude Code 업무자동화 워크숍</div>
+    <div><strong>일시</strong>2026년 7월 19일</div>
+  </div>
+</section>
+<section class="slide" aria-label="오늘은 이런 날입니다">
+  <div class="slide-header">
+    <div class="brand-mark"><div class="brand-mark__stack"><span class="brand-mark__name">Claude Code 업무자동화 워크숍</span><span class="brand-mark__sub">Workshop Deck</span></div></div>
+    <div class="slide-section-tag">오늘의 약속</div>
+  </div>
+  <h1 class="slide-title animate-in">오늘은 이런 날입니다</h1>
+  <div class="slide-title-rule"></div>
+  <p class="slide-subtitle animate-in delay-1">여러분 업무 전체를 자동화하는 날이 아니라, 예제 한 건을 끝까지 완주하는 날.</p>
+  <div class="slide-body">
+<div class="flow">
+  <div class="flow__step flow__step--active">
+    <div class="flow__title">완주</div>
+    <div class="flow__desc">예제 업무 1건을<br>메일→제안서까지</div>
+  </div>
+  <div class="flow__arrow">→</div>
+  <div class="flow__step">
+    <div class="flow__title">이전</div>
+    <div class="flow__desc">그 일하는 방식을<br>내 업무로</div>
+  </div>
+</div>
+<blockquote>
+<p><strong>막혀도 괜찮습니다</strong> — 각 단계에 플랜B와 따라가기 패킷이 있습니다. 완주가 품질보다 먼저.</p>
+</blockquote>
+
+  </div>
+  <div class="slide-footer">
+    <span>Claude Code 업무자동화 워크숍</span>
+    <span class="slide-footer__page"><span>01</span> / 08</span>
+  </div>
+</section>
+<section class="slide" aria-label="한 흐름으로 다섯 단계">
+  <div class="slide-header">
+    <div class="brand-mark"><div class="brand-mark__stack"><span class="brand-mark__name">Claude Code 업무자동화 워크숍</span><span class="brand-mark__sub">Workshop Deck</span></div></div>
+    <div class="slide-section-tag">범위</div>
+  </div>
+  <h1 class="slide-title animate-in">한 흐름으로 다섯 단계</h1>
+  <div class="slide-title-rule"></div>
+  
+  <div class="slide-body">
+<div class="flow">
+  <div class="flow__step"><div class="flow__num">1</div><div class="flow__title">메일</div><div class="flow__desc">받은 요청 읽기</div></div>
+  <div class="flow__arrow">→</div>
+  <div class="flow__step"><div class="flow__num">2</div><div class="flow__title">리서치</div><div class="flow__desc">경쟁사·시장</div></div>
+  <div class="flow__arrow">→</div>
+  <div class="flow__step"><div class="flow__num">3</div><div class="flow__title">근거표</div><div class="flow__desc">한 장 정리</div></div>
+  <div class="flow__arrow">→</div>
+  <div class="flow__step flow__step--active"><div class="flow__num">4</div><div class="flow__title">제안서</div><div class="flow__desc">초안 ★완주점</div></div>
+  <div class="flow__arrow">→</div>
+  <div class="flow__step"><div class="flow__num">5</div><div class="flow__title">피드백</div><div class="flow__desc">v2 반영</div></div>
+</div>
+<blockquote>
+<p>상세 프롬프트와 막힘 대응은 <strong>참가자 핸드북</strong>에 있습니다. 슬라이드는 길잡이입니다.</p>
+</blockquote>
+
+  </div>
+  <div class="slide-footer">
+    <span>Claude Code 업무자동화 워크숍</span>
+    <span class="slide-footer__page"><span>02</span> / 08</span>
+  </div>
+</section>
+<section class="slide" aria-label="먼저, 완성본을 봅니다">
+  <div class="slide-header">
+    <div class="brand-mark"><div class="brand-mark__stack"><span class="brand-mark__name">Claude Code 업무자동화 워크숍</span><span class="brand-mark__sub">Workshop Deck</span></div></div>
+    <div class="slide-section-tag">도착점</div>
+  </div>
+  <h1 class="slide-title animate-in">먼저, 완성본을 봅니다</h1>
+  <div class="slide-title-rule"></div>
+  <p class="slide-subtitle animate-in delay-1"><code>3_완성_미리보기</code> 폴더 — 오늘 만들 결과물의 기준선.</p>
+  <div class="slide-body">
+<div class="kpi-grid">
+  <div class="kpi"><span class="kpi__value">제안서</span><span class="kpi__label">.docx</span><span class="kpi__sub">회사 양식 · 4·5장에서 제작</span></div>
+  <div class="kpi"><span class="kpi__value">발표</span><span class="kpi__label">.pptx</span><span class="kpi__sub">시간 되면 시연·일부 변환</span></div>
+</div>
+<blockquote>
+<p>똑같이 만들 필요는 없습니다 — 이 정도 구조와 근거면 충분합니다.</p>
+</blockquote>
+
+  </div>
+  <div class="slide-footer">
+    <span>Claude Code 업무자동화 워크숍</span>
+    <span class="slide-footer__page"><span>03</span> / 08</span>
+  </div>
+</section>
+<section class="slide" aria-label="환경 점검 — 4가지">
+  <div class="slide-header">
+    <div class="brand-mark"><div class="brand-mark__stack"><span class="brand-mark__name">Claude Code 업무자동화 워크숍</span><span class="brand-mark__sub">Workshop Deck</span></div></div>
+    <div class="slide-section-tag">준비</div>
+  </div>
+  <h1 class="slide-title animate-in">환경 점검 — 4가지</h1>
+  <div class="slide-title-rule"></div>
+  <p class="slide-subtitle animate-in delay-1">사전 인증을 했다면 ①~③은 통과 상태입니다.</p>
+  <div class="slide-body">
+<table class="cmp-table">
+<thead>
+<tr>
+<th>#</th>
+<th>확인</th>
+<th>성공 신호</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>로그인</td>
+<td>내 계정으로 들어와 있음</td>
+</tr>
+<tr>
+<td>②</td>
+<td>유료 플랜</td>
+<td>응답이 안 끊김(권장)</td>
+</tr>
+<tr>
+<td>③</td>
+<td>폴더 열기</td>
+<td><code>1_시작자료</code> 열림</td>
+</tr>
+<tr>
+<td>④</td>
+<td>(선택) Gmail</td>
+<td>안 돼도 무방</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>플랜B</strong> — Gmail 안 되면 메일 대신 <code>.md</code> 파일 사용 · 폴더 안 열리면 미러링 + 따라가기 패킷.</p>
+</blockquote>
+
+  </div>
+  <div class="slide-footer">
+    <span>Claude Code 업무자동화 워크숍</span>
+    <span class="slide-footer__page"><span>04</span> / 08</span>
+  </div>
+</section>
+<section class="slide slide--section" aria-label="Section 01 divider">
+  <div class="section-tag">Section</div>
+  <h1>핸즈온 1</h1>
+  <p class="section-subtitle">메일 → 리서치 → 근거표 · 약 50분</p>
+  <div class="section-rule"></div>
+  <div class="section-num">01</div>
+</section>
+<section class="slide" aria-label="지금 할 일">
+  <div class="slide-header">
+    <div class="brand-mark"><div class="brand-mark__stack"><span class="brand-mark__name">Claude Code 업무자동화 워크숍</span><span class="brand-mark__sub">Workshop Deck</span></div></div>
+    <div class="slide-section-tag">핸즈온 1 · 1분 지시</div>
+  </div>
+  <h1 class="slide-title animate-in">지금 할 일</h1>
+  <div class="slide-title-rule"></div>
+  
+  <div class="slide-body">
+<div class="flow">
+  <div class="flow__step"><div class="flow__title">입력</div><div class="flow__desc">박팀장 메일<br>(밀키트 검토 요청)</div></div>
+  <div class="flow__arrow">→</div>
+  <div class="flow__step flow__step--active"><div class="flow__title">산출</div><div class="flow__desc">근거표<br>경쟁사·시장 정리</div></div>
+</div>
+<blockquote>
+<p>핸드북 <strong>3장</strong>을 펴고, '그대로 써도 되는 프롬프트'를 따라가세요. 막히면 손!</p>
+</blockquote>
+
+  </div>
+  <div class="slide-footer">
+    <span>Claude Code 업무자동화 워크숍</span>
+    <span class="slide-footer__page"><span>05</span> / 08</span>
+  </div>
+</section>
+<section class="slide slide--section" aria-label="Section 02 divider">
+  <div class="section-tag">Section</div>
+  <h1>핸즈온 2 ★</h1>
+  <p class="section-subtitle">근거표 → 제안서 초안 · 오늘의 완주점</p>
+  <div class="section-rule"></div>
+  <div class="section-num">02</div>
+</section>
+<section class="slide" aria-label="지금 할 일">
+  <div class="slide-header">
+    <div class="brand-mark"><div class="brand-mark__stack"><span class="brand-mark__name">Claude Code 업무자동화 워크숍</span><span class="brand-mark__sub">Workshop Deck</span></div></div>
+    <div class="slide-section-tag">핸즈온 2 · 1분 지시</div>
+  </div>
+  <h1 class="slide-title animate-in">지금 할 일</h1>
+  <div class="slide-title-rule"></div>
+  <p class="slide-subtitle animate-in delay-1">회사 제안서 양식 + 근거표 → 제안서 <strong>초안 1건</strong>.</p>
+  <div class="slide-body">
+<ul class="bullets">
+<li>핸드북 <strong>4장</strong>의 프롬프트로 시작</li>
+<li>양식의 <strong>결재란·문서번호는 그대로</strong></li>
+<li>완벽한 최종본이 아니라 <strong>1차 초안</strong>이 목표</li>
+</ul>
+<blockquote>
+<p>이 슬라이드가 끝날 때 <strong>전원 제안서 초안 보유</strong> — 여기까지가 오늘의 핵심.</p>
+</blockquote>
+
+  </div>
+  <div class="slide-footer">
+    <span>Claude Code 업무자동화 워크숍</span>
+    <span class="slide-footer__page"><span>06</span> / 08</span>
+  </div>
+</section>
+<section class="slide slide--section" aria-label="Section 03 divider">
+  <div class="section-tag">Section</div>
+  <h1>핸즈온 3</h1>
+  <p class="section-subtitle">팀장 피드백 → 제안서 v2 · 약 30분</p>
+  <div class="section-rule"></div>
+  <div class="section-num">03</div>
+</section>
+<section class="slide" aria-label="지금 할 일">
+  <div class="slide-header">
+    <div class="brand-mark"><div class="brand-mark__stack"><span class="brand-mark__name">Claude Code 업무자동화 워크숍</span><span class="brand-mark__sub">Workshop Deck</span></div></div>
+    <div class="slide-section-tag">핸즈온 3 · 1분 지시</div>
+  </div>
+  <h1 class="slide-title animate-in">지금 할 일</h1>
+  <div class="slide-title-rule"></div>
+  <p class="slide-subtitle animate-in delay-1">피드백 메일을 반영해 v2로. <strong>최소 1개만 반영해도 성공.</strong></p>
+  <div class="slide-body">
+<ul class="bullets">
+<li>2페이지로 축약 / 둔화 정면 / 9,000원 근거 / 문서번호 유지</li>
+<li>핸드북 <strong>5장</strong>의 프롬프트 사용</li>
+<li>끝에 <strong>변경점 목록</strong>을 꼭 받기</li>
+</ul>
+
+  </div>
+  <div class="slide-footer">
+    <span>Claude Code 업무자동화 워크숍</span>
+    <span class="slide-footer__page"><span>07</span> / 08</span>
+  </div>
+</section>
+<section class="slide" aria-label="한 걸음 더 — Skill">
+  <div class="slide-header">
+    <div class="brand-mark"><div class="brand-mark__stack"><span class="brand-mark__name">Claude Code 업무자동화 워크숍</span><span class="brand-mark__sub">Workshop Deck</span></div></div>
+    <div class="slide-section-tag">확장</div>
+  </div>
+  <h1 class="slide-title animate-in">한 걸음 더 — Skill</h1>
+  <div class="slide-title-rule"></div>
+  <p class="slide-subtitle animate-in delay-1">반복하는 일은 절차·프롬프트를 묶어 <strong>재사용</strong>할 수 있습니다. = Skill.</p>
+  <div class="slide-body">
+<ul class="bullets">
+<li>오늘은 <strong>만들지 않고 감만</strong> 잡습니다(강사 시연)</li>
+<li>핸드북 <strong>6장</strong>에 &quot;내 업무 자동화 후보 1줄&quot; 적기</li>
+</ul>
+
+  </div>
+  <div class="slide-footer">
+    <span>Claude Code 업무자동화 워크숍</span>
+    <span class="slide-footer__page"><span>08</span> / 08</span>
+  </div>
+</section>
+<section class="slide slide--closing" aria-label="월요일에, 다시 써보세요">
+  <div class="slide-header">
+    <div class="brand-mark"><div class="brand-mark__stack"><span class="brand-mark__name">Claude Code 업무자동화 워크숍</span><span class="brand-mark__sub">Workshop Deck</span></div></div>
+    <div class="slide-section-tag">Thank you</div>
+  </div>
+  <div class="slide-body" style="justify-content:flex-start;">
+    <div class="cover-kicker animate-in">Q&A</div>
+    <h1 class="animate-in delay-1">월요일에, 다시 써보세요</h1>
+    <p class="closing-sub animate-in delay-2">중요한 건 도구가 아니라 일하는 방식입니다. · Q&amp;A</p>
+
+  </div>
+</section>
+        </div>
+      </div>
+    </div>
+    <nav class="slide-nav" aria-label="Slide navigation">
+      <button onclick="prevSlide()" aria-label="Previous slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="slide-counter"><input id="slideCur" type="text" inputmode="numeric" value="1" aria-label="현재 페이지 — 번호 입력 후 Enter" /> / <span id="slideTotal">13</span></span>
+      <button onclick="nextSlide()" aria-label="Next slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </nav>
+  </main>
+  <script src="../../template/deck.js"></script>
+</body>
+</html>
