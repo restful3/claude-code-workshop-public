@@ -345,11 +345,52 @@ window.addEventListener('afterprint', function() {
   setTimeout(buildCharts, 100);
 });
 
+// ===== Image lightbox — 슬라이드 이미지 클릭 시 전체화면 확대 =====
+// 오버레이는 .stage(scale 변형) 밖인 body 직속에 붙여 position:fixed 가 뷰포트 기준으로 동작하게 한다.
+function setupLightbox() {
+  var imgs = document.querySelectorAll('.slide-body img');
+  if (!imgs.length) return;
+  var overlay = document.createElement('div');
+  overlay.className = 'deck-lightbox';
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  var big = document.createElement('img');
+  big.className = 'deck-lightbox__img';
+  big.alt = '';
+  var close = document.createElement('button');
+  close.className = 'deck-lightbox__close';
+  close.setAttribute('aria-label', '닫기');
+  close.innerHTML = '&times;';
+  overlay.appendChild(big);
+  overlay.appendChild(close);
+  document.body.appendChild(overlay);
+
+  function isOpen() { return overlay.classList.contains('is-open'); }
+  function openLightbox(src, alt) { big.src = src; big.alt = alt || ''; overlay.classList.add('is-open'); }
+  function closeLightbox() { overlay.classList.remove('is-open'); }
+
+  imgs.forEach(function(im) {
+    im.addEventListener('click', function(e) {
+      e.stopPropagation();
+      openLightbox(im.currentSrc || im.src, im.alt);
+    });
+  });
+  overlay.addEventListener('click', closeLightbox);
+  // 캡처 단계에서 먼저 가로채, 라이트박스 열림 중 슬라이드 네비 키를 차단한다.
+  var navKeys = ['Escape', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' ', 'PageUp', 'PageDown', 'Home', 'End'];
+  document.addEventListener('keydown', function(e) {
+    if (!isOpen()) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (navKeys.indexOf(e.key) !== -1) { e.stopImmediatePropagation(); e.preventDefault(); }
+  }, true);
+}
+
 // ===== Init =====
 window.addEventListener('load', function() {
   fitStage();
   buildCharts();
   buildToc();
   goTo(parseSlideHash(), { skipHash: true });
+  setupLightbox();
   document.body.classList.add('chrome-hidden');
 });

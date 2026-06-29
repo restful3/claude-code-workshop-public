@@ -1847,3 +1847,52 @@ body.chrome-hidden .deck-progress {
    * 조합이 카드/표 뒤에 어두운 띠를 남기는 현상을 차단한다 (theme_report.css 와 동일 패턴). */
   .cmp-table, .codeblock { box-shadow: none !important; }
 }
+
+/* ===== IMAGE LIGHTBOX — 슬라이드 이미지 클릭 시 전체화면 확대 ===== */
+.slide-body img { cursor: zoom-in; }
+.deck-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10050; /* 덱 크롬(toc-toggle 10001) 위 */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 3vmin;
+  background: rgba(15, 23, 42, 0.93);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  cursor: zoom-out;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+.deck-lightbox.is-open { display: flex; opacity: 1; }
+.deck-lightbox__img {
+  max-width: 96vw;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  display: block;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+  cursor: zoom-out;
+}
+.deck-lightbox__close {
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font: 800 24px/1 'Inter', 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+.deck-lightbox__close:hover { background: rgba(255, 255, 255, 0.30); }
+@media print { .deck-lightbox { display: none !important; } }
