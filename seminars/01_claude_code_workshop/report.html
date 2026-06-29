@@ -3618,6 +3618,55 @@ html.reader-size-large .continuous-mode {
   }
 }
 
+/* ===== IMAGE LIGHTBOX — figure 이미지 클릭 시 전체화면 확대 ===== */
+.report-figure img { cursor: zoom-in; }
+.report-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 3vmin;
+  background: rgba(15, 23, 42, 0.92);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  cursor: zoom-out;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+.report-lightbox.is-open { display: flex; opacity: 1; }
+.report-lightbox__img {
+  max-width: 96vw;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  display: block;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+  cursor: zoom-out;
+}
+.report-lightbox__close {
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font: 800 24px/1 'Inter', 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+.report-lightbox__close:hover { background: rgba(255, 255, 255, 0.30); }
+@media print { .report-lightbox { display: none !important; } }
+
 </style>
   <style id="brand-vars">:root{
   --running-header-left: "Claude Code 업무자동화 워크숍 · 참가자 핸드북";
@@ -3767,6 +3816,7 @@ html.reader-size-large .continuous-mode {
 <th>단계</th>
 <th>핸드북 장</th>
 <th>산출물</th>
+<th>배우는 도구·개념</th>
 <th>대략 시간</th>
 </tr>
 </thead>
@@ -3775,30 +3825,35 @@ html.reader-size-large .continuous-mode {
 <td>준비</td>
 <td>1·2장</td>
 <td>환경 점검 + 첫 성공 대화</td>
+<td><strong>Code 탭</strong>(Claude Code) · <strong>CLAUDE.md</strong> 기준서 · 읽기 먼저·승인 확인 · (선택) <strong>Gmail 커넥터</strong></td>
 <td>약 45분</td>
 </tr>
 <tr>
 <td>핸즈온 1</td>
 <td>3장</td>
 <td>근거표 (경쟁사·시장 정리)</td>
+<td><strong>위임 4질문</strong> · 명시/암묵 분해 · <strong>근거표</strong> · 출처 검증</td>
 <td>약 50분</td>
 </tr>
 <tr>
 <td>핸즈온 2</td>
 <td>4장</td>
 <td>제안서 초안 1건 ★완주점</td>
+<td><strong>docx 양식</strong> 채우기(틀 보존) · 〔심화〕 <strong>HTML 초안</strong></td>
 <td>약 45분</td>
 </tr>
 <tr>
 <td>핸즈온 3</td>
 <td>5장</td>
 <td>제안서 v2 (피드백 반영)</td>
+<td>범위 지정 수정 · <strong>변경점 목록</strong> · 리뷰 요청법</td>
 <td>약 30분</td>
 </tr>
 <tr>
 <td>확장</td>
 <td>6장</td>
 <td>내 업무 자동화 후보 1줄</td>
+<td><strong>Skill</strong>(감 잡기) · 계획만 보기 · 발송 6항목 체크</td>
 <td>약 20분</td>
 </tr>
 </tbody>
@@ -4920,6 +4975,44 @@ html.reader-size-large .continuous-mode {
     setTimeout(window.buildCharts, 100);
   });
 
+  // ===== Image lightbox — figure 이미지 클릭 시 전체화면 확대 =====
+  function setupLightbox() {
+    var imgs = document.querySelectorAll('.report-figure img');
+    if (!imgs.length) return;
+    var overlay = document.createElement('div');
+    overlay.className = 'report-lightbox';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    var big = document.createElement('img');
+    big.className = 'report-lightbox__img';
+    big.alt = '';
+    var close = document.createElement('button');
+    close.className = 'report-lightbox__close';
+    close.setAttribute('aria-label', '닫기');
+    close.innerHTML = '&times;';
+    overlay.appendChild(big);
+    overlay.appendChild(close);
+    document.body.appendChild(overlay);
+
+    function openLightbox(src, alt) {
+      big.src = src;
+      big.alt = alt || '';
+      overlay.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+    imgs.forEach(function (im) {
+      im.addEventListener('click', function () { openLightbox(im.currentSrc || im.src, im.alt); });
+    });
+    overlay.addEventListener('click', closeLightbox);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeLightbox();
+    });
+  }
+
   // ===== Init =====
   window.addEventListener('load', function () {
     window.buildTOC();
@@ -4927,6 +5020,7 @@ html.reader-size-large .continuous-mode {
     window.numberFootnotes();
     setupFloatingControls();
     setupObserver();
+    setupLightbox();
     window.buildCharts();
   });
 })();
